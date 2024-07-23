@@ -7,6 +7,8 @@
   --link-color: #007bff;
   --input-bg-color: #ffffff;
   --input-border-color: #ced4da;
+  --logo-blue: #007bff;
+  --logo-gray: #343a40;
 }
 
 body {
@@ -28,6 +30,7 @@ body {
   align-items: center;
   justify-content: center;
 }
+
 
 .login-container {
   max-width: 400px;
@@ -125,5 +128,108 @@ body {
 }
 
 .login-form .footer-text a:hover {
+  text-decoration: underline;
+}
+
+
+.register-container {
+  max-width: 600px; 
+  width: 100%;
+  padding: 2rem;
+  background-color: var(--input-bg-color);
+  border: 1px solid var(--input-border-color);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.logo .logo-blue {
+  color: var(--logo-blue);
+  font-weight: bold;
+}
+
+.logo .logo-gray {
+  color: var(--logo-gray);
+  font-weight: bold;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.register-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.register-form .form-control {
+  background-color: var(--input-bg-color);
+  border: 1px solid var(--input-border-color);
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.register-form button[type="submit"] {
+  width: 100%;
+  background-color: var(--accent-color);
+  border: none;
+  padding: 0.75rem;
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.register-form button[type="submit"]:disabled {
+  background-color: #6c757d;
+}
+
+.social-login {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.social-login button {
+  flex: 1;
+}
+
+.social-login button.facebook {
+  background-color: #3b5998;
+  border: none;
+  padding: 0.5rem;
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.social-login button.google {
+  background-color: #db4437;
+  border: none;
+  padding: 0.5rem;
+  color: #fff;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.register-form .footer-text {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-top: 1rem;
+}
+
+.register-form .footer-text a {
+  color: var(--link-color);
+}
+
+.register-form .footer-text a:hover {
   text-decoration: underline;
 }

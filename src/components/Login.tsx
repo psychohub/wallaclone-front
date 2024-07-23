@@ -6,6 +6,8 @@ import { sanitizeInput } from '../utils/sanitize';
 import { AppDispatch } from '../app/store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { Link } from 'react-router-dom';
 
 const Login: React.FC = () => {
   const [nombre, setNombre] = useState('');
@@ -37,7 +39,9 @@ const Login: React.FC = () => {
 
   return (
     <div className="login-container">
-      <h2 className="login-header">WALLACLONE</h2>
+     <div className="logo">
+            <span className="logo-blue">WALLA</span><span className="logo-gray">CLONE</span>
+          </div>
       {error && <Alert variant="danger">{error}</Alert>}
       <Form onSubmit={handleSubmit} className="login-form">
         <Form.Group className="mb-3">
@@ -81,12 +85,16 @@ const Login: React.FC = () => {
           {isLoading ? 'Iniciando sesión...' : 'Iniciar sesión'}
         </Button>
         <div className="social-login mt-3">
-          <Button className="facebook">Facebook</Button>
-          <Button className="google">Google</Button>
-        </div>
+              <Button variant="outline-primary" className="facebook">
+                <FontAwesomeIcon icon={faFacebook} /> Facebook
+              </Button>
+              <Button variant="outline-danger" className="google">
+                <FontAwesomeIcon icon={faGoogle} /> Google
+              </Button>
+            </div>
         <div className="footer-text mt-3">
-          <p>Don't have an account? <a href="#">Sign up</a></p>
-          <p>By proceeding, you agree to our <a href="#">Terms of Service</a></p>
+          <p>¿No tienes una cuenta? <Link to="/register">Registrarse</Link></p>
+          <p>Al proceder, usted acepta nuestros <a href="#">Términos de servicio</a></p>
         </div>
       </Form>
     </div>
