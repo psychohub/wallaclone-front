@@ -27,11 +27,139 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+.App-header {
+  background-color: var(--secondary-bg-color);
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 1.5rem;
+  text-decoration: none;
+}
+
+.logo-blue {
+  color: var(--logo-blue);
+  font-weight: bold;
+}
+
+.logo-gray {
+  color: var(--logo-gray);
+  font-weight: bold;
+}
+
+nav ul {
+  list-style-type: none;
+  display: flex;
+  gap: 1rem;
+}
+
+nav ul li a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+main {
+  flex: 1;
+  display: flex;
   justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  width: 100%;
+}
+
+.footer {
+  background-color: var(--secondary-bg-color);
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .App-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* Estilos para el listado de anuncios */
+.ad-list-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.ad-list-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.ad-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.ad-card {
+  background-color: var(--secondary-bg-color);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.ad-card:hover {
+  transform: translateY(-5px);
+}
+
+.ad-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.ad-card-content {
+  padding: 15px;
+}
+
+.ad-card h3 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  color: var(--heading-color);
+}
+
+.ad-card .price {
+  font-weight: bold;
+  color: var(--accent-color);
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .ad-list {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .ad-list {
+    grid-template-columns: 1fr;
+  }
 }
 
 
+/* Estilos para el login */
 .login-container {
   max-width: 400px;
   width: 100%;
@@ -40,6 +168,7 @@ body {
   border: 1px solid var(--input-border-color);
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: auto;
 }
 
 .login-header {

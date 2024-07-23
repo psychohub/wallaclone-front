@@ -76,7 +76,6 @@ const Register: React.FC = () => {
           <Form onSubmit={handleSubmit} className="register-form">
             <Form.Group className="mb-3">
               <InputGroup>
-                <InputGroup.Text><FontAwesomeIcon icon={faEyeSlash} /></InputGroup.Text>
                 <Form.Control
                   type="text"
                   id="nombre"
@@ -89,7 +88,6 @@ const Register: React.FC = () => {
             </Form.Group>
             <Form.Group className="mb-3">
               <InputGroup>
-                <InputGroup.Text><FontAwesomeIcon icon={faEyeSlash} /></InputGroup.Text>
                 <Form.Control
                   type="email"
                   id="email"
@@ -102,7 +100,6 @@ const Register: React.FC = () => {
             </Form.Group>
             <Form.Group className="mb-3">
               <InputGroup>
-                <InputGroup.Text><FontAwesomeIcon icon={faEyeSlash} /></InputGroup.Text>
                 <Form.Control
                   type={showPassword ? 'text' : 'password'}
                   id="contraseña"
