@@ -8,6 +8,34 @@ interface AuthState {
   error: string | null;
 }
 
+interface LoginCredentials {
+  nombre: string;
+  contraseña: string;
+  rememberMe: boolean;
+}
+
+export const loginUser = createAsyncThunk(
+  'auth/login',
+  async (credentials: LoginCredentials, { rejectWithValue }) => {
+    try {
+      const response = await axios.post('/api/auth/login', {
+        nombre: credentials.nombre,
+        contraseña: credentials.contraseña
+      });
+      if (credentials.rememberMe) {
+        localStorage.setItem('token', response.data.token);
+      }
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.data || error.message);
+      } else {
+        return rejectWithValue('An unexpected error occurred');
+      }
+    }
+  }
+);
+
 export const registerUser = createAsyncThunk(
   'auth/register',
   async (userData: { nombre: string; email: string; contraseña: string }, { rejectWithValue }) => {

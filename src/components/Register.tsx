@@ -77,11 +77,7 @@ const Register: React.FC = () => {
                 value={nombre}
                 onChange={(e) => setNombre(e.target.value)}
                 required
-                aria-describedby="nombreHelp"
               />
-              <Form.Text id="nombreHelp" muted>
-                Sin espacios ni caracteres especiales, solo se permiten guiones (-) y guiones bajos (_).
-              </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label htmlFor="email">Email</Form.Label>
@@ -102,7 +98,6 @@ const Register: React.FC = () => {
                   value={contraseña}
                   onChange={(e) => setContraseña(e.target.value)}
                   required
-                  aria-describedby="passwordHelp"
                 />
                 <Button
                   variant="outline-secondary"
@@ -111,9 +106,6 @@ const Register: React.FC = () => {
                   <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
                 </Button>
               </InputGroup>
-              <Form.Text id="passwordHelp" muted>
-                Mínimo 6 caracteres, debe incluir al menos una letra y un número.
-              </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Check
@@ -128,6 +120,10 @@ const Register: React.FC = () => {
             <Button variant="primary" type="submit" disabled={isLoading}>
               {isLoading ? 'Registrando...' : 'Registrarse'}
             </Button>
+            <div className="footer-text mt-3">
+              <p>¿Ya tienes una cuenta? <a href="#">Inicia sesión</a></p>
+              <p>Al registrarte, aceptas nuestros <a href="#">Términos de Servicio</a></p>
+            </div>
           </Form>
         </Col>
       </Row>
