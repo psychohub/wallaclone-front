@@ -6,6 +6,8 @@ import { sanitizeInput } from '../utils/sanitize';
 import { AppDispatch } from '../app/store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { Link } from 'react-router-dom';
 
 const Register: React.FC = () => {
   const [nombre, setNombre] = useState('');
@@ -62,47 +64,52 @@ const Register: React.FC = () => {
   };
 
   return (
-    <Container>
+    <Container className="register-container">
       <Row className="justify-content-md-center mt-5">
-        <Col xs={12} md={6}>
-          <h2>Registro de Usuario</h2>
+        <Col xs={12} md={6} className="form-container">
+          <div className="logo">
+            <span className="logo-blue">WALLA</span><span className="logo-gray">CLONE</span>
+          </div>
+          <h2>Registrarse</h2>
           {error && <Alert variant="danger" role="alert">{error}</Alert>}
           {success && <Alert variant="success" role="alert">{success}</Alert>}
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit} className="register-form">
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="nombre">Nombre de usuario</Form.Label>
-              <Form.Control
-                type="text"
-                id="nombre"
-                value={nombre}
-                onChange={(e) => setNombre(e.target.value)}
-                required
-                aria-describedby="nombreHelp"
-              />
-              <Form.Text id="nombreHelp" muted>
-                Sin espacios ni caracteres especiales, solo se permiten guiones (-) y guiones bajos (_).
-              </Form.Text>
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label htmlFor="email">Email</Form.Label>
-              <Form.Control
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label htmlFor="contraseña">Contraseña</Form.Label>
               <InputGroup>
+                <InputGroup.Text><FontAwesomeIcon icon={faEyeSlash} /></InputGroup.Text>
+                <Form.Control
+                  type="text"
+                  id="nombre"
+                  placeholder="Usuario"
+                  value={nombre}
+                  onChange={(e) => setNombre(e.target.value)}
+                  required
+                />
+              </InputGroup>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <InputGroup>
+                <InputGroup.Text><FontAwesomeIcon icon={faEyeSlash} /></InputGroup.Text>
+                <Form.Control
+                  type="email"
+                  id="email"
+                  placeholder="Correo electrónico"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </InputGroup>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <InputGroup>
+                <InputGroup.Text><FontAwesomeIcon icon={faEyeSlash} /></InputGroup.Text>
                 <Form.Control
                   type={showPassword ? 'text' : 'password'}
                   id="contraseña"
+                  placeholder="Contraseña"
                   value={contraseña}
                   onChange={(e) => setContraseña(e.target.value)}
                   required
-                  aria-describedby="passwordHelp"
                 />
                 <Button
                   variant="outline-secondary"
@@ -111,14 +118,11 @@ const Register: React.FC = () => {
                   <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
                 </Button>
               </InputGroup>
-              <Form.Text id="passwordHelp" muted>
-                Mínimo 6 caracteres, debe incluir al menos una letra y un número.
-              </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Check
                 type="checkbox"
-                label="Acepto los términos y condiciones y la política de privacidad"
+                label="WALLACLONE Los servicios requieren la recopilación y el procesamiento de ciertos datos personales. Confirme que ha leído y acepta los términos de nuestra Política de Privacidad."
                 required
                 id="terms"
                 checked={termsAccepted}
@@ -126,8 +130,20 @@ const Register: React.FC = () => {
               />
             </Form.Group>
             <Button variant="primary" type="submit" disabled={isLoading}>
-              {isLoading ? 'Registrando...' : 'Registrarse'}
+              {isLoading ? 'Signing up...' : 'Sign up'}
             </Button>
+            <div className="social-login mt-3">
+              <Button variant="outline-primary" className="facebook">
+                <FontAwesomeIcon icon={faFacebook} /> Facebook
+              </Button>
+              <Button variant="outline-danger" className="google">
+                <FontAwesomeIcon icon={faGoogle} /> Google
+              </Button>
+            </div>
+            <div className="footer-text mt-3">
+              <p>Al proceder, usted acepta nuestros <a href="#">Términos de servicio</a></p>
+              <p>¿Ya tienes una cuenta? <Link to="/login">Ingresa aquí</Link></p>
+            </div>
           </Form>
         </Col>
       </Row>
