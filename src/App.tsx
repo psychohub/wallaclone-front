@@ -4,7 +4,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import AdList from './components/AdList';
 import Footer from './components/Footer';
-import './App.css';
+import '../src/App.css';
 
 function App() {
   return (

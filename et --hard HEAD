@@ -1,0 +1,147 @@
+[33mcommit 5f71209755036d20807388a8d9081a20c8ac26bb[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/layout-base-usuario-anonimo[m[33m, [m[1;31morigin/feature/layout-base-usuario-anonimo[m[33m, [m[1;32mfeature/layout[m[33m)[m
+Author: Hubert <43858139+psychohub@users.noreply.github.com>
+Date:   Tue Jul 23 15:58:30 2024 -0600
+
+    Integrar wallaclone-front en el repositorio principal
+
+[33mcommit 0e302ba280c02e95346c9cd5fc404e48f3a9cbd4[m
+Author: Hubert <43858139+psychohub@users.noreply.github.com>
+Date:   Tue Jul 23 15:57:50 2024 -0600
+
+    Cambios en wallaclone-front antes de la integración
+
+[33mcommit 41fedf5c55f544f3f60f29097d4c3d4b4a2984ca[m[33m ([m[1;31morigin/feature/maquetado-registro-login[m[33m, [m[1;32mfeature/maquetado-registro-login[m[33m)[m
+Merge: 0c59bdf 10e5de0
+Author: Hubert <43858139+psychohub@users.noreply.github.com>
+Date:   Tue Jul 23 13:50:29 2024 -0600
+
+    Merge branch 'main' of https://github.com/psychohub/wallaclone-front into feature/maquetado-registro-login
+
+[33mcommit 0c59bdfbd5e7a7cb0b801fc85fa6d9acea73381c[m
+Author: Hubert <43858139+psychohub@users.noreply.github.com>
+Date:   Tue Jul 23 13:41:57 2024 -0600
+
+    Mejora en maquetado de Registro y Login, redireccionamiento y estilos
+
+[33mcommit 26945acbe6695b910013f7864fb1ca30aa46e149[m[33m ([m[1;31morigin/feature/login-page[m[33m, [m[1;32mfeature/login-page[m[33m)[m
+Author: Hubert <43858139+psychohub@users.noreply.github.com>
+Date:   Mon Jul 22 22:12:30 2024 -0600
+
+    Implementar página de inicio de sesión
+    
+    - Crear componente Login con validación de campos
+    - Implementar manejo de errores y feedback visual
+    - Añadir opción 'Recuérdame' con almacenamiento en localStorage
+    - Integrar con el endpoint /api/auth/login
+    - Añadir pruebas unitarias para el componente Login
+    - Actualizar App.tsx para incluir la ruta de login"
+
+[33mcommit 10e5de09eb16a74577d6ef35e84695104f92dcf8[m
+Merge: bffc22e 10b2f50
+Author: Gabo <gabrielchavezriera@gmail.com>
+Date:   Mon Jul 22 15:50:09 2024 -0600
+
+    Merge pull request #1 from psychohub/feature/registro-usuario
+    
+    Implementar página de registro de usuario
+
+[33mcommit 10b2f50f6a2227db632b7f5673a1ef84039b4415[m[33m ([m[1;31morigin/feature/registro-usuario[m[33m)[m
+Author: Gabriel Chávez Riera <gabrielchavezriera@gmail.com>
+Date:   Mon Jul 22 15:41:06 2024 -0600
+
+    Actualizo el package.json con vite.
+
+[33mcommit 3f1be9d1eca99ab8ec99319c87af277809ee2815[m[33m ([m[1;32mfeature/registro-usuario[m[33m)[m
+Author: Hubert <43858139+psychohub@users.noreply.github.com>
+Date:   Mon Jul 22 14:30:40 2024 -0600
+
+    Implementar página de registro de usuario
+    
+    - Crear componente Register con validación de campos
+    - Implementar validaciones para nombre de usuario y contraseña
+    - Añadir manejo de errores y feedback visual
+    - Deshabilitar botón de registro durante el proceso
+    - Implementar sanitización de entradas de usuario
+    - Integrar con el endpoint /api/auth/register
+    - Añadir pruebas unitarias para el componente y la lógica de registro"
+
+[33mcommit bffc22e3473bed357c0a18367df9994a46f3e081[m[33m ([m[1;32mmain[m[33m)[m
+Merge: fe7f708 dd00b03
+Author: Hubert <43858139+psychohub@users.noreply.github.com>
+Date:   Mon Jul 22 10:49:31 2024 -0600
+
+    Merge branch 'main' of https://github.com/psychohub/wallaclone-front
+
+[33mcommit fe7f70895e41e7058834f3a5941cc48a1ae5eec6[m
+Author: Hubert <43858139+psychohub@users.noreply.github.com>
+Date:   Mon Jul 22 10:13:36 2024 -0600
+
+    Migración del proyecto  de Create React App a Vite y se actualizó el README
+
+[33mcommit cd62e9ec21759ac37f0aadb231c0fed4177b6c43[m
+Author: Hubert <43858139+psychohub@users.noreply.github.com>
+Date:   Mon Jul 22 08:32:42 2024 -0600
+
+    Initialize project using Create React App
+
+[33mcommit dd00b03936ce703354588decbbb41d0bb2b8dbbe[m[33m ([m[1;31morigin/deploy[m[33m)[m
+Author: Hubert <43858139+psychohub@users.noreply.github.com>
+Date:   Fri Jul 19 14:00:12 2024 -0600
+
+    Update README.md
+
+[33mcommit 9348c3f0c9498af354e3d37c06c35052f3515d8f[m
+Merge: 751d5e8 a74de63
+Author: Hubert <43858139+psychohub@users.noreply.github.com>
+Date:   Fri Jul 19 13:31:45 2024 -0600
+
+    Merge branch 'main' of github.com:psychohub/wallaclone-front
+
+[33mcommit 751d5e8ce78beb0824585b085d38bba8e2a712d0[m
+Author: Hubert <43858139+psychohub@users.noreply.github.com>
+Date:   Fri Jul 19 13:31:03 2024 -0600
+
+    configuración de la llamada a la api
+
+[33mcommit a74de63a977bbad8467af9eaa3f9c535fa19a29a[m
+Author: Hubert <43858139+psychohub@users.noreply.github.com>
+Date:   Fri Jul 19 13:16:09 2024 -0600
+
+    Update README.md
+
+[33mcommit e4aeced3287f47baff4262abbf88adc0016a1802[m
+Author: Hubert <43858139+psychohub@users.noreply.github.com>
+Date:   Fri Jul 19 13:14:00 2024 -0600
+
+    Update README.md
+
+[33mcommit 9e2ffe654a69fe8dd8a817b5331422071588e0aa[m
+Merge: 3b5f72d 9eb0eca
+Author: Hubert <43858139+psychohub@users.noreply.github.com>
+Date:   Fri Jul 19 13:12:16 2024 -0600
+
+    Merge branch 'main' of github.com:psychohub/wallaclone-front
+
+[33mcommit 3b5f72d920fa7a8655c282cd3350adb6a77328f2[m
+Author: Hubert <43858139+psychohub@users.noreply.github.com>
+Date:   Fri Jul 19 13:10:59 2024 -0600
+
+    se cambia el puerto a 3001
+
+[33mcommit 9eb0eca8e8ac53462efa9ca91079d8efea61cdf5[m
+Author: Hubert <43858139+psychohub@users.noreply.github.com>
+Date:   Fri Jul 19 12:11:06 2024 -0600
+
+    Update README.md
+
+[33mcommit 3f7dba788e93acbf5d39f6f5b70b21c82a6ddf54[m
+Author: Hubert <43858139+psychohub@users.noreply.github.com>
+Date:   Fri Jul 19 12:06:18 2024 -0600
+
+    Initial commit: React project setup
+
+[33mcommit fdd26017c44ff5a65c282e2e0f355d4266f71f71[m
+Author: Hubert <43858139+psychohub@users.noreply.github.com>
+Date:   Thu Jul 18 22:16:47 2024 -0600
+
+    first commit

@@ -1,39 +1,122 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import ReactPaginate from 'react-paginate';
+import { API_BASE_URL } from '../config/api';
+import { sanitizeInput } from '../utils/sanitize';
+import Loader from '../utils/Loader';
+import '../App.css';
 
-const AdList = () => {
-  const ads = [
-    { id: 1, title: 'iPhone 12', price: 500, image: '/images/iphone12.jpg' },
-    { id: 2, title: 'Bicicleta de montaña', price: 300, image: '/images/mountain-bike.jpg' },
-    { id: 3, title: 'MacBook Pro', price: 1200, image: '/images/macbook-pro.jpg' },
-    { id: 4, title: 'PlayStation 5', price: 450, image: '/images/ps5.jpg' },
-    { id: 5, title: 'Cámara DSLR', price: 600, image: '/images/dslr-camera.jpg' },
-    { id: 6, title: 'Smartwatch', price: 150, image: '/images/smartwatch.jpg' },
-    { id: 7, title: 'Drone', price: 350, image: '/images/drone.jpg' },
-    { id: 8, title: 'Tablet', price: 200, image: '/images/tablet.jpg' },
-    { id: 9, title: 'Altavoces Bluetooth', price: 80, image: '/images/bluetooth-speakers.jpg' },
-    { id: 10, title: 'Teclado mecánico', price: 100, image: '/images/mechanical-keyboard.jpg' },
-    { id: 11, title: 'Monitor 4K', price: 300, image: '/images/4k-monitor.jpg' },
-    { id: 12, title: 'Silla de oficina', price: 150, image: '/images/office-chair.jpg' },
-    { id: 13, title: 'Auriculares inalámbricos', price: 120, image: '/images/wireless-headphones.jpg' },
-    { id: 14, title: 'Impresora 3D', price: 250, image: '/images/3d-printer.jpg' },
-    { id: 15, title: 'Consola Nintendo Switch', price: 280, image: '/images/nintendo-switch.jpg' },
-    { id: 16, title: 'Aspiradora robot', price: 200, image: '/images/robot-vacuum.jpg' },
-  ];
+interface Anuncio {
+  _id: string;
+  nombre: string;
+  imagen: string;
+  descripcion: string;
+  precio: number;
+  tipoAnuncio: 'venta' | 'búsqueda';
+  tags: string[];
+  autor: { _id: string; nombre: string } | null;
+  fechaPublicacion: string;
+}
+
+interface AnunciosResponse {
+  anuncios: Anuncio[];
+  total: number;
+  page: number;
+  totalPages: number;
+}
+
+const AdList: React.FC = () => {
+  const [anuncios, setAnuncios] = useState<Anuncio[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const itemsPerPage = 12;
+
+  useEffect(() => {
+    const fetchAnuncios = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get<AnunciosResponse>(
+          `${API_BASE_URL}/api/anuncios?page=${currentPage}&limit=${itemsPerPage}`
+        );
+
+        if (response.data && response.data.anuncios && Array.isArray(response.data.anuncios)) {
+          setAnuncios(response.data.anuncios);
+          setTotalPages(response.data.totalPages);
+        } else {
+          setError('Error en el formato de datos recibido.');
+        }
+      } catch (error) {
+        console.error('Error fetching anuncios:', error);
+        setError('Error al cargar los anuncios. Por favor, intenta de nuevo más tarde.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchAnuncios();
+  }, [currentPage]);
+
+  const handlePageClick = (event: { selected: number }) => {
+    setCurrentPage(event.selected + 1);
+  };
 
   return (
     <div className="ad-list-container">
       <h2>Anuncios</h2>
-      <div className="ad-list">
-        {ads.map(ad => (
-          <div key={ad.id} className="ad-card">
-            <img src={ad.image} alt={ad.title} />
-            <div className="ad-card-content">
-              <h3>{ad.title}</h3>
-              <p className="price">{ad.price}€</p>
+      {isLoading && <Loader />}
+      {error && <div>{error}</div>}
+      {!isLoading && !error && anuncios.length > 0 ? (
+        <div className="ad-list">
+          {anuncios.map((anuncio) => (
+            <div key={anuncio._id} className="ad-card">
+              {anuncio.imagen ? (
+                <img
+                  crossOrigin="anonymous"
+                  src={`${API_BASE_URL}/images/${anuncio.imagen}`}
+                  alt={sanitizeInput(anuncio.nombre)}
+                  onError={(e) => {
+                    e.currentTarget.src = '/path/to/placeholder.jpg'; // Ruta a una imagen de marcador de posición
+                    e.currentTarget.alt = 'Imagen no disponible';
+                  }}
+                />
+              ) : (
+                <div className="placeholder-image">Imagen no disponible</div>
+              )}
+              <div className="ad-card-content">
+                <h3>{sanitizeInput(anuncio.nombre)}</h3>
+                <p>{sanitizeInput(anuncio.descripcion)}</p>
+                <p className="price">Precio: {anuncio.precio}€</p>
+                <p>Tipo: {anuncio.tipoAnuncio}</p>
+                <p>Autor: {anuncio.autor ? anuncio.autor.nombre : 'Autor desconocido'}</p> {/* Manejar autor null */}
+                <p>Tags: {anuncio.tags.map(tag => sanitizeInput(tag)).join(', ')}</p>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        !isLoading && !error && <p>No hay anuncios disponibles.</p>
+      )}
+      {totalPages > 1 && (
+        <ReactPaginate
+          previousLabel={"Anterior"}
+          nextLabel={"Siguiente"}
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={totalPages}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination"}
+          activeClassName={"active"}
+          pageLinkClassName={"page-link"}
+          previousLinkClassName={"previous-link"}
+          nextLinkClassName={"next-link"}
+          disabledClassName={"disabled"}
+          forcePage={currentPage - 1}
+        />
+      )}
     </div>
   );
 };

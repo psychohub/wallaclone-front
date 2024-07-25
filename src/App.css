@@ -260,10 +260,11 @@ main {
   text-decoration: underline;
 }
 
+/* Estilos para Registrar */
 
 .register-container {
   max-width: 600px; 
-  width: 100%;
+  width: 40%;
   padding: 2rem;
   background-color: var(--input-bg-color);
   border: 1px solid var(--input-border-color);
@@ -362,3 +363,82 @@ h2 {
 .register-form .footer-text a:hover {
   text-decoration: underline;
 }
+
+
+/* Estilos para el Paginación */
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 20px 0;
+  margin-top: 20px;
+}
+
+.pagination li {
+  margin: 0 5px;
+  display: flex;
+  align-items: center;
+}
+
+.pagination .disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pagination .page-link {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination .active .page-link {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.page-link, .previous-link, .next-link {
+  padding: 5px 10px;
+  border: 1px solid #007bff;
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px; 
+}
+
+.page-link:hover, .previous-link:hover, .next-link:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.active .page-link {
+  background-color: #007bff;
+  color: white;
+  cursor: default;
+}
+
+.disabled .previous-link, .disabled .next-link {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+
+/* Estilos para sin imagen*/
+.no-image {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  color: #999;
+  font-size: 16px;
+  font-weight: bold;
+  border: 1px solid #ddd;
+}
+
