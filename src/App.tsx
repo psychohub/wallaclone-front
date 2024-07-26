@@ -1,83 +1,37 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Register from './components/Register';
-import Login from './components/Login'; 
-
+import Login from './components/Login';
+import AdList from './components/AdList';
+import Footer from './components/Footer';
 import './App.css';
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/register">Register</Link>
-            </li>
-            <li>
-              <Link to="/login">Login</Link>  
-            </li>
-          </ul>
-        </nav>
-        <Routes>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />  
-          <Route path="/" element={
-            <>
-              <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <Counter />
-                <p>
-                  Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                <span>
-                  <span>Learn </span>
-                  <a
-                    className="App-link"
-                    href="https://reactjs.org/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    React
-                  </a>
-                  <span>, </span>
-                  <a
-                    className="App-link"
-                    href="https://redux.js.org/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Redux
-                  </a>
-                  <span>, </span>
-                  <a
-                    className="App-link"
-                    href="https://redux-toolkit.js.org/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Redux Toolkit
-                  </a>
-                  ,<span> and </span>
-                  <a
-                    className="App-link"
-                    href="https://react-redux.js.org/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    React Redux
-                  </a>
-                </span>
-              </header>
-            </>
-          } />
-          {/* Otras rutas aquí */}
-        </Routes>
+        <header className="App-header">
+          <Link to="/" className="logo">
+            <span className="logo-blue">Walla</span>
+            <span className="logo-gray">clone</span>
+          </Link>
+          <nav>
+            <ul>
+              <li><Link to="/register">Registro</Link></li>
+              <li><Link to="/login">Login</Link></li>
+            </ul>
+          </nav>
+        </header>
+        
+        <main>
+          <Routes>
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<AdList />} />
+          </Routes>
+        </main>
+        
+        <Footer />
       </div>
     </Router>
   );
