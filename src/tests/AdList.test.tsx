@@ -4,6 +4,9 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import AdList from '../components/AdList';
 import { API_BASE_URL } from '../config/api';
+import { Provider } from 'react-redux';
+import { store } from '../app/store';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 const mock = new MockAdapter(axios);
 
@@ -68,8 +71,18 @@ const mockResponsePage2 = {
 };
 
 beforeEach(() => {
-  mock.onGet(`${API_BASE_URL}/api/anuncios?page=1&limit=12`).reply(200, mockResponsePage1);
-  mock.onGet(`${API_BASE_URL}/api/anuncios?page=2&limit=12`).reply(200, mockResponsePage2);
+  mock.onGet(`${API_BASE_URL}/api/anuncios`).reply((config) => {
+    const params = new URLSearchParams(config.params);
+    const page = params.get('page') || '1';
+    const limit = params.get('limit') || '12';
+
+    if (page === '1') {
+      return [200, mockResponsePage1];
+    } else if (page === '2') {
+      return [200, mockResponsePage2];
+    }
+    return [200, { anuncios: [], total: 0, page: Number(page), totalPages: 0 }];
+  });
 });
 
 afterEach(() => {
@@ -78,12 +91,16 @@ afterEach(() => {
 
 describe('AdList Component', () => {
   test('renders the AdList component and checks the first ad', async () => {
-    render(<AdList />);
+    render(
+      <Provider store={store}>
+        <Router>
+          <AdList />
+        </Router>
+      </Provider>
+    );
 
-    // Esperar a que los anuncios se carguen
     await waitFor(() => expect(screen.getByText('Producto 1')).toBeInTheDocument());
 
-    // Verificar que el primer anuncio se muestra correctamente
     expect(screen.getByText('Producto 1')).toBeInTheDocument();
     expect(screen.getByText('Descripción del producto 1')).toBeInTheDocument();
     expect(screen.getByText('Precio: 100€')).toBeInTheDocument();
@@ -95,12 +112,16 @@ describe('AdList Component', () => {
   });
 
   test('renders the AdList component and checks the second ad', async () => {
-    render(<AdList />);
+    render(
+      <Provider store={store}>
+        <Router>
+          <AdList />
+        </Router>
+      </Provider>
+    );
 
-    // Esperar a que los anuncios se carguen
     await waitFor(() => expect(screen.getByText('Producto 2')).toBeInTheDocument());
 
-    // Verificar que el segundo anuncio se muestra correctamente
     expect(screen.getByText('Producto 2')).toBeInTheDocument();
     expect(screen.getByText('Descripción del producto 2')).toBeInTheDocument();
     expect(screen.getByText('Precio: 200€')).toBeInTheDocument();
@@ -112,38 +133,54 @@ describe('AdList Component', () => {
   });
 
   test('checks pagination', async () => {
-    render(<AdList />);
+    render(
+      <Provider store={store}>
+        <Router>
+          <AdList />
+        </Router>
+      </Provider>
+    );
 
-    // Esperar a que los anuncios se carguen
     await waitFor(() => expect(screen.getByText('Producto 1')).toBeInTheDocument());
 
-    // Verificar que la paginación se muestra
     expect(screen.getByText('Siguiente')).toBeInTheDocument();
     expect(screen.getByText('Anterior')).toBeInTheDocument();
 
-    // Simular clic en el botón "Siguiente"
     fireEvent.click(screen.getByText('Siguiente'));
 
-    // Verificar que la API se ha llamado con la página correcta
     await waitFor(() => expect(screen.getByText('Producto 3')).toBeInTheDocument());
   });
 
   test('handles loading state', async () => {
-    render(<AdList />);
+    render(
+      <Provider store={store}>
+        <Router>
+          <AdList />
+        </Router>
+      </Provider>
+    );
 
-    // Verificar que se muestra el estado de carga
-    expect(screen.getByText('Cargando anuncios...')).toBeInTheDocument();
+    expect(screen.getByRole('status')).toBeInTheDocument();
 
-    // Esperar a que los anuncios se carguen
-    await waitFor(() => expect(screen.queryByText('Cargando anuncios...')).not.toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByRole('status')).not.toBeInTheDocument());
   });
 
   test('handles error state', async () => {
-    mock.onGet(`${API_BASE_URL}/api/anuncios?page=1&limit=12`).reply(500);
+    mock.onGet(`${API_BASE_URL}/api/anuncios`).reply(500);
 
-    render(<AdList />);
+    render(
+      <Provider store={store}>
+        <Router>
+          <AdList />
+        </Router>
+      </Provider>
+    );
 
-    // Esperar a que se muestre el mensaje de error
-    await waitFor(() => expect(screen.getByText('Error al cargar los anuncios. Por favor, intenta de nuevo más tarde.')).toBeInTheDocument());
+    await waitFor(() => {
+      const errorElement = screen.getByText((content, element) => {
+        return element !== null && /Error al cargar los anuncios/.test(content);
+      });
+      expect(errorElement).toBeInTheDocument();
+    });
   });
 });

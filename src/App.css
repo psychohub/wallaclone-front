@@ -442,3 +442,234 @@ h2 {
   border: 1px solid #ddd;
 }
 
+/* Estilos para la barra de búsqueda con filtros */
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.search-bar {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #007bff; 
+  border-radius: 25px; 
+  font-size: 16px;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.filters-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+}
+
+.filter-group label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.filter-group select,
+.filter-group input {
+  padding: 5px;
+  border: 1px solid #007bff; 
+  border-radius: 25px; 
+  outline: none;
+}
+
+.filter-group select[multiple] {
+  height: auto; 
+  width: 200px; 
+  overflow-y: auto; 
+  display: block; 
+}
+
+.ad-list-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.ad-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ad-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 10px;
+  width: 300px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.ad-card img {
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+.ad-card-content {
+  padding: 10px;
+}
+
+.ad-card-content h3 {
+  margin: 10px 0;
+}
+
+.ad-card-content p {
+  margin: 5px 0;
+}
+
+.ad-card-content .price {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.pagination .page-link {
+  margin: 0 5px;
+  padding: 10px 15px;
+  border: 1px solid #007bff;
+  border-radius: 25px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.pagination .page-link:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.pagination .active .page-link {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.pagination .previous-link,
+.pagination .next-link {
+  border-radius: 25px;
+}
+
+.pagination .disabled .page-link {
+  color: #ddd;
+  border-color: #ddd;
+  pointer-events: none;
+}
+
+/* Estilos para el filtro de categoría */
+.category-filter {
+  position: relative;
+  display: inline-block;
+}
+
+.filter-button {
+  padding: 10px 15px;
+  border: 1px solid #007bff; 
+  border-radius: 25px; 
+  background-color: white;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.filter-button .arrow {
+  margin-left: 10px;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto; 
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-header,
+.dropdown-item {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.dropdown-header {
+  border-bottom: 1px solid #ddd;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+}
+
+.dropdown-item:hover {
+  background-color: #f9f9f9;
+}
+
+.dropdown-body {
+  flex: 1; 
+}
+
+.dropdown-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  position: sticky;
+  bottom: 0;
+  background-color: white;
+  z-index: 1;
+}
+
+.cancel-button,
+.apply-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+.cancel-button {
+  background-color: #f5f5f5;
+}
+
+.apply-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.hidden {
+  display: none;
+}
