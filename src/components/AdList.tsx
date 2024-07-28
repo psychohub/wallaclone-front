@@ -1,12 +1,12 @@
 // AdList.tsx
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../lib/axiosInstance';
 import ReactPaginate from 'react-paginate';
-import { API_BASE_URL } from '../config/api';
 import { sanitizeInput } from '../utils/sanitize';
 import Loader from '../utils/Loader';
 import CategoryFilter from './CategoryFilter';
 import '../App.css';
+import { API_BASE_URL } from '../config/environment';
 
 interface Anuncio {
   _id: string;
@@ -167,7 +167,7 @@ const AdList: React.FC = () => {
                   src={`${API_BASE_URL}/images/${anuncio.imagen}`}
                   alt={sanitizeInput(anuncio.nombre)}
                   onError={(e) => {
-                    e.currentTarget.src = '/path/to/placeholder.jpg';
+                    e.currentTarget.src = '/path/to/placeholder.jpg'; // Ruta a una imagen de marcador de posición
                     e.currentTarget.alt = 'Imagen no disponible';
                   }}
                 />
