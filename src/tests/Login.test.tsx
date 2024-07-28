@@ -32,6 +32,6 @@ describe('Login Component', () => {
     fireEvent.change(screen.getByLabelText(/Nombre de usuario/i), { target: { value: 'testuser' } });
     fireEvent.change(screen.getByLabelText(/Contraseña/i), { target: { value: 'password' } });
     fireEvent.click(screen.getByRole('button', { name: /Iniciar sesión/i }));
-    // Aquí puedes añadir más validaciones de tu lógica de negocio
+ 
   });
 });
