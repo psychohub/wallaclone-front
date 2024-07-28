@@ -85,9 +85,64 @@ const AdList: React.FC = () => {
     setCurrentPage(event.selected + 1);
   };
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFilter({ ...filter, [name]: value });
+  };
+
+  const handleTagsChange = (selectedCategories: string[]) => {
+    console.log('Selected categories:', selectedCategories);
+    setFilter(prevFilter => ({
+      ...prevFilter,
+      tags: selectedCategories
+    }));
+  };
+
   return (
     <div className="ad-list-container">
-      <h2>Anuncios</h2>
+      <div className="search-container">
+        <form className="search-bar" onSubmit={(e) => e.preventDefault()}>
+          <input
+            type="text"
+            placeholder="Buscar anuncios..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+        </form>
+      </div>
+
+      <div className="filters-container">
+        <CategoryFilter 
+          categories={[
+            'tech', 'audio', 'tablet', 'wearable', 'home', 'gaming',
+            'furniture', 'office', 'lifestyle', 'sports', 'keyboard',
+            'work', 'mobile', 'photo'
+          ]}
+          selectedCategories={filter.tags}
+          onChange={handleTagsChange}
+        />
+        <div className="filter-group">
+          <label htmlFor="tipoAnuncio">Tipo:</label>
+          <select id="tipoAnuncio" name="tipoAnuncio" value={filter.tipoAnuncio} onChange={handleFilterChange}>
+            <option value="">Todos</option>
+            <option value="venta">Venta</option>
+            <option value="búsqueda">Búsqueda</option>
+          </select>
+        </div>
+        <div className="filter-group">
+          <label htmlFor="precioMin">Precio Mín:</label>
+          <input type="number" id="precioMin" name="precioMin" value={filter.precioMin} onChange={handleFilterChange} />
+        </div>
+        <div className="filter-group">
+          <label htmlFor="precioMax">Precio Máx:</label>
+          <input type="number" id="precioMax" name="precioMax" value={filter.precioMax} onChange={handleFilterChange} />
+        </div>
+      </div>
+
       {isLoading && <Loader />}
       {error && <div>{error}</div>}
       {!isLoading && !error && anuncios.length > 0 ? (
