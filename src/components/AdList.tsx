@@ -5,7 +5,6 @@ import ReactPaginate from 'react-paginate';
 import { sanitizeInput } from '../utils/sanitize';
 import Loader from '../utils/Loader';
 import CategoryFilter from './CategoryFilter';
-import CategoryFilter from './CategoryFilter';
 import '../App.css';
 import { API_BASE_URL } from '../config/environment';
 
@@ -56,7 +55,7 @@ const AdList: React.FC = () => {
             page: currentPage,
             limit: itemsPerPage,
             nombre: searchTerm,
-            tag: filter.tags.join(','), // Ensure tags are sent correctly
+            tag: filter.tags.join(','), 
             tipoAnuncio: filter.tipoAnuncio,
             minPrecio: filter.precioMin,
             maxPrecio: filter.precioMax,
