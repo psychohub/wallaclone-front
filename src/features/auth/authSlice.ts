@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axiosInstance from '../../axiosConfig';
-import axios, { AxiosError } from 'axios';
+import axios from '../../lib/axiosInstance';
+import { AxiosError } from 'axios';
+import { ACCESS_TOKEN } from '../../config/environment';
 
 interface AuthState {
   user: any | null;
@@ -23,15 +24,11 @@ export const loginUser = createAsyncThunk(
         contraseña: credentials.contraseña
       });
       if (credentials.rememberMe) {
-        localStorage.setItem('token', response.data.token);
+        localStorage.setItem(ACCESS_TOKEN, response.data.token);
       }
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        return rejectWithValue(error.response?.data || error.message);
-      } else {
-        return rejectWithValue('An unexpected error occurred');
-      }
+      return rejectWithValue((error as AxiosError).response?.data || (error as Error).message);
     }
   }
 );
@@ -40,14 +37,10 @@ export const registerUser = createAsyncThunk(
   'auth/register',
   async (userData: { nombre: string; email: string; contraseña: string }, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post('/api/auth/register', userData);
+      const response = await axios.post('/api/auth/register', userData);
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        return rejectWithValue(error.response?.data || error.message);
-      } else {
-        return rejectWithValue('An unexpected error occurred');
-      }
+      return rejectWithValue((error as AxiosError).response?.data || (error as Error).message);
     }
   }
 );

@@ -1,34 +1,39 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig({
-  build: {
-    outDir: 'build',
-  },
-  server: {
-    port: 3001,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-        secure: false,
+export default defineConfig(({ mode }) => {
+
+  const env = loadEnv(mode, process.cwd(), '');
+
+  return {
+    build: {
+      outDir: 'build',
+    },
+    server: {
+      port: Number(env.PORT),
+      proxy: {
+        '/api': {
+          target: String(env.VITE_API_URL),
+          changeOrigin: true,
+          secure: false,
+        },
       },
     },
-  },
-  plugins: [react()],
-  define: {
-    'process.env': {}
-  },
-  resolve: {
-    alias: {
-      src: '/src',
+    plugins: [react()],
+    define: {
+      'process.env': {}
     },
-  },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        additionalData: `@import "bootstrap/scss/bootstrap";`
+    resolve: {
+      alias: {
+        src: '/src',
+      },
+    },
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `@import "bootstrap/scss/bootstrap";`
+        }
       }
     }
-  }
+  };
 });

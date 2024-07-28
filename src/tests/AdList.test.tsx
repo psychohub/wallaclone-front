@@ -1,9 +1,9 @@
 import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
-import axios from 'axios';
+import axios from '../lib/axiosInstance';
 import MockAdapter from 'axios-mock-adapter';
 import AdList from '../components/AdList';
-import { API_BASE_URL } from '../config/api';
+import { API_BASE_URL } from '../config/environment';
 
 const mock = new MockAdapter(axios);
 
