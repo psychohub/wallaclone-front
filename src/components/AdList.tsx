@@ -77,7 +77,7 @@ const AdList: React.FC = () => {
                   src={`${API_BASE_URL}/images/${anuncio.imagen}`}
                   alt={sanitizeInput(anuncio.nombre)}
                   onError={(e) => {
-                    e.currentTarget.src = '/path/to/placeholder.jpg'; // Ruta a una imagen de marcador de posición
+                    e.currentTarget.src = `${API_BASE_URL}/images/no-image-placeholder.jpg`; // Ruta a una imagen de marcador de posición
                     e.currentTarget.alt = 'Imagen no disponible';
                   }}
                 />
