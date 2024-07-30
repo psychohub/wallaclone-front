@@ -7,7 +7,7 @@ import { AppDispatch } from '../app/store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Register: React.FC = () => {
   const [nombre, setNombre] = useState('');
@@ -63,11 +63,17 @@ const Register: React.FC = () => {
     }
   };
 
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    navigate('/');
+  };
+
   return (
-    <Container className="register-container">
-      <Row className="justify-content-md-center mt-5">
-        <Col xs={12} md={6} className="form-container">
-          <div className="logo">
+    <Container fluid className="register-container">
+      <Row className="justify-content-center align-items-center min-vh-100">
+        <Col xs={12} sm={10} md={8} lg={6} xl={4} className="form-container">
+          <div className="logo" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
             <span className="logo-blue">WALLA</span><span className="logo-gray">CLONE</span>
           </div>
           <h2>Registrarse</h2>
