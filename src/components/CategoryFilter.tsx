@@ -5,11 +5,9 @@ interface CategoryFilterProps {
   categories: string[];
   selectedCategories: string[];
   onChange: (selectedCategories: string[]) => void;
-  onApply: () => void;
-  onReset: () => void;
 }
 
-const CategoryFilter: React.FC<CategoryFilterProps> = ({ categories, selectedCategories, onChange, onApply, onReset }) => {
+const CategoryFilter: React.FC<CategoryFilterProps> = ({ categories, selectedCategories, onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -42,11 +40,6 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({ categories, selectedCat
     };
   }, []);
 
-  const handleApplyClick = () => {
-    setIsOpen(false);
-    onApply();
-  };
-
   return (
     <div className="category-filter" ref={dropdownRef}>
       <button onClick={() => setIsOpen(!isOpen)} className="filter-button">
@@ -55,6 +48,14 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({ categories, selectedCat
       {isOpen && (
         <div className="dropdown">
           <div className="dropdown-header">
+            <label>
+              <input
+                type="checkbox"
+                checked={selectedCategories.length === categories.length}
+                onChange={handleSelectAll}
+              />
+              Todas las categorías
+            </label>
           </div>
           <div className="dropdown-body">
             {categories.map(category => (
@@ -67,10 +68,6 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({ categories, selectedCat
                 {category}
               </label>
             ))}
-          </div>
-          <div className="dropdown-footer hidden"> 
-            <button onClick={() => {}} className="cancel-button">Cancelar</button>
-            <button onClick={() => {}} className="apply-button">Aplicar</button>
           </div>
         </div>
       )}

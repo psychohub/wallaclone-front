@@ -55,7 +55,7 @@ const AdList: React.FC = () => {
             page: currentPage,
             limit: itemsPerPage,
             nombre: searchTerm,
-            tag: filter.tags.join(','), // Ensure tags are sent correctly
+            tag: filter.tags.join(','), 
             tipoAnuncio: filter.tipoAnuncio,
             minPrecio: filter.precioMin,
             maxPrecio: filter.precioMax,
@@ -102,16 +102,6 @@ const AdList: React.FC = () => {
     }));
   };
 
-  const handleApplyClick = () => {
-    console.log('Applying filters:', filter);
-    setCurrentPage(1);
-    fetchAnuncios();
-  };
-
-  const handleResetClick = () => {
-    setFilter({ ...filter, tags: [] });
-  };
-
   return (
     <div className="ad-list-container">
       <div className="search-container">
@@ -134,8 +124,6 @@ const AdList: React.FC = () => {
           ]}
           selectedCategories={filter.tags}
           onChange={handleTagsChange}
-          onApply={handleApplyClick}
-          onReset={handleResetClick}
         />
         <div className="filter-group">
           <label htmlFor="tipoAnuncio">Tipo:</label>
@@ -167,7 +155,7 @@ const AdList: React.FC = () => {
                   src={`${API_BASE_URL}/images/${anuncio.imagen}`}
                   alt={sanitizeInput(anuncio.nombre)}
                   onError={(e) => {
-                    e.currentTarget.src = '/path/to/placeholder.jpg'; // Ruta a una imagen de marcador de posición
+                    e.currentTarget.src = '/path/to/placeholder.jpg';
                     e.currentTarget.alt = 'Imagen no disponible';
                   }}
                 />
