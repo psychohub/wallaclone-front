@@ -24,19 +24,19 @@ const Login: React.FC = () => {
     setError(null);
     setIsLoading(true);
     try {
-      await dispatch(loginUser({
+      const result = await dispatch(loginUser({
         nombre: sanitizeInput(nombre),
         contraseña,
         rememberMe
       })).unwrap();
-      // Redirigir al usuario o mostrar mensaje de éxito
-      alert('Bienvenido al Home');
-    } catch (err) {
-      setError('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+       // Redirigir al usuario a su página de perfil
+       navigate(`/perfil/${result.usuario.nombre}`);
+      } catch (err) {
+        setError('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
   const handleLogoClick = () => {
     navigate('/');
