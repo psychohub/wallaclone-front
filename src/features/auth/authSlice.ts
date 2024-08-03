@@ -1,12 +1,19 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from '../../lib/axiosInstance';
 import { AxiosError } from 'axios';
 import { ACCESS_TOKEN } from '../../config/environment';
 
 interface AuthState {
-  user: any | null;
+  user: User | null;
   isLoading: boolean;
   error: string | null;
+  token: string | null;
+}
+
+interface User {
+  id: string;
+  nombre: string;
+  email: string;
 }
 
 interface LoginCredentials {
@@ -49,14 +56,40 @@ const initialState: AuthState = {
   user: null,
   isLoading: false,
   error: null,
+  token: null,
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    setUser: (state, action: PayloadAction<User>) => {
+      state.user = action.payload;
+    },
+    setToken: (state, action: PayloadAction<string>) => {
+      state.token = action.payload;
+    },
+    logout: (state) => {
+      state.user = null;
+      state.token = null;
+      localStorage.removeItem(ACCESS_TOKEN);
+    },
+  },
   extraReducers: (builder) => {
     builder
+      .addCase(loginUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload.usuario;
+        state.token = action.payload.token;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -72,4 +105,5 @@ const authSlice = createSlice({
   },
 });
 
+export const { setUser, setToken, logout } = authSlice.actions;
 export default authSlice.reducer;

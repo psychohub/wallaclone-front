@@ -1,5 +1,8 @@
 import React, { ReactNode } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../app/store';
+import { logout } from '../features/auth/authSlice';
 import Footer from './Footer';
 
 interface LayoutProps {
@@ -8,7 +11,15 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.auth.user);
   const hideHeaderRoutes = ['/login', '/register'];
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/');
+  };
 
   return (
     <div className="App">
@@ -20,8 +31,24 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           </Link>
           <nav>
             <ul>
-              <li><Link to="/register">Registro</Link></li>
-              <li><Link to="/login">Login</Link></li>
+              {user ? (
+                <>
+                  <li>
+                    <span>Bienvenido, {user.nombre}</span>
+                  </li>
+                  <li>
+                    <Link to={`/perfil/${user.nombre}`}>Mi Perfil</Link>
+                  </li>
+                  <li>
+                    <button onClick={handleLogout}>Logout</button>
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li><Link to="/register">Registro</Link></li>
+                  <li><Link to="/login">Login</Link></li>
+                </>
+              )}
             </ul>
           </nav>
         </header>
