@@ -1,4 +1,3 @@
-// AdList.tsx
 import React, { useState, useEffect } from 'react';
 import axios from '../lib/axiosInstance';
 import ReactPaginate from 'react-paginate';
@@ -42,6 +41,7 @@ const AdList: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState<Filter>({ tags: [], tipoAnuncio: '', precioMin: '', precioMax: '' });
+  const [sort, setSort] = useState('desc'); 
 
   const itemsPerPage = 12;
 
@@ -55,10 +55,11 @@ const AdList: React.FC = () => {
             page: currentPage,
             limit: itemsPerPage,
             nombre: searchTerm,
-            tag: filter.tags.join(','), 
+            tag: filter.tags.join(','),
             tipoAnuncio: filter.tipoAnuncio,
             minPrecio: filter.precioMin,
             maxPrecio: filter.precioMax,
+            sort: sort 
           }
         }
       );
@@ -79,8 +80,7 @@ const AdList: React.FC = () => {
 
   useEffect(() => {
     fetchAnuncios();
-  }, [currentPage, searchTerm, filter]);
-
+  }, [currentPage, searchTerm, filter, sort]); 
   const handlePageClick = (event: { selected: number }) => {
     setCurrentPage(event.selected + 1);
   };
@@ -95,11 +95,14 @@ const AdList: React.FC = () => {
   };
 
   const handleTagsChange = (selectedCategories: string[]) => {
-    console.log('Selected categories:', selectedCategories);
     setFilter(prevFilter => ({
       ...prevFilter,
       tags: selectedCategories
     }));
+  };
+
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSort(e.target.value);
   };
 
   return (
@@ -141,6 +144,13 @@ const AdList: React.FC = () => {
           <label htmlFor="precioMax">Precio Máx:</label>
           <input type="number" id="precioMax" name="precioMax" value={filter.precioMax} onChange={handleFilterChange} />
         </div>
+        <div className="filter-group">
+          <label htmlFor="sort">Ordenar por:</label>
+          <select id="sort" name="sort" value={sort} onChange={handleSortChange}>
+            <option value="desc">Más reciente</option>
+            <option value="asc">Más antiguo</option>
+          </select>
+        </div>
       </div>
 
       {isLoading && <Loader />}
@@ -155,7 +165,7 @@ const AdList: React.FC = () => {
                   src={`${API_BASE_URL}/images/${anuncio.imagen}`}
                   alt={sanitizeInput(anuncio.nombre)}
                   onError={(e) => {
-                    e.currentTarget.src = '/path/to/placeholder.jpg';
+                    e.currentTarget.src = '/path/to/placeholder.jpg'; 
                     e.currentTarget.alt = 'Imagen no disponible';
                   }}
                 />
