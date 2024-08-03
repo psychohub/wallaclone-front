@@ -101,6 +101,7 @@ const Login: React.FC = () => {
             </div>
             <div className="footer-text mt-3">
               <p>¿No tienes una cuenta? <Link to="/register">Registrarse</Link></p>
+              <p><Link to="/recuperar-contrasena">¿Olvidó contraseña?</Link></p>
               <p>Al proceder, usted acepta nuestros <a href="#">Términos de servicio</a></p>
             </div>
           </Form>

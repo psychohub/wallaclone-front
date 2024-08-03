@@ -7,6 +7,7 @@ import Login from './components/Login';
 import AdList from './components/AdList';
 import ProfilePage from './pages/ProfilePage';
 import Layout from './components/Layout';
+import RecuperarContrasena from './components/RecuperarContrasena';
 import '../src/App.css';
 
 const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<AdList />} />
+          <Route path="/recuperar-contrasena" element={<RecuperarContrasena />} />
           <Route 
             path="/perfil/:nombreUsuario" 
             element={<PrivateRoute element={<ProfilePage />} />} 
