@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
-import Login from '../components/Login';
+import Login from '../pages/LoginPage';
 
 const mockStore = configureStore([]);
 const store = mockStore({});

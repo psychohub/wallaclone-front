@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { sanitizeInput } from '../utils/sanitize';
+import { sanitizeInput } from '../../utils/sanitize';
 
 export const isValidEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
 
-const RecuperarContrasena: React.FC = () => {
+const ForgotPasswordPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -31,7 +31,7 @@ const RecuperarContrasena: React.FC = () => {
     }
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/auth/recuperar-contrasena`, {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/auth/recuperar-contrasena`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -87,4 +87,4 @@ const RecuperarContrasena: React.FC = () => {
   );
 };
 
-export default RecuperarContrasena;
+export default ForgotPasswordPage;

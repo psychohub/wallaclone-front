@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col, Alert, InputGroup } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { registerUser } from '../features/auth/authSlice';
-import { sanitizeInput } from '../utils/sanitize';
-import { AppDispatch } from '../app/store';
+import { registerUser } from '../../store/features/auth/authSlice';
+import { sanitizeInput } from '../../utils/sanitize';
+import { AppDispatch } from '../../store/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 
-const Register: React.FC = () => {
+const RegisterPage: React.FC = () => {
   const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
   const [contraseña, setContraseña] = useState('');
@@ -154,4 +154,4 @@ const Register: React.FC = () => {
   );
 };
 
-export default Register;
+export default RegisterPage;

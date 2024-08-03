@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from '../lib/axiosInstance';
 import ReactPaginate from 'react-paginate';
 import { sanitizeInput } from '../utils/sanitize';
-import Loader from '../utils/Loader';
+import Loader from './loader/Loader';
 import CategoryFilter from './CategoryFilter';
 import { useSelector } from 'react-redux';
-import { RootState } from '../app/store';
+import { RootState } from '../store/index';
 import { API_BASE_URL } from '../config/environment';
-import '../App.css';
 
 interface Anuncio {
   _id: string;
@@ -55,7 +54,7 @@ const UserAdList: React.FC = () => {
     setError(null);
     try {
       const response = await axios.get<AnunciosResponse>(
-        `${API_BASE_URL}/api/perfil/${user.nombre}/anuncios`,
+        `/perfil/${user.nombre}/anuncios`,
         {
           params: {
             page: currentPage,

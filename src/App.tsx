@@ -1,14 +1,16 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { RootState } from './app/store';
-import Register from './components/Register';
-import Login from './components/Login';
-import AdList from './components/AdList';
-import ProfilePage from './pages/ProfilePage';
-import Layout from './components/Layout';
-import RecuperarContrasena from './components/RecuperarContrasena';
-import '../src/App.css';
+import { RootState } from './store/index';
+
+import Layout from './layouts/Layout';
+import RegisterPage from './pages/public/RegisterPage';
+import LoginPage from './pages/public/LoginPage';
+import AdvertsPage from './pages/public/AdvertsPage';
+import ProfilePage from './pages/private/ProfilePage';
+
+import RecuperarContrasena from './pages/public/ForgotPasswordPage';
+import './App.css';
 
 const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -20,9 +22,9 @@ function App() {
     <Router>
       <Layout>
         <Routes>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<AdList />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/" element={<AdvertsPage />} />
           <Route path="/recuperar-contrasena" element={<RecuperarContrasena />} />
           <Route 
             path="/perfil/:nombreUsuario" 

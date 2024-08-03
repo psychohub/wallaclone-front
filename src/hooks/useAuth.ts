@@ -1,5 +1,5 @@
-import { useAppSelector, useAppDispatch } from './reduxHooks';
-import { loginUser, registerUser } from '../features/auth/authSlice';
+import { useAppSelector, useAppDispatch } from './useStore';
+import { loginUser, registerUser } from '../store/features/auth/authSlice';
 
 export const useAuth = () => {
   const dispatch = useAppDispatch();

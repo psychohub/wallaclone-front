@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../app/store';
-import { logout } from '../features/auth/authSlice';
+import { RootState } from '../store/index';
+import { logout } from '../store/features/auth/authSlice';
 import Footer from './Footer';
 
 interface LayoutProps {

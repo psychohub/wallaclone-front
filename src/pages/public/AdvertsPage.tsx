@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from '../lib/axiosInstance';
+import axios from '../../lib/axiosInstance';
 import ReactPaginate from 'react-paginate';
-import { sanitizeInput } from '../utils/sanitize';
-import Loader from '../utils/Loader';
-import CategoryFilter from './CategoryFilter';
-import '../App.css';
-import { API_BASE_URL } from '../config/environment';
+import { sanitizeInput } from '../../utils/sanitize';
+import Loader from '../../components/loader/Loader';
+import CategoryFilter from '../../components/CategoryFilter';
+import { API_BASE_URL } from '../../config/environment';
 
 interface Anuncio {
   _id: string;
@@ -33,7 +32,7 @@ interface Filter {
   precioMax: string;
 }
 
-const AdList: React.FC = () => {
+const AdvertsPage: React.FC = () => {
   const [anuncios, setAnuncios] = useState<Anuncio[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -50,7 +49,7 @@ const AdList: React.FC = () => {
     setError(null);
     try {
       const response = await axios.get<AnunciosResponse>(
-        `${API_BASE_URL}/api/anuncios`, {
+        `/anuncios`, {
           params: {
             page: currentPage,
             limit: itemsPerPage,
@@ -209,4 +208,4 @@ const AdList: React.FC = () => {
   );
 };
 
-export default AdList;
+export default AdvertsPage;

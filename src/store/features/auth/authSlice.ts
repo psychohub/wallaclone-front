@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from '../../lib/axiosInstance';
+import axios from '../../../lib/axiosInstance';
 import { AxiosError } from 'axios';
-import { ACCESS_TOKEN } from '../../config/environment';
+import { ACCESS_TOKEN } from '../../../config/environment';
 
 interface AuthState {
   user: User | null;
@@ -26,7 +26,7 @@ export const loginUser = createAsyncThunk(
   'auth/login',
   async (credentials: LoginCredentials, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/api/auth/login', {
+      const response = await axios.post('/auth/login', {
         nombre: credentials.nombre,
         contraseña: credentials.contraseña
       });
@@ -44,7 +44,7 @@ export const registerUser = createAsyncThunk(
   'auth/register',
   async (userData: { nombre: string; email: string; contraseña: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/api/auth/register', userData);
+      const response = await axios.post('/auth/register', userData);
       return response.data;
     } catch (error) {
       return rejectWithValue((error as AxiosError).response?.data || (error as Error).message);

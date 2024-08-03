@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import RecuperarContrasena, { isValidEmail } from '../components/RecuperarContrasena';
+import RecuperarContrasena, { isValidEmail } from '../pages/public/ForgotPasswordPage';
 import '@testing-library/jest-dom';
 
 global.fetch = jest.fn(() =>
@@ -62,7 +62,7 @@ describe('RecuperarContrasena', () => {
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(
-        `${process.env.REACT_APP_API_BASE_URL}/api/auth/recuperar-contrasena`,
+        `${process.env.REACT_APP_API_BASE_URL}/auth/recuperar-contrasena`,
         expect.objectContaining({
           method: 'POST',
           headers: {
