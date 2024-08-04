@@ -1,36 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import axios from '../../lib/axiosInstance';
 import ReactPaginate from 'react-paginate';
 import { sanitizeInput } from '../../utils/sanitize';
 import Loader from '../../components/loader/Loader';
 import CategoryFilter from '../../components/CategoryFilter';
 import { API_BASE_URL } from '../../config/environment';
-
-interface Anuncio {
-  _id: string;
-  nombre: string;
-  imagen: string;
-  descripcion: string;
-  precio: number;
-  tipoAnuncio: 'venta' | 'búsqueda';
-  tags: string[];
-  autor: { _id: string; nombre: string } | null;
-  fechaPublicacion: string;
-}
-
-interface AnunciosResponse {
-  anuncios: Anuncio[];
-  total: number;
-  page: number;
-  totalPages: number;
-}
-
-interface Filter {
-  tags: string[];
-  tipoAnuncio: string;
-  precioMin: string;
-  precioMax: string;
-}
+import { Anuncio, AnunciosFilter, Sort } from '../../types/adverts';
+import { getAdverts } from '../../api/adverts';
 
 const AdvertsPage: React.FC = () => {
   const [anuncios, setAnuncios] = useState<Anuncio[]>([]);
@@ -38,39 +13,23 @@ const AdvertsPage: React.FC = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filter, setFilter] = useState<Filter>({ tags: [], tipoAnuncio: '', precioMin: '', precioMax: '' });
-  const [sort, setSort] = useState('desc'); 
-
-  const itemsPerPage = 12;
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [filter, setFilter] = useState<AnunciosFilter>({ tags: [], tipoAnuncio: '', precioMin: '', precioMax: '' });
+  const [sort, setSort] = useState<Sort>('desc'); 
 
   const fetchAnuncios = async () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await axios.get<AnunciosResponse>(
-        `/anuncios`, {
-          params: {
-            page: currentPage,
-            limit: itemsPerPage,
-            nombre: searchTerm,
-            tag: filter.tags.join(','),
-            tipoAnuncio: filter.tipoAnuncio,
-            minPrecio: filter.precioMin,
-            maxPrecio: filter.precioMax,
-            sort: sort 
-          }
-        }
-      );
-
-      if (response.data && response.data.anuncios && Array.isArray(response.data.anuncios)) {
-        setAnuncios(response.data.anuncios);
-        setTotalPages(response.data.totalPages);
+      const adverts = await getAdverts({ currentPage, searchTerm, filter, sort });
+      
+      if (adverts.data && adverts.data.anuncios && Array.isArray(adverts.data.anuncios)) {
+        setAnuncios(adverts.data.anuncios);
+        setTotalPages(adverts.data.totalPages);
       } else {
         setError('Error en el formato de datos recibido.');
       }
     } catch (error) {
-      console.error('Error fetching anuncios:', error);
       setError('Error al cargar los anuncios. Por favor, intenta de nuevo más tarde.');
     } finally {
       setIsLoading(false);
@@ -101,7 +60,7 @@ const AdvertsPage: React.FC = () => {
   };
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSort(e.target.value);
+    setSort(e.target.value as Sort);
   };
 
   return (
@@ -164,7 +123,7 @@ const AdvertsPage: React.FC = () => {
                   src={`${API_BASE_URL}/images/${anuncio.imagen}`}
                   alt={sanitizeInput(anuncio.nombre)}
                   onError={(e) => {
-                    e.currentTarget.src = '/path/to/placeholder.jpg'; 
+                    e.currentTarget.src = `${API_BASE_URL}/images/no-image-placeholder.jpg`; 
                     e.currentTarget.alt = 'Imagen no disponible';
                   }}
                 />

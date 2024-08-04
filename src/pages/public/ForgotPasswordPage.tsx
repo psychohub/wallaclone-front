@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { sanitizeInput } from '../../utils/sanitize';
+import { requestResetPassword } from '../../api/forgotPassword';
 
 export const isValidEmail = (email: string): boolean => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -31,23 +32,11 @@ const ForgotPasswordPage: React.FC = () => {
     }
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/auth/recuperar-contrasena`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email: sanitizedEmail }),
-      });
-
-      if (response.ok) {
-        setSuccess('Se ha enviado un email con instrucciones para recuperar tu contraseña.');
-        setTimeout(() => navigate('/login'), 5000);
-      } else {
-        const data = await response.json();
-        setError(data.message || 'Ha ocurrido un error. Por favor, inténtalo de nuevo.');
-      }
-    } catch (err) {
-      setError('Error de conexión. Por favor, inténtalo de nuevo más tarde.');
+      await requestResetPassword({ sanitizedEmail });
+      setSuccess('Se ha enviado un email con instrucciones para recuperar tu contraseña.');
+      setTimeout(() => navigate('/login'), 5000);
+    } catch (error) {
+      setError((error as Error).message ?? 'Ha ocurrido un error. Por favor, inténtalo de nuevo.');
     } finally {
       setIsLoading(false);
     }
