@@ -9,7 +9,7 @@ import LoginPage from './pages/public/LoginPage';
 import AdvertsPage from './pages/public/AdvertsPage';
 import ProfilePage from './pages/private/ProfilePage';
 
-import RecuperarContrasena from './pages/public/ForgotPasswordPage';
+import ForgotPasswordPage from './pages/public/ForgotPasswordPage';
 import './App.css';
 
 const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
@@ -25,7 +25,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<AdvertsPage />} />
-          <Route path="/recuperar-contrasena" element={<RecuperarContrasena />} />
+          <Route path="/recuperar-contrasena" element={<ForgotPasswordPage />} />
           <Route 
             path="/perfil/:nombreUsuario" 
             element={<PrivateRoute element={<ProfilePage />} />} 

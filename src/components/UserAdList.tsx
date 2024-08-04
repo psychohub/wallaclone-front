@@ -174,7 +174,7 @@ const UserAdList: React.FC = () => {
                   src={`${API_BASE_URL}/images/${anuncio.imagen}`}
                   alt={sanitizeInput(anuncio.nombre)}
                   onError={(e) => {
-                    e.currentTarget.src = '/path/to/placeholder.jpg'; 
+                    e.currentTarget.src = `${API_BASE_URL}/images/no-image-placeholder.jpg`; 
                     e.currentTarget.alt = 'Imagen no disponible';
                   }}
                 />
