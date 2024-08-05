@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from '../../../lib/axiosInstance';
 import { AxiosError } from 'axios';
-import { ACCESS_TOKEN, USERNAME } from '../../../config/environment';
+import { ACCESS_TOKEN, USER_DATA } from '../../../config/environment';
 
 interface AuthState {
   user: User | null;
@@ -32,7 +32,7 @@ export const loginUser = createAsyncThunk(
       });
       if (credentials.rememberMe) {
         localStorage.setItem(ACCESS_TOKEN, response.data.token);
-        localStorage.setItem(USERNAME, JSON.stringify(response.data.usuario));
+        localStorage.setItem(USER_DATA, JSON.stringify(response.data.usuario));
       }
       return response.data;
     } catch (error) {
@@ -74,6 +74,7 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       localStorage.removeItem(ACCESS_TOKEN);
+      localStorage.removeItem(USER_DATA);
     },
   },
   extraReducers: (builder) => {

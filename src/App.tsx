@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import { ACCESS_TOKEN, USERNAME } from './config/environment';
+import { ACCESS_TOKEN, USER_DATA } from './config/environment';
 import { setToken, setUser, User } from './store/features/auth/authSlice';
 import { useAppDispatch } from './hooks/useStore';
 
@@ -17,7 +17,7 @@ function App() {
   const dispatch = useAppDispatch();
 
   const accessToken = window.localStorage.getItem(ACCESS_TOKEN);
-  const user = window.localStorage.getItem(USERNAME);
+  const user = window.localStorage.getItem(USER_DATA);
   
   if (accessToken) {
     dispatch(setToken(accessToken));
