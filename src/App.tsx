@@ -10,6 +10,7 @@ import ForgotPasswordPage from './pages/public/ForgotPasswordPage';
 import AdvertsPage from './pages/public/AdvertsPage';
 import PrivateRoute from './components/privateRoute/PrivateRoute';
 import ProfilePage from './pages/private/ProfilePage';
+import MyAdvertsPage from './pages/private/MyAdvertsPage';
 
 import './App.css';
 
@@ -36,10 +37,17 @@ function App() {
           <Route path="/recuperar-contrasena" element={<ForgotPasswordPage />} />
           <Route path="/" element={<AdvertsPage />} />
           <Route 
-            path="/perfil/:nombreUsuario"
+            path="/mi-perfil"
             element={
               <PrivateRoute>
                 <ProfilePage />
+              </PrivateRoute>
+            } />
+          <Route 
+            path="/mis-anuncios"
+            element={
+              <PrivateRoute>
+                <MyAdvertsPage />
               </PrivateRoute>
             } />
           <Route path="/404" element={<div>404 | Not found</div>} />
