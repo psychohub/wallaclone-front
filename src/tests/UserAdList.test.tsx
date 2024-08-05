@@ -75,7 +75,7 @@ describe('UserAdList Component', () => {
 
     await waitFor(() => {
       expect(mockedAxios.get).toHaveBeenCalledWith(
-        `${API_BASE_URL}/api/perfil/testUser/anuncios`,
+        `${API_BASE_URL}/perfil/testUser/anuncios`,
         expect.objectContaining({
           params: expect.objectContaining({ nombre: 'Anuncio 1' })
         })
@@ -95,7 +95,7 @@ describe('UserAdList Component', () => {
 
     await waitFor(() => {
       expect(mockedAxios.get).toHaveBeenCalledWith(
-        `${API_BASE_URL}/api/perfil/testUser/anuncios`,
+        `${API_BASE_URL}/perfil/testUser/anuncios`,
         expect.objectContaining({
           params: expect.objectContaining({ tipoAnuncio: 'venta' })
         })
@@ -115,7 +115,7 @@ describe('UserAdList Component', () => {
 
     await waitFor(() => {
       expect(mockedAxios.get).toHaveBeenCalledWith(
-        `${API_BASE_URL}/api/perfil/testUser/anuncios`,
+        `${API_BASE_URL}/perfil/testUser/anuncios`,
         expect.objectContaining({
           params: expect.objectContaining({ sort: 'asc' })
         })

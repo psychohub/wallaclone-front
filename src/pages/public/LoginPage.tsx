@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col, Alert, InputGroup } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { loginUser } from '../features/auth/authSlice';
-import { sanitizeInput } from '../utils/sanitize';
-import { AppDispatch } from '../app/store';
+import { loginUser } from '../../store/features/auth/authSlice';
+import { sanitizeInput } from '../../utils/sanitize';
+import { AppDispatch } from '../../store/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 
-const Login: React.FC = () => {
+const LoginPage: React.FC = () => {
   const [nombre, setNombre] = useState('');
   const [contraseña, setContraseña] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -111,4 +111,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

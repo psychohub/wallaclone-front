@@ -1,33 +1,57 @@
-import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from './app/store';
-import Register from './components/Register';
-import Login from './components/Login';
-import AdList from './components/AdList';
-import ProfilePage from './pages/ProfilePage';
-import Layout from './components/Layout';
-import RecuperarContrasena from './components/RecuperarContrasena';
-import '../src/App.css';
+import { ACCESS_TOKEN, USER_DATA } from './config/environment';
+import { setToken, setUser, User } from './store/features/auth/authSlice';
+import { useAppDispatch } from './hooks/useStore';
 
-const PrivateRoute: React.FC<{ element: React.ReactElement }> = ({ element }) => {
-  const user = useSelector((state: RootState) => state.auth.user);
-  return user ? element : <Navigate to="/login" />;
-};
+import Layout from './layouts/Layout';
+import RegisterPage from './pages/public/RegisterPage';
+import LoginPage from './pages/public/LoginPage';
+import ForgotPasswordPage from './pages/public/ForgotPasswordPage';
+import AdvertsPage from './pages/public/AdvertsPage';
+import PrivateRoute from './components/privateRoute/PrivateRoute';
+import ProfilePage from './pages/private/ProfilePage';
+import MyAdvertsPage from './pages/private/MyAdvertsPage';
+
+import './App.css';
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  const accessToken = window.localStorage.getItem(ACCESS_TOKEN);
+  const user = window.localStorage.getItem(USER_DATA);
+  
+  if (accessToken) {
+    dispatch(setToken(accessToken));
+  }
+
+  if (user) {
+    dispatch(setUser(JSON.parse(user) as User));
+  }
+
   return (
     <Router>
       <Layout>
         <Routes>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<AdList />} />
-          <Route path="/recuperar-contrasena" element={<RecuperarContrasena />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/recuperar-contrasena" element={<ForgotPasswordPage />} />
+          <Route path="/" element={<AdvertsPage />} />
           <Route 
-            path="/perfil/:nombreUsuario" 
-            element={<PrivateRoute element={<ProfilePage />} />} 
-          />
+            path="/mi-perfil"
+            element={
+              <PrivateRoute>
+                <ProfilePage />
+              </PrivateRoute>
+            } />
+          <Route 
+            path="/mis-anuncios"
+            element={
+              <PrivateRoute>
+                <MyAdvertsPage />
+              </PrivateRoute>
+            } />
+          <Route path="/404" element={<div>404 | Not found</div>} />
+          <Route path="*" element={<Navigate to="/404" />} />
         </Routes>
       </Layout>
     </Router>

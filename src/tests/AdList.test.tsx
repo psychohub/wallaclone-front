@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import axios from '../lib/axiosInstance';
 import MockAdapter from 'axios-mock-adapter';
-import AdList from '../components/AdList';
+import AdList from '../pages/public/AdvertsPage';
 import { API_BASE_URL } from '../config/environment';
 import { Provider } from 'react-redux';
 import { store } from '../app/store';
@@ -71,7 +71,7 @@ const mockResponsePage2 = {
 };
 
 beforeEach(() => {
-  mock.onGet(`${API_BASE_URL}/api/anuncios`).reply((config) => {
+  mock.onGet(`${API_BASE_URL}/anuncios`).reply((config) => {
     const params = new URLSearchParams(config.params);
     const page = params.get('page') || '1';
     const limit = params.get('limit') || '12';
@@ -166,7 +166,7 @@ describe('AdList Component', () => {
   });
 
   test('handles error state', async () => {
-    mock.onGet(`${API_BASE_URL}/api/anuncios`).reply(500);
+    mock.onGet(`${API_BASE_URL}/anuncios`).reply(500);
 
     render(
       <Provider store={store}>

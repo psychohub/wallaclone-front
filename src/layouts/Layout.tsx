@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../app/store';
-import { logout } from '../features/auth/authSlice';
+import { RootState } from '../store/index';
+import { logout } from '../store/features/auth/authSlice';
 import Footer from './Footer';
 
 interface LayoutProps {
@@ -37,7 +37,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                     <span>Bienvenido, {user.nombre}</span>
                   </li>
                   <li>
-                    <Link to={`/perfil/${user.nombre}`}>Mi Perfil</Link>
+                    <Link to={'/mi-perfil'}>Mi perfil</Link>
+                  </li>
+                  <li>
+                    <Link to={'/mis-anuncios'}>Mis anuncios</Link>
                   </li>
                   <li>
                     <button onClick={handleLogout}>Logout</button>
