@@ -93,7 +93,7 @@ const UserAdList: React.FC = () => {
 
   return (
     <div className="ad-list-container">
-      <h2>Mis Anuncios</h2>
+      <h2 className="page-title">Mis Anuncios</h2>
       <div className="search-container">
         <form className="search-bar" onSubmit={(e) => e.preventDefault()}>
           <input

@@ -69,7 +69,6 @@ main {
   flex: 1;
   display: flex;
   justify-content: center;
-  align-items: center;
   padding: 2rem;
   width: 100%;
 }
@@ -719,4 +718,17 @@ main {
 
 .recuperar-contrasena-form button[type="submit"]:disabled {
   background-color: #6c757d;
+}
+
+.card-container {
+  background-color: #ffffff;
+  border: 1px solid var(--input-border-color);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  text-align: left;
+}
+
+.page-title {
+  font-size: 1.7rem;
 }
