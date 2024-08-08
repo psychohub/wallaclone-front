@@ -720,3 +720,19 @@ main {
 .recuperar-contrasena-form button[type="submit"]:disabled {
   background-color: #6c757d;
 }
+
+/* Estilos para restablecer Contraseña */
+.restablecer-contrasena-container {
+  background-color: #f8f9fa;
+}
+
+.form-container {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.restablecer-contrasena-form {
+  margin-top: 1rem;
+}

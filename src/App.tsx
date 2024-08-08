@@ -2,28 +2,25 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import { ACCESS_TOKEN, USER_DATA } from './config/environment';
 import { setToken, setUser, User } from './store/features/auth/authSlice';
 import { useAppDispatch } from './hooks/useStore';
-
 import Layout from './layouts/Layout';
 import RegisterPage from './pages/public/RegisterPage';
 import LoginPage from './pages/public/LoginPage';
 import ForgotPasswordPage from './pages/public/ForgotPasswordPage';
+import ResetPasswordPage from './pages/public/ResetPasswordPage';
 import AdvertsPage from './pages/public/AdvertsPage';
 import PrivateRoute from './components/privateRoute/PrivateRoute';
 import ProfilePage from './pages/private/ProfilePage';
 import MyAdvertsPage from './pages/private/MyAdvertsPage';
-
 import './App.css';
 
 function App() {
   const dispatch = useAppDispatch();
-
   const accessToken = window.localStorage.getItem(ACCESS_TOKEN);
   const user = window.localStorage.getItem(USER_DATA);
   
   if (accessToken) {
     dispatch(setToken(accessToken));
   }
-
   if (user) {
     dispatch(setUser(JSON.parse(user) as User));
   }
@@ -35,6 +32,10 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/recuperar-contrasena" element={<ForgotPasswordPage />} />
+           {/* Ruta temporal para pruebas de desarrollo */}
+           <Route path="/restablecer-contrasena" element={<ResetPasswordPage />} />
+           {/* TODO: Descomentar y usar esta ruta cuando el backend esté listo */}
+          {/* <Route path="/restablecer-contrasena/:token" element={<ResetPasswordPage />} /> */}
           <Route path="/" element={<AdvertsPage />} />
           <Route 
             path="/mi-perfil"
