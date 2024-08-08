@@ -1,0 +1,66 @@
+.app-header {
+  background-color: var(--secondary-bg-color);
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.app-navbar ul {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0;
+}
+
+.app-navbar ul li.menu a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: bold;
+	transition: all 0.2s ease-out;
+}
+.app-navbar ul li.menu a:hover {
+	color: #0d6efd;
+}
+
+.logo-container .bienvenido {
+	margin-left: 1rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  text-decoration: none;
+	text-align: center;
+	font-size: 2rem;
+	cursor: pointer;
+}
+
+.logo-blue {
+  color: var(--logo-blue);
+  font-weight: bold;
+}
+
+.logo-gray {
+  color: var(--logo-gray);
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .app-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .app-navbar ul {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .logo {
+    font-size: 1.5rem;
+  }
+}
