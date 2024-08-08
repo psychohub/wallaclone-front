@@ -45,8 +45,8 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({ categories, selectedCat
         Categoría <span className="arrow">{isOpen ? '▲' : '▼'}</span>
       </button>
       {isOpen && (
-        <div className="dropdown">
-          <div className="dropdown-header">
+        <div className="dropdown-filter">
+          <div className="dropdown-filter-header">
             <label>
               <input
                 type="checkbox"
@@ -56,9 +56,9 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({ categories, selectedCat
               Todas las categorías
             </label>
           </div>
-          <div className="dropdown-body">
+          <div className="dropdown-filter-body">
             {categories.map(category => (
-              <label key={category} className="dropdown-item">
+              <label key={category} className="dropdown-filter-item">
                 <input
                   type="checkbox"
                   checked={selectedCategories.includes(category)}

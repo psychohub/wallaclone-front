@@ -64,7 +64,7 @@ const AdvertsPage: React.FC = () => {
   };
 
   return (
-    <div className="ad-list-container">
+    <div className="list-container">
       <div className="search-container">
         <form className="search-bar" onSubmit={(e) => e.preventDefault()}>
           <input
@@ -114,9 +114,9 @@ const AdvertsPage: React.FC = () => {
       {isLoading && <Loader />}
       {error && <div>{error}</div>}
       {!isLoading && !error && anuncios.length > 0 ? (
-        <div className="ad-list">
+        <div className="list">
           {anuncios.map((anuncio) => (
-            <div key={anuncio._id} className="ad-card">
+            <div key={anuncio._id} className="advert-card">
               {anuncio.imagen ? (
                 <img
                   crossOrigin="anonymous"
@@ -130,7 +130,7 @@ const AdvertsPage: React.FC = () => {
               ) : (
                 <div className="placeholder-image">Imagen no disponible</div>
               )}
-              <div className="ad-card-content">
+              <div className="advert-card-content">
                 <h3>{sanitizeInput(anuncio.nombre)}</h3>
                 <p>{sanitizeInput(anuncio.descripcion)}</p>
                 <p className="price">Precio: {anuncio.precio}€</p>

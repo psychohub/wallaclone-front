@@ -1,0 +1,9 @@
+.user-menu-dropdown .dropdown-toggle.btn {
+	border-radius: 50%;
+	width: 36px;
+	height: 36px;
+}
+
+.user-menu-dropdown .dropdown-toggle::after {
+	display: none;
+}
