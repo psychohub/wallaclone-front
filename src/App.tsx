@@ -9,7 +9,7 @@ import ForgotPasswordPage from './pages/public/ForgotPasswordPage';
 import ResetPasswordPage from './pages/public/ResetPasswordPage';
 import AdvertsPage from './pages/public/AdvertsPage';
 import PrivateRoute from './components/privateRoute/PrivateRoute';
-import ProfilePage from './pages/private/ProfilePage';
+import ProfilePage from './pages/private/profile/ProfilePage';
 import MyAdvertsPage from './pages/private/MyAdvertsPage';
 import './App.css';
 
