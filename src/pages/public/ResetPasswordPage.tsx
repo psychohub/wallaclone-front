@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import { sanitizeInput } from '../../utils/sanitize';
-// import { resetPassword } from '../../api/resetPassword'; // Descomentar cuando BE esté listo
+import { resetPassword } from '../../api/resetPassword';
 
 const ResetPasswordPage: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');
@@ -11,12 +11,9 @@ const ResetPasswordPage: React.FC = () => {
   const [success, setSuccess] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  // Comentado para hacer pruebas 
- /* const { token } = useParams<{ token: string }>();*/
- const token = "reset_" + Math.random().toString(36).substr(2, 9);
+  const { token } = useParams<{ token: string }>(); // Obtener el token de la URL
 
   const validatePassword = (password: string): boolean => {
-    // lógica de validación de contraseña 
     return password.length >= 6; 
   };
 
@@ -30,7 +27,7 @@ const ResetPasswordPage: React.FC = () => {
     const sanitizedConfirmPassword = sanitizeInput(confirmPassword);
 
     if (!validatePassword(sanitizedNewPassword)) {
-      setError('La contraseña debe tener al menos 8 caracteres.');
+      setError('La contraseña debe tener al menos 6 caracteres.');
       setIsLoading(false);
       return;
     }
@@ -41,14 +38,18 @@ const ResetPasswordPage: React.FC = () => {
       return;
     }
 
+    if (!token) {
+      setError('Token no válido o expirado. Por favor, solicite un nuevo enlace de recuperación de contraseña.');
+      setIsLoading(false);
+      return;
+    }
+
     try {
-      // Descomentar y actualizar cuando BE esté listo
-      // await resetPassword({ token, newPassword: sanitizedNewPassword });
-      console.log('Password reset request sent with token:', token);
-      setSuccess('Contraseña restablecida con éxito.');
+      await resetPassword({ token, newPassword: sanitizedNewPassword });
+      setSuccess('Contraseña restablecida con éxito. Serás redirigido en breve.');
       setTimeout(() => navigate('/login'), 5000);
     } catch (error) {
-      setError((error as Error).message ?? 'Ha ocurrido un error. Por favor, inténtalo de nuevo.');
+      setError((error as Error).message ?? 'Ha ocurrido un error al intentar restablecer la contraseña. Por favor, inténtalo de nuevo.');
     } finally {
       setIsLoading(false);
     }
