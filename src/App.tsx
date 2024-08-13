@@ -32,7 +32,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/recuperar-contrasena" element={<ForgotPasswordPage />} />
-          <Route path="/restablecer-contrasena/:token" element={<ResetPasswordPage />} />
+          <Route path="/restablecer-contrasena" element={<ResetPasswordPage />} />
           <Route path="/" element={<AdvertsPage />} />
           <Route 
             path="/mi-perfil"
