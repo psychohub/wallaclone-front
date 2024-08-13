@@ -6,7 +6,6 @@ import { sanitizeInput } from '../../utils/sanitize';
 import { AppDispatch } from '../../store/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 
 const LoginPage: React.FC = () => {
