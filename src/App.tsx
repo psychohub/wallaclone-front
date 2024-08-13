@@ -1,16 +1,19 @@
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, Outlet } from 'react-router-dom';
 import { ACCESS_TOKEN, USER_DATA } from './config/environment';
 import { setToken, setUser, User } from './store/features/auth/authSlice';
 import { useAppDispatch } from './hooks/useStore';
+
 import Layout from './layouts/Layout';
+import AdvertsPage from './pages/public/AdvertsPage';
+import PublicRoute from './components/private/PublicRoute';
 import RegisterPage from './pages/public/RegisterPage';
 import LoginPage from './pages/public/LoginPage';
 import ForgotPasswordPage from './pages/public/ForgotPasswordPage';
 import ResetPasswordPage from './pages/public/ResetPasswordPage';
-import AdvertsPage from './pages/public/AdvertsPage';
-import PrivateRoute from './components/privateRoute/PrivateRoute';
+import PrivateRoute from './components/private/PrivateRoute';
 import ProfilePage from './pages/private/profile/ProfilePage';
 import MyAdvertsPage from './pages/private/MyAdvertsPage';
+
 import './App.css';
 
 function App() {
@@ -29,25 +32,31 @@ function App() {
     <Router>
       <Layout>
         <Routes>
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/recuperar-contrasena" element={<ForgotPasswordPage />} />
-          <Route path="/restablecer-contrasena" element={<ResetPasswordPage />} />
           <Route path="/" element={<AdvertsPage />} />
           <Route 
-            path="/mi-perfil"
+            path="/"
             element={
-              <PrivateRoute>
-                <ProfilePage />
-              </PrivateRoute>
-            } />
+              <PublicRoute>
+                <Outlet />
+              </PublicRoute>
+            }>  
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/recuperar-contrasena" element={<ForgotPasswordPage />} />
+            <Route path="/restablecer-contrasena" element={<ResetPasswordPage />} />
+          </Route>
+
           <Route 
-            path="/mis-anuncios"
+            path="/"
             element={
               <PrivateRoute>
-                <MyAdvertsPage />
+                <Outlet />
               </PrivateRoute>
-            } />
+            }>
+            <Route path="/mi-perfil" element={ <ProfilePage /> } />
+            <Route path="/mis-anuncios" element={ <MyAdvertsPage /> } />
+          </Route>
+
           <Route path="/404" element={<div>404 | Not found</div>} />
           <Route path="*" element={<Navigate to="/404" />} />
         </Routes>

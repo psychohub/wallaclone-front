@@ -40,7 +40,7 @@ export const getAdverts = async ({ currentPage, searchTerm, filter, sort }: IGet
 export const getAdvertsByUser = async ({ currentPage, searchTerm, filter, sort, username }: IGetAdvertsParams) => {
 	try {
 		const response = await axios.get<AnunciosResponse>(
-			`/perfil/${username}/anuncios`,
+			`/anuncios/user/${username}`,
 			{
 				params: {
 					page: currentPage,

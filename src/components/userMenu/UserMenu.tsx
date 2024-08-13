@@ -1,14 +1,14 @@
 import { Dropdown } from "react-bootstrap";
-import { logout } from '../../store/features/auth/authSlice';
+import { logout, User } from '../../store/features/auth/authSlice';
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/useStore";
 import './UserMenu.css';
 
 interface Props {
-	userInitial: string;
+	user: User;
 };
 
-const UserMenu = ({ userInitial }: Props) => {
+const UserMenu = ({ user }: Props) => {
 	const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -20,10 +20,12 @@ const UserMenu = ({ userInitial }: Props) => {
 	return (
 		<Dropdown className="user-menu-dropdown">
       <Dropdown.Toggle>
-					<span>{userInitial.toUpperCase()}</span>
+					<span>{user.nombre.charAt(0).toUpperCase()}</span>
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
+        <Dropdown.ItemText>{user.email}</Dropdown.ItemText>
+        <Dropdown.Divider />
         <Dropdown.Item href="/mi-perfil">Mi perfil</Dropdown.Item>
         <Dropdown.Item href="/mis-anuncios">Mis anuncios</Dropdown.Item>
 				<Dropdown.Divider />
