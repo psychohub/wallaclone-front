@@ -31,12 +31,14 @@ axiosInstance.interceptors.response.use(
 	response => response,
   error => {
     const {status} = error.response;
-    if (status === 401) {
+		const accessToken = window.localStorage.getItem(ACCESS_TOKEN);
+		
+    if (status === 401 && accessToken) {
       localStorage.removeItem(ACCESS_TOKEN);
     	localStorage.removeItem(USER_DATA);
 			window.location.href = '/';
     }
-   return Promise.reject(error);
+   	return Promise.reject(error);
  }
 );
 

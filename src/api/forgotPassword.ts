@@ -8,8 +8,8 @@ interface IRequestResetPasswordParams {
 
 export const requestResetPassword = async ({ sanitizedEmail }: IRequestResetPasswordParams) => {
 	try {
-		const response = await axios.post<RequestResetPasswordResponse>('/auth/recuperar-contrasena', {
-			body: JSON.stringify({ email: sanitizedEmail }),
+		const response = await axios.post<RequestResetPasswordResponse>('/users/recuperar-contrasena', {
+			email: sanitizedEmail
 		});
 		return {
 			status: response.status,

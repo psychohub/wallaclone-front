@@ -23,12 +23,17 @@ const LoginPage: React.FC = () => {
     setError(null);
     setIsLoading(true);
     try {
-      await dispatch(loginUser({
+      const response = await dispatch(loginUser({
         nombre: sanitizeInput(nombre),
         contraseña,
         rememberMe
       }));
-      navigate('/');
+      
+      if ([200, 201].includes((response.payload as any).status)) {
+        navigate('/');
+      } else {
+        setError('Usuario y/o contraseña incorrectas.');
+      }
     } catch (err) {
       setError('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
     } finally {

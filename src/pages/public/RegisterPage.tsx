@@ -45,16 +45,21 @@ const RegisterPage: React.FC = () => {
 
     setIsLoading(true);
     try {
-      await dispatch(registerUser({
+      const response = await dispatch(registerUser({
         nombre: sanitizeInput(nombre),
         email: sanitizeInput(email),
         contraseña
-      })).unwrap();
-      setSuccess('Usuario registrado exitosamente.');
-      setNombre('');
-      setEmail('');
-      setContraseña('');
-      setTermsAccepted(false);
+      }));
+      
+      if ([200, 201].includes((response.payload as any).status)) {
+        setSuccess('Usuario registrado exitosamente.');
+        setNombre('');
+        setEmail('');
+        setContraseña('');
+        setTermsAccepted(false);
+      } else {
+        setError('Error al registrar.');
+      }
     } catch (err) {
       setError('Error al registrar. Por favor, inténtalo de nuevo.');
     } finally {
