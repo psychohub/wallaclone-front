@@ -1,19 +1,20 @@
 import { AxiosError } from 'axios';
 import axios from '../lib/axiosInstance';
-import { API_BASE_URL } from '../config/environment';
+import { RequestResetPasswordResponse } from '../types/auth';
 
 interface ResetPasswordData {
   token: string;
   newPassword: string;
 }
 
-export const resetPassword = async ({ token, newPassword }: ResetPasswordData): Promise<void> => {
+export const resetPassword = async ({ token, newPassword }: ResetPasswordData) => {
   try {
-    await axios.post(`${API_BASE_URL}/users/restablecer-contrasena`, { token, newPassword });
+    const response = await axios.post<RequestResetPasswordResponse>('/users/restablecer-contrasena', { token, newPassword });
+    return {
+			status: response.status,
+			data: response.data
+		};
   } catch (error) {
-    if (error instanceof AxiosError) {
-      throw new Error(error.response?.data.message || 'Error al restablecer la contraseña');
-    }
-    throw error;
+    throw new Error(((error as AxiosError).response?.data as any).message as string ?? (error as Error).message);
   }
 };
