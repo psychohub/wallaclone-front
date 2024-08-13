@@ -34,9 +34,12 @@ export const loginUser = createAsyncThunk(
         localStorage.setItem(ACCESS_TOKEN, response.data.token);
         localStorage.setItem(USER_DATA, JSON.stringify(response.data.usuario));
       }
-      return response.data;
+      return {
+        status: response.status,
+        data: response.data
+      };
     } catch (error) {
-      return rejectWithValue((error as AxiosError).response?.data || (error as Error).message);
+      return rejectWithValue((error as AxiosError).response?.data as string ?? (error as Error).message);
     }
   }
 );
@@ -46,9 +49,12 @@ export const registerUser = createAsyncThunk(
   async (userData: { nombre: string; email: string; contraseña: string }, { rejectWithValue }) => {
     try {
       const response = await axios.post('/auth/register', userData);
-      return response.data;
+      return {
+        status: response.status,
+        data: response.data
+      };
     } catch (error) {
-      return rejectWithValue((error as AxiosError).response?.data || (error as Error).message);
+      return rejectWithValue((error as AxiosError).response?.data as string ?? (error as Error).message);
     }
   }
 );
@@ -85,8 +91,8 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload.usuario;
-        state.token = action.payload.token;
+        state.user = action.payload.data.usuario;
+        state.token = action.payload.data.token;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -98,7 +104,7 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.user = action.payload;
+        state.user = action.payload.data;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.isLoading = false;
