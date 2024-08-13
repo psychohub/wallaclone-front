@@ -8,6 +8,7 @@ import RegisterPage from './pages/public/RegisterPage';
 import LoginPage from './pages/public/LoginPage';
 import ForgotPasswordPage from './pages/public/ForgotPasswordPage';
 import AdvertsPage from './pages/public/AdvertsPage';
+import UserAdvertsPage from './pages/public/UserAdvertsPage';
 import PrivateRoute from './components/privateRoute/PrivateRoute';
 import ProfilePage from './pages/private/profile/ProfilePage';
 import MyAdvertsPage from './pages/private/MyAdvertsPage';
@@ -35,6 +36,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/recuperar-contrasena" element={<ForgotPasswordPage />} />
+          <Route path="/anuncios/usuario/:username" element={<UserAdvertsPage />} />
           <Route path="/" element={<AdvertsPage />} />
           <Route 
             path="/mi-perfil"
