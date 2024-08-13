@@ -32,10 +32,10 @@ function App() {
     <Router>
       <Layout>
         <Routes>
+          <Route path="/" element={<AdvertsPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/recuperar-contrasena" element={<ForgotPasswordPage />} />
-          <Route path="/" element={<AdvertsPage />} />
           <Route 
             path="/mi-perfil"
             element={

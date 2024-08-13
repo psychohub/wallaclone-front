@@ -24,34 +24,29 @@ const LoginPage: React.FC = () => {
     setError(null);
     setIsLoading(true);
     try {
-      const result = await dispatch(loginUser({
+      await dispatch(loginUser({
         nombre: sanitizeInput(nombre),
         contraseña,
         rememberMe
-      })).unwrap();
-       // Redirigir al usuario a su página de perfil
-       navigate(`/perfil/${result.usuario.nombre}`);
-      } catch (err) {
-        setError('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-  const handleLogoClick = () => {
-    navigate('/');
+      }));
+      navigate('/');
+    } catch (err) {
+      setError('Error al iniciar sesión. Por favor, inténtalo de nuevo.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <Container fluid className="login-container">
-      <Row className="justify-content-center align-items-center min-vh-100">
+    <Container className="auth-container">
+      <Row className="justify-content-center align-items-center">
         <Col xs={12} sm={10} md={8} lg={6} xl={4} className="form-container">
-          <div className="logo" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
-            <span className="logo-blue">WALLA</span><span className="logo-gray">CLONE</span>
+          <div>
+            <h2>Inicio de sesión</h2>
           </div>
           {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit} className="login-form">
-            <Form.Group className="mb-3">
+          <Form onSubmit={handleSubmit} className="form">
+            <Form.Group className="my-3">
               <Form.Label htmlFor="nombre">Nombre de usuario</Form.Label>
               <Form.Control
                 type="text"
@@ -74,6 +69,7 @@ const LoginPage: React.FC = () => {
                 <Button
                   variant="outline-secondary"
                   onClick={() => setShowPassword(!showPassword)}
+                  className='eye'
                 >
                   <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
                 </Button>
@@ -91,18 +87,9 @@ const LoginPage: React.FC = () => {
             <Button variant="primary" type="submit" disabled={isLoading}>
               {isLoading ? 'Iniciando sesión...' : 'Iniciar sesión'}
             </Button>
-            <div className="social-login mt-3">
-              <Button variant="outline-primary" className="facebook">
-                <FontAwesomeIcon icon={faFacebook} /> Facebook
-              </Button>
-              <Button variant="outline-danger" className="google">
-                <FontAwesomeIcon icon={faGoogle} /> Google
-              </Button>
-            </div>
             <div className="footer-text mt-3">
-              <p>¿No tienes una cuenta? <Link to="/register">Registrarse</Link></p>
-              <p><Link to="/recuperar-contrasena">¿Olvidó contraseña?</Link></p>
-              <p>Al proceder, usted acepta nuestros <a href="#">Términos de servicio</a></p>
+              <p>¿No tienes una cuenta? <Link to="/register">Regístrate</Link></p>
+              <p><Link to="/recuperar-contrasena">¿Olvidaste tu contraseña?</Link></p>
             </div>
           </Form>
         </Col>
