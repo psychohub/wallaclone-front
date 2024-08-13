@@ -17,9 +17,9 @@ const Header = () => {
 			</div>
 			<nav className="app-navbar">
 				<ul>
+					<li className="menu"><Link to="/">Anuncios</Link></li>
 					{user ? (
 						<>
-							<li className="menu"><Link to="/">Anuncios</Link></li>
 							<li>
 								<UserMenu user={user} />
 							</li>
