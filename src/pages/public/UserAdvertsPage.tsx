@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import { sanitizeInput } from '../../utils/sanitize';
 import Loader from '../../components/loader/Loader';
 import CategoryFilter from '../../components/CategoryFilter';
 import { API_BASE_URL } from '../../config/environment';
 import { Anuncio, AnunciosFilter, Sort } from '../../types/adverts';
-import { getAdverts } from '../../api/adverts';
-import { Card } from 'react-bootstrap';
+import { getAdvertsByUser } from '../../api/adverts';
 
-const AdvertsPage: React.FC = () => {
+const UserAdvertsPage: React.FC = () => {
+  const { username } = useParams<{ username: string }>();
   const [anuncios, setAnuncios] = useState<Anuncio[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -17,13 +17,13 @@ const AdvertsPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filter, setFilter] = useState<AnunciosFilter>({ tags: [], tipoAnuncio: '', precioMin: '', precioMax: '' });
-  const [sort, setSort] = useState<Sort>('desc'); 
+  const [sort, setSort] = useState<Sort>('desc');
 
   const fetchAnuncios = async () => {
     setIsLoading(true);
     setError(null);
     try {
-      const adverts = await getAdverts({ currentPage, searchTerm, filter, sort });
+      const adverts = await getAdvertsByUser({ currentPage, searchTerm, filter, sort, username });
       
       if (adverts.data && adverts.data.anuncios && Array.isArray(adverts.data.anuncios)) {
         setAnuncios(adverts.data.anuncios);
@@ -40,7 +40,8 @@ const AdvertsPage: React.FC = () => {
 
   useEffect(() => {
     fetchAnuncios();
-  }, [currentPage, searchTerm, filter, sort]); 
+  }, [currentPage, searchTerm, filter, sort, username]);
+
   const handlePageClick = (event: { selected: number }) => {
     setCurrentPage(event.selected + 1);
   };
@@ -67,6 +68,7 @@ const AdvertsPage: React.FC = () => {
 
   return (
     <div className="list-container">
+      <h2>Anuncios de {username}</h2>
       <div className="search-container">
         <form className="search-bar" onSubmit={(e) => e.preventDefault()}>
           <input
@@ -118,41 +120,29 @@ const AdvertsPage: React.FC = () => {
       {!isLoading && !error && anuncios.length > 0 ? (
         <div className="list">
           {anuncios.map((anuncio) => (
-            <Card key={anuncio._id} className="advert-card">
+            <div key={anuncio._id} className="advert-card">
               {anuncio.imagen ? (
-                <div className='advert-img'>
-                  <img
-                    src={`${API_BASE_URL}/images/${anuncio.imagen}`}
-                    alt={sanitizeInput(anuncio.nombre)}
-                    crossOrigin="anonymous" />
-                </div>
+                <img
+                  crossOrigin="anonymous"
+                  src={`${API_BASE_URL}/images/${anuncio.imagen}`}
+                  alt={sanitizeInput(anuncio.nombre)}
+                  onError={(e) => {
+                    e.currentTarget.src = `${API_BASE_URL}/images/no-image-placeholder.jpg`; 
+                    e.currentTarget.alt = 'Imagen no disponible';
+                  }}
+                />
               ) : (
                 <div className="placeholder-image">Imagen no disponible</div>
               )}
-              <Card.Body className="advert-card-content">
-                <h3>
-                  <Link to={`/anuncios/${anuncio.slug}`}>
-                    {sanitizeInput(anuncio.nombre)}
-                  </Link>
-                </h3>
-                <div className="tags">
-                  { anuncio.tags.map(tag => <span className="tag">{sanitizeInput(tag)}</span>) }
-                </div>
-                <p className="price">{anuncio.precio} €</p>
+              <div className="advert-card-content">
+                <h3>{sanitizeInput(anuncio.nombre)}</h3>
                 <p>{sanitizeInput(anuncio.descripcion)}</p>
-                <p className={`sale ${anuncio.tipoAnuncio === 'venta' ? '' : 'busca'}`}>{anuncio.tipoAnuncio === 'venta' ? 'Se vende' : 'Se busca'}</p>
-              </Card.Body>
-              <Card.Footer>
-                <div className="actions">
-                  <Link to={`/anuncios/${anuncio.slug}`}>
-                    Ir al detalle
-                  </Link>
-                  <Link to={`/anuncios/usuario/${anuncio.autor.nombre}`}>
-                    @{anuncio.autor.nombre}
-                  </Link>
-                </div>
-              </Card.Footer>
-            </Card>
+                <p className="price">Precio: {anuncio.precio}€</p>
+                <p>Tipo: {anuncio.tipoAnuncio}</p>
+                <p>Autor: {anuncio.autor ? anuncio.autor.nombre : 'Autor desconocido'}</p>
+                <p>Tags: {anuncio.tags.map(tag => sanitizeInput(tag)).join(', ')}</p>
+              </div>
+            </div>
           ))}
         </div>
       ) : (
@@ -181,4 +171,4 @@ const AdvertsPage: React.FC = () => {
   );
 };
 
-export default AdvertsPage;
+export default UserAdvertsPage;
