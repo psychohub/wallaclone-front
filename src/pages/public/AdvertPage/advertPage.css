@@ -1,0 +1,64 @@
+.advert-detail {
+	position: relative;
+	max-width: 500px;
+	width: 100%;
+	margin: 0 auto;
+	background-color: #f8f9fa;
+	border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+	text-align: justify;
+}
+
+.advert-detail .advert-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+  height: 400px;
+}
+
+.advert-detail .advert-img img {
+  width: 100%;
+}
+
+
+
+
+.advert-detail .content {
+	padding: 0.3rem 1.5rem 2rem;
+}
+.advert-detail .content .title h2 {
+	margin: 1rem 0;
+	font-size: 1.5rem;
+}
+.advert-detail .content .block span {
+	font-size: 1rem;
+}
+.advert-detail .content .block .label {
+	font-weight: 600;
+}
+
+.advert-detail .sale {
+	color: #008507;
+	font-style: italic;
+}
+.advert-detail .search {
+	color: #910000;
+	font-style: italic;
+}
+
+.advert-detail .footer {
+	padding: 0 1.5rem 1.5rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.advert-detail .footer .tag {
+	border: 1px solid #ccc;
+	padding: 2px 7px;
+	border-radius: 15px;
+	margin-right: 5px;
+	font-size: 0.9rem;
+}
