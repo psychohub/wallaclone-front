@@ -10,6 +10,7 @@ import RegisterPage from './pages/public/RegisterPage';
 import LoginPage from './pages/public/LoginPage';
 import ForgotPasswordPage from './pages/public/ForgotPasswordPage';
 import ResetPasswordPage from './pages/public/ResetPasswordPage';
+import UserAdvertsPage from './pages/public/UserAdvertsPage';
 import PrivateRoute from './components/private/PrivateRoute';
 import ProfilePage from './pages/private/profile/ProfilePage';
 import MyAdvertsPage from './pages/private/MyAdvertsPage';
@@ -18,12 +19,14 @@ import './App.css';
 
 function App() {
   const dispatch = useAppDispatch();
+
   const accessToken = window.localStorage.getItem(ACCESS_TOKEN);
   const user = window.localStorage.getItem(USER_DATA);
   
   if (accessToken) {
     dispatch(setToken(accessToken));
   }
+
   if (user) {
     dispatch(setUser(JSON.parse(user) as User));
   }
@@ -33,6 +36,8 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<AdvertsPage />} />
+          <Route path="/anuncios" element={<AdvertsPage />} />
+          <Route path="/anuncios/usuario/:username" element={<UserAdvertsPage />} />
           <Route 
             path="/"
             element={
