@@ -5,7 +5,7 @@ import MockAdapter from 'axios-mock-adapter';
 import AdList from '../pages/public/AdvertsPage';
 import { API_BASE_URL } from '../config/environment';
 import { Provider } from 'react-redux';
-import { store } from '../app/store';
+import { store } from '../store';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 const mock = new MockAdapter(axios);
@@ -74,7 +74,7 @@ beforeEach(() => {
   mock.onGet(`${API_BASE_URL}/anuncios`).reply((config) => {
     const params = new URLSearchParams(config.params);
     const page = params.get('page') || '1';
-    const limit = params.get('limit') || '12';
+    const limit = params.get('limit') || '9';
 
     if (page === '1') {
       return [200, mockResponsePage1];

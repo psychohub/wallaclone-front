@@ -6,6 +6,8 @@ import CategoryFilter from '../../components/CategoryFilter';
 import { API_BASE_URL } from '../../config/environment';
 import { Anuncio, AnunciosFilter, Sort } from '../../types/adverts';
 import { getAdverts } from '../../api/adverts';
+import { Card } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const AdvertsPage: React.FC = () => {
   const [anuncios, setAnuncios] = useState<Anuncio[]>([]);
@@ -116,29 +118,41 @@ const AdvertsPage: React.FC = () => {
       {!isLoading && !error && anuncios.length > 0 ? (
         <div className="list">
           {anuncios.map((anuncio) => (
-            <div key={anuncio._id} className="advert-card">
+            <Card key={anuncio._id} className="advert-card">
               {anuncio.imagen ? (
-                <img
-                  crossOrigin="anonymous"
-                  src={`${API_BASE_URL}/images/${anuncio.imagen}`}
-                  alt={sanitizeInput(anuncio.nombre)}
-                  onError={(e) => {
-                    e.currentTarget.src = `${API_BASE_URL}/images/no-image-placeholder.jpg`; 
-                    e.currentTarget.alt = 'Imagen no disponible';
-                  }}
-                />
+                <div className='advert-img'>
+                  <img
+                    src={`${API_BASE_URL}/images/${anuncio.imagen}`}
+                    alt={sanitizeInput(anuncio.nombre)}
+                    crossOrigin="anonymous" />
+                </div>
               ) : (
                 <div className="placeholder-image">Imagen no disponible</div>
               )}
-              <div className="advert-card-content">
-                <h3>{sanitizeInput(anuncio.nombre)}</h3>
+              <Card.Body className="advert-card-content">
+                <h3>
+                  <Link to={`/anuncios/${anuncio.slug}`}>
+                    {sanitizeInput(anuncio.nombre)}
+                  </Link>
+                </h3>
+                <div className="tags">
+                  { anuncio.tags.map(tag => <span className="tag">{sanitizeInput(tag)}</span>) }
+                </div>
+                <p className="price">{anuncio.precio} €</p>
                 <p>{sanitizeInput(anuncio.descripcion)}</p>
-                <p className="price">Precio: {anuncio.precio}€</p>
-                <p>Tipo: {anuncio.tipoAnuncio}</p>
-                <p>Autor: {anuncio.autor ? anuncio.autor.nombre : 'Autor desconocido'}</p>
-                <p>Tags: {anuncio.tags.map(tag => sanitizeInput(tag)).join(', ')}</p>
-              </div>
-            </div>
+                <p className={`sale ${anuncio.tipoAnuncio === 'venta' ? '' : 'busca'}`}>{anuncio.tipoAnuncio === 'venta' ? 'Se vende' : 'Se busca'}</p>
+              </Card.Body>
+              <Card.Footer>
+                <div className="actions">
+                  <Link to={`/anuncios/${anuncio.slug}`}>
+                    Ir al detalle
+                  </Link>
+                  <Link to={`/anuncios/usuario/${anuncio.autor.nombre}`}>
+                    @{anuncio.autor.nombre}
+                  </Link>
+                </div>
+              </Card.Footer>
+            </Card>
           ))}
         </div>
       ) : (

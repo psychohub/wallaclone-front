@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 import axios from '../lib/axiosInstance';
-import { AnunciosFilter, AnunciosResponse, Sort } from '../types/adverts';
+import { Anuncio, AnunciosFilter, AnunciosResponse, Sort } from '../types/adverts';
+import { ITEMS_PER_PAGE } from '../config/environment';
 
 interface IGetAdvertsParams {
 	currentPage: number;
@@ -9,8 +10,6 @@ interface IGetAdvertsParams {
 	sort: Sort;
 	username?: string;
 };
-
-const ITEMS_PER_PAGE = 12;
 
 export const getAdverts = async ({ currentPage, searchTerm, filter, sort }: IGetAdvertsParams) => {
 	try {
@@ -57,6 +56,19 @@ export const getAdvertsByUser = async ({ currentPage, searchTerm, filter, sort, 
 		return {
 			status: response.status,
 			data: response.data
+		};
+	} catch (error) {
+		throw new Error((error as AxiosError).response?.data as string ?? (error as Error).message);
+	}
+};
+
+export const getAdvertBySlug = async (slug: string) => {
+	try {
+		const response = await axios.get(`/anuncios/item/${slug}`);
+		console.log(response);
+		return {
+			status: response.status,
+			data: response.data.result as Anuncio
 		};
 	} catch (error) {
 		throw new Error((error as AxiosError).response?.data as string ?? (error as Error).message);

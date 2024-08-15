@@ -6,8 +6,9 @@ export interface Anuncio {
   precio: number;
   tipoAnuncio: 'venta' | 'búsqueda';
   tags: string[];
-  autor: { _id: string; nombre: string } | null;
+  autor: { _id: string; nombre: string };
   fechaPublicacion: string;
+  slug: string;
 }
 
 export interface AnunciosResponse {
@@ -25,3 +26,11 @@ export interface AnunciosFilter {
 }
 
 export type Sort = 'asc' | 'desc';
+
+export interface IGetAdvertsParams {
+  currentPage: number;
+  searchTerm: string;
+  filter: AnunciosFilter;
+  sort: Sort;
+  username?: string;
+}

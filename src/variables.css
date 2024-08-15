@@ -1,0 +1,15 @@
+:root {
+  --main-bg-color: #ffffff; 
+  --secondary-bg-color: #f8f9fa;
+  --accent-color: #007bff;
+  --accent-color-secondary: #F0594D;
+  --accent-color-tertiary: #DBF04D;
+  --text-color: #5C6670;
+  --heading-color: #5C6670;
+  --link-color: #007bff;
+  --link-color-hover: #0052aa;
+  --input-bg-color: #ffffff;
+  --input-border-color: #ced4da;
+  --logo-blue: #007bff;
+  --logo-gray: #5C6670;
+}
