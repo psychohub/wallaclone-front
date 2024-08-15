@@ -43,18 +43,15 @@ const ForgotPasswordPage: React.FC = () => {
   };
 
   return (
-    <Container fluid className="recuperar-contrasena-container">
-      <Row className="justify-content-center align-items-center min-vh-100">
+    <Container className="auth-container">
+      <Row className="justify-content-center align-items-center">
         <Col xs={12} sm={10} md={8} lg={6} xl={4} className="form-container">
-          <div className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-            <span className="logo-blue">WALLA</span><span className="logo-gray">CLONE</span>
-          </div>
-          <h2 className="text-center mb-4">Recuperar Contraseña</h2>
+          <h2>Recuperar contraseña</h2>
           {error && <Alert variant="danger" data-testid="error-message">{error}</Alert>}
           {success && <Alert variant="success" data-testid="success-message">{success}</Alert>}
-          <Form onSubmit={handleSubmit} className="recuperar-contrasena-form" data-testid="form-recovery">
-            <Form.Group className="mb-3">
-              <Form.Label htmlFor="email">Email</Form.Label>
+          <Form onSubmit={handleSubmit} className="form" data-testid="form-recovery">
+            <Form.Group className="my-3">
+              <Form.Label htmlFor="email">Correo electrónico</Form.Label>
               <Form.Control
                 type="email"
                 id="email"
@@ -67,7 +64,7 @@ const ForgotPasswordPage: React.FC = () => {
               {isLoading ? 'Enviando...' : 'Recuperar Contraseña'}
             </Button>
           </Form>
-          <div className="mt-3 text-center">
+          <div className="footer-text mt-3">
             <p>Introduce tu dirección de email y te enviaremos instrucciones para recuperar tu contraseña.</p>
           </div>
         </Col>
