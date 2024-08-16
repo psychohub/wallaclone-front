@@ -1,6 +1,3 @@
-import { AxiosError } from 'axios';
-import axios from '../lib/axiosInstance';
-
 export interface Anuncio {
   _id: string;
   nombre: string;
@@ -9,8 +6,9 @@ export interface Anuncio {
   precio: number;
   tipoAnuncio: 'venta' | 'búsqueda';
   tags: string[];
-  autor: { _id: string; nombre: string } | null;
+  autor: { _id: string; nombre: string };
   fechaPublicacion: string;
+  slug: string;
 }
 
 export interface AnunciosResponse {
@@ -36,31 +34,3 @@ export interface IGetAdvertsParams {
   sort: Sort;
   username?: string;
 }
-
-const ITEMS_PER_PAGE = 12;
-
-export const getAdvertsByUser = async ({ currentPage, searchTerm, filter, sort, username }: IGetAdvertsParams): Promise<{ status: number; data: AnunciosResponse }> => {
-  try {
-    const response = await axios.get<AnunciosResponse>(
-      `/anuncios/user/${username}`,
-      {
-        params: {
-          page: currentPage,
-          limit: ITEMS_PER_PAGE,
-          nombre: searchTerm,
-          tag: filter.tags.join(','),
-          tipoAnuncio: filter.tipoAnuncio,
-          minPrecio: filter.precioMin,
-          maxPrecio: filter.precioMax,
-          sort: sort 
-        }
-      }
-    );
-    return {
-      status: response.status,
-      data: response.data
-    };
-  } catch (error) {
-    throw new Error((error as AxiosError).response?.data as string ?? (error as Error).message);
-  }
-};

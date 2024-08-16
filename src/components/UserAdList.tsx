@@ -1,25 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
-import { sanitizeInput } from '../utils/sanitize';
 import Loader from './loader/Loader';
 import CategoryFilter from './CategoryFilter';
 import { RootState } from '../store/index';
-import { API_BASE_URL } from '../config/environment';
 import { useAppSelector } from '../hooks/useStore';
 import { getAdvertsByUser } from '../api/adverts';
-import { Sort } from '../types/adverts';
-
-interface Anuncio {
-  _id: string;
-  nombre: string;
-  imagen: string;
-  descripcion: string;
-  precio: number;
-  tipoAnuncio: 'venta' | 'búsqueda';
-  tags: string[];
-  autor: { _id: string; nombre: string } | null;
-  fechaPublicacion: string;
-}
+import { Anuncio, Sort } from '../types/adverts';
+import AnuncioCard from './anuncioCard/AnuncioCard';
 
 interface Filter {
   tags: string[];
@@ -145,28 +132,7 @@ const UserAdList: React.FC = () => {
       {!isLoading && !error && anuncios.length > 0 ? (
         <div className="list">
           {anuncios.map((anuncio) => (
-            <div key={anuncio._id} className="advert-card">
-              {anuncio.imagen ? (
-                <img
-                  crossOrigin="anonymous"
-                  src={`${API_BASE_URL}/images/${anuncio.imagen}`}
-                  alt={sanitizeInput(anuncio.nombre)}
-                  onError={(e) => {
-                    e.currentTarget.src = `${API_BASE_URL}/images/no-image-placeholder.jpg`; 
-                    e.currentTarget.alt = 'Imagen no disponible';
-                  }}
-                />
-              ) : (
-                <div className="placeholder-image">Imagen no disponible</div>
-              )}
-              <div className="advert-card-content">
-                <h3>{sanitizeInput(anuncio.nombre)}</h3>
-                <p>{sanitizeInput(anuncio.descripcion)}</p>
-                <p className="price">Precio: {anuncio.precio}€</p>
-                <p>Tipo: {anuncio.tipoAnuncio}</p>
-                <p>Tags: {anuncio.tags.map(tag => sanitizeInput(tag)).join(', ')}</p>
-              </div>
-            </div>
+            <AnuncioCard anuncio={anuncio} />
           ))}
         </div>
       ) : (

@@ -14,6 +14,7 @@ import UserAdvertsPage from './pages/public/UserAdvertsPage';
 import PrivateRoute from './components/private/PrivateRoute';
 import ProfilePage from './pages/private/profile/ProfilePage';
 import MyAdvertsPage from './pages/private/MyAdvertsPage';
+import AdvertPage from './pages/public/AdvertPage/AdvertPage';
 
 import './App.css';
 
@@ -38,6 +39,7 @@ function App() {
           <Route path="/" element={<AdvertsPage />} />
           <Route path="/anuncios" element={<AdvertsPage />} />
           <Route path="/anuncios/usuario/:username" element={<UserAdvertsPage />} />
+          <Route path="/anuncios/:slug" element={<AdvertPage />} />
           <Route 
             path="/"
             element={

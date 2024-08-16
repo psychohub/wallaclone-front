@@ -1,0 +1,68 @@
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { getAdvertBySlug } from "../../../api/adverts";
+import { Anuncio } from "../../../types/adverts";
+import Loader from "../../../components/loader/Loader";
+import { API_BASE_URL } from "../../../config/environment";
+import { sanitizeInput } from "../../../utils/sanitize";
+import { Card } from "react-bootstrap";
+import './advertPage.css';
+
+type AdvertPageParams = { slug: string };
+
+const AdvertPage: React.FC = () => {
+	const { slug } = useParams<AdvertPageParams>();
+
+	const [advert, setAdvert] = useState<Anuncio>();
+
+	useEffect(() => {
+		const fetchAdvert = async () => {
+			if (slug) {
+				const response = await getAdvertBySlug(slug);
+				if (response.status === 200) {
+					setAdvert(response.data);
+				}
+			}
+		};
+
+		fetchAdvert();
+	}, []);
+
+	if (!advert) {
+		return <Loader />;
+	}
+
+	return (
+		<>
+			<Card className="advert-card detail">
+				<Card.Header>
+					<Link to={`/anuncios/usuario/${advert.autor.nombre}`}>
+						@{advert.autor.nombre}
+					</Link>
+					<div className="actions"></div>
+				</Card.Header>
+				{advert.imagen ? (
+					<div className="advert-img">
+						<img
+							src={`${API_BASE_URL}/images/${advert.imagen}`}
+							alt={sanitizeInput(advert.nombre)}
+							crossOrigin="anonymous" />
+					</div>
+				) : (
+					<div className="placeholder-image">Imagen no disponible</div>
+				)}
+				<Card.Body className="content">
+					<h2>{sanitizeInput(advert.nombre)}</h2>
+					<p className="price">{advert.precio} €</p>
+					<p className={`sale-detail ${advert.tipoAnuncio === 'venta' ? '' : 'busca'}`}>{advert.tipoAnuncio === 'venta' ? 'Se vende' : 'Se busca'}</p>
+					<p>{sanitizeInput(advert.descripcion)}</p>
+					<div className="tags">
+						{ advert.tags.map(tag => <span className="tag">{sanitizeInput(tag)}</span>) }
+					</div>
+				</Card.Body>
+			</Card>
+		</>
+	);
+};
+
+export default AdvertPage;
