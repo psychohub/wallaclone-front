@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
-import { sanitizeInput } from '../../utils/sanitize';
 import Loader from '../../components/loader/Loader';
 import CategoryFilter from '../../components/CategoryFilter';
-import { API_BASE_URL } from '../../config/environment';
 import { Anuncio, AnunciosFilter, Sort } from '../../types/adverts';
 import { getAdverts } from '../../api/adverts';
-import { Card } from 'react-bootstrap';
+import AnuncioCard from '../../components/anuncioCard/AnuncioCard';
 
 const AdvertsPage: React.FC = () => {
   const [anuncios, setAnuncios] = useState<Anuncio[]>([]);
@@ -118,41 +115,7 @@ const AdvertsPage: React.FC = () => {
       {!isLoading && !error && anuncios.length > 0 ? (
         <div className="list">
           {anuncios.map((anuncio) => (
-            <Card key={anuncio._id} className="advert-card">
-              {anuncio.imagen ? (
-                <div className='advert-img'>
-                  <img
-                    src={`${API_BASE_URL}/images/${anuncio.imagen}`}
-                    alt={sanitizeInput(anuncio.nombre)}
-                    crossOrigin="anonymous" />
-                </div>
-              ) : (
-                <div className="placeholder-image">Imagen no disponible</div>
-              )}
-              <Card.Body className="advert-card-content">
-                <h3>
-                  <Link to={`/anuncios/${anuncio.slug}`}>
-                    {sanitizeInput(anuncio.nombre)}
-                  </Link>
-                </h3>
-                <div className="tags">
-                  { anuncio.tags.map(tag => <span className="tag">{sanitizeInput(tag)}</span>) }
-                </div>
-                <p className="price">{anuncio.precio} €</p>
-                <p>{sanitizeInput(anuncio.descripcion)}</p>
-                <p className={`sale ${anuncio.tipoAnuncio === 'venta' ? '' : 'busca'}`}>{anuncio.tipoAnuncio === 'venta' ? 'Se vende' : 'Se busca'}</p>
-              </Card.Body>
-              <Card.Footer>
-                <div className="actions">
-                  <Link to={`/anuncios/${anuncio.slug}`}>
-                    Ir al detalle
-                  </Link>
-                  <Link to={`/anuncios/usuario/${anuncio.autor.nombre}`}>
-                    @{anuncio.autor.nombre}
-                  </Link>
-                </div>
-              </Card.Footer>
-            </Card>
+            <AnuncioCard anuncio={anuncio} />
           ))}
         </div>
       ) : (

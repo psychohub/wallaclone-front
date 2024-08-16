@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
-import { sanitizeInput } from '../../utils/sanitize';
 import Loader from '../../components/loader/Loader';
 import CategoryFilter from '../../components/CategoryFilter';
-import { API_BASE_URL } from '../../config/environment';
 import { Anuncio, AnunciosFilter, Sort } from '../../types/adverts';
 import { getAdvertsByUser } from '../../api/adverts';
+import AnuncioCard from '../../components/anuncioCard/AnuncioCard';
 
 const UserAdvertsPage: React.FC = () => {
   const { username } = useParams<{ username: string }>();
@@ -120,29 +119,7 @@ const UserAdvertsPage: React.FC = () => {
       {!isLoading && !error && anuncios.length > 0 ? (
         <div className="list">
           {anuncios.map((anuncio) => (
-            <div key={anuncio._id} className="advert-card">
-              {anuncio.imagen ? (
-                <img
-                  crossOrigin="anonymous"
-                  src={`${API_BASE_URL}/images/${anuncio.imagen}`}
-                  alt={sanitizeInput(anuncio.nombre)}
-                  onError={(e) => {
-                    e.currentTarget.src = `${API_BASE_URL}/images/no-image-placeholder.jpg`; 
-                    e.currentTarget.alt = 'Imagen no disponible';
-                  }}
-                />
-              ) : (
-                <div className="placeholder-image">Imagen no disponible</div>
-              )}
-              <div className="advert-card-content">
-                <h3>{sanitizeInput(anuncio.nombre)}</h3>
-                <p>{sanitizeInput(anuncio.descripcion)}</p>
-                <p className="price">Precio: {anuncio.precio}€</p>
-                <p>Tipo: {anuncio.tipoAnuncio}</p>
-                <p>Autor: {anuncio.autor ? anuncio.autor.nombre : 'Autor desconocido'}</p>
-                <p>Tags: {anuncio.tags.map(tag => sanitizeInput(tag)).join(', ')}</p>
-              </div>
-            </div>
+            <AnuncioCard anuncio={anuncio} />
           ))}
         </div>
       ) : (
