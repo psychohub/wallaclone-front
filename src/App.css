@@ -313,35 +313,36 @@ main {
   border: 1px solid #ddd;
   border-radius: 10px;
   margin: 10px;
-  width: 300px;
+  max-width: 300px;
+  width: 100%;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   text-align: left;
 }
 
-.advert-card-content {
+.advert-card .advert-card-content {
   padding: 1.2rem 1.2rem 0;
 }
 
-.advert-card-content h3 {
+.advert-card h3 {
   margin: 0;
   font-size: 1.2rem;
 }
 
-.advert-card-content h3 a {
+.advert-card h3 a {
   color: #000;
   text-decoration: none;
   transition: all 0.2 ease-out;
 }
-.advert-card-content h3 a:hover {
+.advert-card h3 a:hover {
   color: var(--text-color);
   text-decoration: underline;
 }
 
-.advert-card-content p {
+.advert-card p {
   margin: 5px 0;
 }
 
-.advert-card-content .price {
+.advert-card .price {
   font-weight: bold;
   font-size: 1.4rem;
   margin: 0.7rem 0;

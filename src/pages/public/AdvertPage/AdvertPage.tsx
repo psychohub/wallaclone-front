@@ -5,8 +5,8 @@ import { Anuncio } from "../../../types/adverts";
 import Loader from "../../../components/loader/Loader";
 import { API_BASE_URL } from "../../../config/environment";
 import { sanitizeInput } from "../../../utils/sanitize";
-import './advertPage.css';
 import { Card } from "react-bootstrap";
+import './advertPage.css';
 
 type AdvertPageParams = { slug: string };
 
@@ -34,7 +34,13 @@ const AdvertPage: React.FC = () => {
 
 	return (
 		<>
-			<Card className="advert-detail">
+			<Card className="advert-card detail">
+				<Card.Header>
+					<Link to={`/anuncios/usuario/${advert.autor.nombre}`}>
+						@{advert.autor.nombre}
+					</Link>
+					<div className="actions"></div>
+				</Card.Header>
 				{advert.imagen ? (
 					<div className="advert-img">
 						<img
@@ -46,16 +52,13 @@ const AdvertPage: React.FC = () => {
 					<div className="placeholder-image">Imagen no disponible</div>
 				)}
 				<Card.Body className="content">
-					<h3>{sanitizeInput(advert.nombre)}</h3>
+					<h2>{sanitizeInput(advert.nombre)}</h2>
+					<p className="price">{advert.precio} €</p>
+					<p className={`sale-detail ${advert.tipoAnuncio === 'venta' ? '' : 'busca'}`}>{advert.tipoAnuncio === 'venta' ? 'Se vende' : 'Se busca'}</p>
 					<p>{sanitizeInput(advert.descripcion)}</p>
-					<p className="price">Precio: {advert.precio}€</p>
-					<p>Tipo: {advert.tipoAnuncio}</p>
-					<p>Autor: 
-						<Link to={`/anuncios/usuario/${advert.autor.nombre}`}>
-							{advert.autor.nombre}
-						</Link>
-					</p>
-					<p>Tags: {advert.tags.map(tag => sanitizeInput(tag)).join(', ')}</p>
+					<div className="tags">
+						{ advert.tags.map(tag => <span className="tag">{sanitizeInput(tag)}</span>) }
+					</div>
 				</Card.Body>
 			</Card>
 		</>
