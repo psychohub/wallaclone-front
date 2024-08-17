@@ -4,7 +4,6 @@ import axios from '../lib/axiosInstance';
 export const deleteUserById = async (id: string) => {
 	try {
 		const response = await axios.delete(`/users/${id}`);
-		console.log(response);
 		return {
 			status: response.status,
 			data: response.data.result
