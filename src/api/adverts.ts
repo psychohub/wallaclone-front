@@ -65,7 +65,6 @@ export const getAdvertsByUser = async ({ currentPage, searchTerm, filter, sort, 
 export const getAdvertBySlug = async (slug: string) => {
 	try {
 		const response = await axios.get(`/anuncios/item/${slug}`);
-		console.log(response);
 		return {
 			status: response.status,
 			data: response.data.result as Anuncio
