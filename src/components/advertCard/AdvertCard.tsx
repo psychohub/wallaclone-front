@@ -3,14 +3,13 @@ import { Anuncio } from "../../types/adverts";
 import { API_BASE_URL } from "../../config/environment";
 import { sanitizeInput } from "../../utils/sanitize";
 import { Link } from "react-router-dom";
-import './anuncioCard.css';
+import './advertCard.css';
 
-const AnuncioCard = ({ anuncio }: { anuncio: Anuncio }) => {
-
+const AdvertCard = ({ anuncio }: { anuncio: Anuncio }) => {
 	return (
-		<Card key={anuncio._id} className="advert-card">
+		<Card className="product-card">
 			{anuncio.imagen ? (
-				<div className='advert-img'>
+				<div className='product-img'>
 					<img
 						src={`${API_BASE_URL}/images/${anuncio.imagen}`}
 						alt={sanitizeInput(anuncio.nombre)}
@@ -19,7 +18,7 @@ const AnuncioCard = ({ anuncio }: { anuncio: Anuncio }) => {
 			) : (
 				<div className="placeholder-image">Imagen no disponible</div>
 			)}
-			<Card.Body className="advert-card-content">
+			<Card.Body className="product-card-content">
 				<h3>
 					<Link to={`/anuncios/${anuncio.slug}`}>
 						{sanitizeInput(anuncio.nombre)}
@@ -46,4 +45,4 @@ const AnuncioCard = ({ anuncio }: { anuncio: Anuncio }) => {
 	);
 };
 
-export default AnuncioCard;
+export default AdvertCard;

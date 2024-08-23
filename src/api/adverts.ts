@@ -1,32 +1,27 @@
 import { AxiosError } from 'axios';
 import axios from '../lib/axiosInstance';
-import { Anuncio, AnunciosFilter, AnunciosResponse, Sort } from '../types/adverts';
+import { Anuncio, AnunciosResponse, IGetAdvertsParams } from '../types/adverts';
 import { ITEMS_PER_PAGE } from '../config/environment';
 
-interface IGetAdvertsParams {
-	currentPage: number;
-	searchTerm: string;
-	filter: AnunciosFilter;
-	sort: Sort;
-	username?: string;
-};
-
-export const getAdverts = async ({ currentPage, searchTerm, filter, sort }: IGetAdvertsParams) => {
+export const getAdverts = async ({ currentPage, filter }: IGetAdvertsParams) => {
 	try {
-		const response = await axios.get<AnunciosResponse>(
-			'/anuncios', {
-				params: {
-					page: currentPage,
-					limit: ITEMS_PER_PAGE,
-					nombre: searchTerm,
-					tag: filter.tags.join(','),
-					tipoAnuncio: filter.tipoAnuncio,
-					minPrecio: filter.precioMin,
-					maxPrecio: filter.precioMax,
-					sort: sort 
-				}
-			}
-		);
+		let params: any = {
+			page: currentPage,
+			limit: ITEMS_PER_PAGE
+		};
+		if (filter) {
+			params = {
+				...params,
+				nombre: filter.searchTerm,
+				tag: filter.tags ? filter.tags.join(',') : undefined,
+				tipoAnuncio: filter.tipoAnuncio,
+				minPrecio: filter.precioMin,
+				maxPrecio: filter.precioMax,
+				sort: filter.sort 
+			};
+		}
+
+		const response = await axios.get<AnunciosResponse>('/anuncios', { params });
 		return {
 			status: response.status,
 			data: response.data
@@ -36,23 +31,25 @@ export const getAdverts = async ({ currentPage, searchTerm, filter, sort }: IGet
 	}
 };
 
-export const getAdvertsByUser = async ({ currentPage, searchTerm, filter, sort, username }: IGetAdvertsParams) => {
+export const getAdvertsByUser = async ({ currentPage, filter, username }: IGetAdvertsParams) => {
 	try {
-		const response = await axios.get<AnunciosResponse>(
-			`/anuncios/user/${username}`,
-			{
-				params: {
-					page: currentPage,
-					limit: ITEMS_PER_PAGE,
-					nombre: searchTerm,
-					tag: filter.tags.join(','),
-					tipoAnuncio: filter.tipoAnuncio,
-					minPrecio: filter.precioMin,
-					maxPrecio: filter.precioMax,
-					sort: sort 
-				}
-			}
-		);
+		let params: any = {
+			page: currentPage,
+			limit: ITEMS_PER_PAGE
+		};
+		if (filter) {
+			params = {
+				...params,
+				nombre: filter.searchTerm,
+				tag: filter.tags ? filter.tags.join(',') : undefined,
+				tipoAnuncio: filter.tipoAnuncio,
+				minPrecio: filter.precioMin,
+				maxPrecio: filter.precioMax,
+				sort: filter.sort 
+			};
+		}
+
+		const response = await axios.get<AnunciosResponse>(`/anuncios/user/${username}`, { params });
 		return {
 			status: response.status,
 			data: response.data

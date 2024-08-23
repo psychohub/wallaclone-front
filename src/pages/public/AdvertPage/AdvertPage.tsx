@@ -34,7 +34,7 @@ const AdvertPage: React.FC = () => {
 
 	return (
 		<>
-			<Card className="advert-card detail">
+			<Card className="product-card detail">
 				<Card.Header>
 					<Link to={`/anuncios/usuario/${advert.autor.nombre}`}>
 						@{advert.autor.nombre}
@@ -42,7 +42,7 @@ const AdvertPage: React.FC = () => {
 					<div className="actions"></div>
 				</Card.Header>
 				{advert.imagen ? (
-					<div className="advert-img">
+					<div className="product-img">
 						<img
 							src={`${API_BASE_URL}/images/${advert.imagen}`}
 							alt={sanitizeInput(advert.nombre)}

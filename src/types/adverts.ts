@@ -18,19 +18,28 @@ export interface AnunciosResponse {
   totalPages: number;
 }
 
-export interface AnunciosFilter {
-  tags: string[];
-  tipoAnuncio: string;
-  precioMin: string;
-  precioMax: string;
-}
-
 export type Sort = 'asc' | 'desc';
 
 export interface IGetAdvertsParams {
   currentPage: number;
-  searchTerm: string;
-  filter: AnunciosFilter;
-  sort: Sort;
+  filter?: IAdvertsFilters;
   username?: string;
 }
+
+export interface IAdvertsFilters {
+  searchTerm?: string;
+  tags: string[];
+  tipoAnuncio?: string;
+  precioMin?: string;
+  precioMax?: string;
+	sort?: Sort;
+};
+
+export const initialFilterValues: IAdvertsFilters = {
+	searchTerm: '',
+	tags: [], 
+	tipoAnuncio: '', 
+	precioMin: '', 
+	precioMax: '',
+	sort: 'asc',
+};
