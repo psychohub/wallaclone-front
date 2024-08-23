@@ -134,9 +134,9 @@ main {
 .pagination {
   display: flex;
   justify-content: center;
+  gap: 0.3rem;
   list-style: none;
-  padding: 20px 0;
-  margin-top: 20px;
+  margin: 20px 0;
 }
 
 .pagination li {
@@ -150,21 +150,20 @@ main {
   opacity: 0.5;
 }
 
-.pagination .page-link {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .pagination .active .page-link {
   background-color: var(--accent-color);
   color: white;
   border-color: var(--accent-color);
 }
 
-.page-link, .previous-link, .next-link {
-  padding: 5px 10px;
+.pagination .disabled .page-link {
+  color: #ddd;
+  border-color: #ddd;
+  pointer-events: none;
+}
+
+.pagination .page-link, .pagination .previous-link, .pagination .next-link {
+  padding: 10px 15px;
   border: 1px solid var(--accent-color);
   color: var(--accent-color);
   cursor: pointer;
@@ -176,78 +175,14 @@ main {
   height: 38px; 
 }
 
-.page-link:hover, .previous-link:hover, .next-link:hover {
+.pagination .page-link:hover, .pagination .previous-link:hover, .pagination .next-link:hover {
   background-color: var(--accent-color);
   color: white;
 }
 
-.active .page-link {
-  background-color: var(--accent-color);
-  color: white;
-  cursor: default;
-}
-
-.disabled .previous-link, .disabled .next-link {
+.pagination .disabled .previous-link, .pagination .disabled .next-link {
   color: #ccc;
   cursor: not-allowed;
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  padding: 20px 0;
-}
-
-.pagination .page-link {
-  margin: 0 5px;
-  padding: 10px 15px;
-  border: 1px solid var(--accent-color);
-  border-radius: 25px;
-  color: var(--accent-color);
-  text-decoration: none;
-}
-
-.pagination .page-link:hover {
-  background-color: var(--accent-color);
-  color: white;
-}
-
-.pagination .active .page-link {
-  background-color: var(--accent-color);
-  color: white;
-  border-color: var(--accent-color);
-}
-
-.pagination .previous-link,
-.pagination .next-link {
-  border-radius: 25px;
-}
-
-.pagination .disabled .page-link {
-  color: #ddd;
-  border-color: #ddd;
-  pointer-events: none;
-}
-
-.cancel-button,
-.apply-button {
-  padding: 5px 10px;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-}
-
-.cancel-button {
-  background-color: #f5f5f5;
-}
-
-.apply-button {
-  background-color: var(--accent-color);
-  color: white;
-}
-
-.hidden {
-  display: none;
 }
 
 /* Estilos para Recuperar Contraseña */

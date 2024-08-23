@@ -57,7 +57,7 @@ const AdvertPage: React.FC = () => {
 					<p className={`sale-detail ${advert.tipoAnuncio === 'venta' ? '' : 'busca'}`}>{advert.tipoAnuncio === 'venta' ? 'Se vende' : 'Se busca'}</p>
 					<p>{sanitizeInput(advert.descripcion)}</p>
 					<div className="tags">
-						{ advert.tags.map(tag => <span className="tag">{sanitizeInput(tag)}</span>) }
+						{ advert.tags.map(tag => <span className="tag" key={tag}>{sanitizeInput(tag)}</span>) }
 					</div>
 				</Card.Body>
 			</Card>
