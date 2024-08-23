@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import axios from '../lib/axiosInstance';
-import { Anuncio, AnunciosResponse, IGetAdvertsParams } from '../types/adverts';
+import { Anuncio, AnunciosResponse, IGetAdvertsParams, StatusAnuncio } from '../types/adverts';
 import { ITEMS_PER_PAGE } from '../config/environment';
 
 export const getAdverts = async ({ currentPage, filter }: IGetAdvertsParams) => {
@@ -65,6 +65,19 @@ export const getAdvertBySlug = async (slug: string) => {
 		return {
 			status: response.status,
 			data: response.data.result as Anuncio
+		};
+	} catch (error) {
+		throw new Error((error as AxiosError).response?.data as string ?? (error as Error).message);
+	}
+};
+
+export const changeAdvertStatus = async (advertId: string, newStatus: StatusAnuncio) => {
+	try {
+		const response = await axios.put(`/anuncios/status/${advertId}`, { estado: newStatus });
+		console.log(response);
+		return {
+			status: response.status,
+			data: response.data.result
 		};
 	} catch (error) {
 		throw new Error((error as AxiosError).response?.data as string ?? (error as Error).message);
