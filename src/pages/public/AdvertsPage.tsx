@@ -63,8 +63,8 @@ const AdvertsPage: React.FC = () => {
         <Container>
           <Row>
           {anuncios.map((anuncio, index) => (
-            <Col sm={12} md={6} lg={3}>
-              <AdvertCard anuncio={anuncio} key={`card-${index}`} />
+            <Col sm={12} md={6} lg={3} key={`card-${index}`}>
+              <AdvertCard anuncio={anuncio} />
             </Col>
           ))}
           </Row>

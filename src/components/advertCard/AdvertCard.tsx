@@ -22,7 +22,7 @@ const AdvertCard = ({ anuncio }: { anuncio: Anuncio }) => {
 					</Link>
 				</h3>
 				<div className="tags">
-					{ anuncio.tags.map(tag => <span className="tag">{sanitizeInput(tag)}</span>) }
+					{ anuncio.tags.map(tag => <span className="tag" key={tag}>{sanitizeInput(tag)}</span>) }
 				</div>
 				<p className="price">{anuncio.precio} €</p>
 				<p>{sanitizeInput(anuncio.descripcion)}</p>
