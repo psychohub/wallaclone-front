@@ -1,38 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
 import Loader from './loader/Loader';
-import CategoryFilter from './CategoryFilter';
 import { RootState } from '../store/index';
 import { useAppSelector } from '../hooks/useStore';
 import { getAdvertsByUser } from '../api/adverts';
-import { Anuncio, Sort } from '../types/adverts';
-import AnuncioCard from './anuncioCard/AnuncioCard';
-
-interface Filter {
-  tags: string[];
-  tipoAnuncio: string;
-  precioMin: string;
-  precioMax: string;
-}
+import { Anuncio, IAdvertsFilters, IGetAdvertsParams } from '../types/adverts';
+import AdvertCard from './advertCard/AdvertCard';
+import AdvertsFilters from './advertsFilters/AdvertsFilters';
+import { Col, Container, Row } from 'react-bootstrap';
 
 const UserAdList: React.FC = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
+
   const [anuncios, setAnuncios] = useState<Anuncio[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filter, setFilter] = useState<Filter>({ tags: [], tipoAnuncio: '', precioMin: '', precioMax: '' });
-  const [sort, setSort] = useState<Sort>('desc');
-
-  const fetchAnuncios = async () => {
+  
+  const fetchAnuncios = async (filters?: IAdvertsFilters) => {
     if (!user) return;
 
     setIsLoading(true);
     setError(null);
     try {
-      const adverts = await getAdvertsByUser({ currentPage, searchTerm, filter, sort, username: user.nombre });
+      let params: IGetAdvertsParams = { currentPage, username: user.nombre };
+      if (filters) {
+        params = { ...params, filter: filters };
+      }
+      const adverts = await getAdvertsByUser(params);
 
       if (adverts.data && adverts.data.anuncios && Array.isArray(adverts.data.anuncios)) {
         setAnuncios(adverts.data.anuncios);
@@ -52,91 +48,38 @@ const UserAdList: React.FC = () => {
     if (user) {
       fetchAnuncios();
     }
-  }, [currentPage, searchTerm, filter, sort, user]);
+  }, [currentPage, user]);
 
   const handlePageClick = (event: { selected: number }) => {
     setCurrentPage(event.selected + 1);
   };
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFilter({ ...filter, [name]: value });
-  };
-
-  const handleTagsChange = (selectedCategories: string[]) => {
-    setFilter(prevFilter => ({
-      ...prevFilter,
-      tags: selectedCategories
-    }));
-  };
-
-  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSort(e.target.value as Sort);
+  const handleFilter = (filters: IAdvertsFilters) => {
+    fetchAnuncios(filters);
   };
 
   return (
     <div className="list-container">
-      <h2 className="page-title">Mis Anuncios</h2>
-      <div className="search-container">
-        <form className="search-bar" onSubmit={(e) => e.preventDefault()}>
-          <input
-            type="text"
-            placeholder="Buscar anuncios..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-          />
-        </form>
-      </div>
+      <AdvertsFilters onFilter={handleFilter} />
 
-      <div className="filters-container">
-        <CategoryFilter 
-          categories={[
-            'tech', 'audio', 'tablet', 'wearable', 'home', 'gaming',
-            'furniture', 'office', 'lifestyle', 'sports', 'keyboard',
-            'work', 'mobile', 'photo'
-          ]}
-          selectedCategories={filter.tags}
-          onChange={handleTagsChange}
-        />
-        <div className="filter-group">
-          <label htmlFor="tipoAnuncio">Tipo:</label>
-          <select id="tipoAnuncio" name="tipoAnuncio" value={filter.tipoAnuncio} onChange={handleFilterChange}>
-            <option value="">Todos</option>
-            <option value="venta">Venta</option>
-            <option value="búsqueda">Búsqueda</option>
-          </select>
-        </div>
-        <div className="filter-group">
-          <label htmlFor="precioMin">Precio Mín:</label>
-          <input type="number" id="precioMin" name="precioMin" value={filter.precioMin} onChange={handleFilterChange} />
-        </div>
-        <div className="filter-group">
-          <label htmlFor="precioMax">Precio Máx:</label>
-          <input type="number" id="precioMax" name="precioMax" value={filter.precioMax} onChange={handleFilterChange} />
-        </div>
-        <div className="filter-group">
-          <label htmlFor="sort">Ordenar por:</label>
-          <select id="sort" name="sort" value={sort} onChange={handleSortChange}>
-            <option value="desc">Más reciente</option>
-            <option value="asc">Más antiguo</option>
-          </select>
-        </div>
-      </div>
+      <h2 className="page-title">Mis artículos</h2>
 
       {isLoading && <Loader />}
+      
       {error && <div>{error}</div>}
+      
       {!isLoading && !error && anuncios.length > 0 ? (
-        <div className="list">
-          {anuncios.map((anuncio) => (
-            <AnuncioCard anuncio={anuncio} />
+        <Container>
+          <Row>
+          {anuncios.map((anuncio, index) => (
+            <Col sm={12} md={6} lg={3} key={`card-${index}`}>
+              <AdvertCard anuncio={anuncio} />
+            </Col>
           ))}
-        </div>
+          </Row>
+        </Container>
       ) : (
-        !isLoading && !error && <p>No hay anuncios disponibles.</p>
+        !isLoading && !error && <p>No hay artículos disponibles.</p>
       )}
       {totalPages > 1 && (
         <ReactPaginate

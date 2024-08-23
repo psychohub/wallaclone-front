@@ -1,0 +1,26 @@
+.filters {
+	margin-bottom: 50px;
+}
+
+.filters #searchTerm {
+	width: 100%;
+}
+
+.filters .other-filters {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+
+.filters .other-filters div {
+	width: 100%;
+}
+
+.filters .action-filters {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+}
