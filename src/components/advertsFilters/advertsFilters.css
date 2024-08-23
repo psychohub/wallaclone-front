@@ -2,10 +2,6 @@
 	margin-bottom: 50px;
 }
 
-.filters select, .filters input {
-	box-shadow: 0 0 3px var(--accent-color);
-}
-
 .filters #searchTerm {
 	width: 100%;
 }
