@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 type TNotification = {
 	text: string;
 	variant: string;
+	delay?: number;
 };
 
 type NotificationsState = {

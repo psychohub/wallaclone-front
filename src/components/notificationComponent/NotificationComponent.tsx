@@ -4,15 +4,16 @@ import { Toast } from "react-bootstrap";
 type Props = {
 	variant: string;
 	text: string;
+	delay?: number;
 };
 
-const NotificationComponent = ({ variant, text }: Props) => {
+const NotificationComponent = ({ variant, text, delay }: Props) => {
 	const [show, setShow] = useState<boolean>(true);
 	
 	useEffect(() => {
 		setTimeout(() => {
 			setShow(false);
-		}, 5000);
+		}, delay ? delay : 5000);
 	}, []);
 	
 	return (

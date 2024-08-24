@@ -35,6 +35,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 <NotificationComponent 
                   variant={notification.variant}
                   text={notification.text}
+                  delay={notification.delay}
                   key={`notification-${index}`}
                   />
               )

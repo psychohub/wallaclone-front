@@ -24,6 +24,7 @@ const AdvertStatusActions = ({ advertId, owner, currentStatus, setCurrentStatus 
 	
 	const [reserved, setReserved] = useState<boolean>(false);
 	const [sold, setSold] = useState<boolean>(false);
+	const [wait, setWait] = useState<boolean>(false);
 	const [showSoldConfirmationModal, setShowSoldConfirmationModal] = useState(false);
 
 	useEffect(() => {
@@ -32,8 +33,10 @@ const AdvertStatusActions = ({ advertId, owner, currentStatus, setCurrentStatus 
 	}, [currentStatus]);
 
 	useEffect(() => {
+		setWait(true);
 		if (reserved) setCurrentStatus('reservado');
 		if (sold) setCurrentStatus('vendido');
+		setTimeout(() => setWait(false), 1000);
 	}, [reserved, sold]);
 	
 	const resetStatus = () => {
@@ -49,17 +52,23 @@ const AdvertStatusActions = ({ advertId, owner, currentStatus, setCurrentStatus 
 			if (newStatus === 'reservado') setReserved(true);
 			if (newStatus === 'vendido') setSold(true);
 			
-			dispatch(addNotification({ text: `El anuncio se marcó como ${newStatus}`, variant: 'success' }));
+			dispatch(addNotification({ text: `El anuncio se marcó como ${newStatus}`, variant: 'success', delay: 3000 }));
 		} catch (error: any) {
 			dispatch(addNotification({ text: error.message, variant: 'danger' }));
 		}
 	};
 
-	const handleMarkAsReserved = () => changeStatus(reserved ? 'disponible' : 'reservado');
+	const handleMarkAsReserved = () => {
+		if (!wait) {
+			changeStatus(reserved ? 'disponible' : 'reservado');
+		}
+	}
 	
 	const handleMarkAsSold = () => {
-		changeStatus('vendido');
-		handleCloseSoldConfirmationModal();
+		if (!wait) {
+			changeStatus('vendido');
+			handleCloseSoldConfirmationModal();
+		}
 	}
 
 	const handleCloseSoldConfirmationModal = () => setShowSoldConfirmationModal(false);
@@ -73,12 +82,12 @@ const AdvertStatusActions = ({ advertId, owner, currentStatus, setCurrentStatus 
 		<>
 			<div className="actions">
 				<OverlayTrigger overlay={<Tooltip>Marcar como {reserved ? 'disponible' : 'reservado'}</Tooltip>}>	
-					<Button variant="link" onClick={handleMarkAsReserved} disabled={sold}>
+					<Button variant="link" onClick={handleMarkAsReserved} disabled={sold || wait}>
 						<FontAwesomeIcon icon={reserved ? faStar : faStarRegular} size="xl" />
 					</Button>
 				</OverlayTrigger>
 				<OverlayTrigger overlay={<Tooltip>Marcar como vendido</Tooltip>}>	
-					<Button variant="link" onClick={sold ? handleMarkAsSold : handleShowSoldConfirmationModal}>
+					<Button variant="link" onClick={sold ? handleMarkAsSold : handleShowSoldConfirmationModal} disabled={wait}>
 						<FontAwesomeIcon icon={sold ? faCircleCheck : faCircleCheckRegular} size="xl" />
 					</Button>
 				</OverlayTrigger>
