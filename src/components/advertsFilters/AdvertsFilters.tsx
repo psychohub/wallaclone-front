@@ -49,7 +49,12 @@ const AdvertsFilters = ({ onFilter }: Props) => {
 		<Container>
 			<Row>
 				<Col>
-					<Form className="filters" onSubmit={handleSubmit}>
+					<Form
+						className="filters"
+						onSubmit={handleSubmit}
+						onKeyDown={(e) => {
+							if (e.key === "Enter") handleSubmit(e);
+						}}>
 						<div className="term-filter">
 							<Form.Group className="mb-3">
 								<Form.Control
