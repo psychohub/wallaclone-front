@@ -9,6 +9,7 @@ export interface Anuncio {
   autor: { _id: string; nombre: string };
   fechaPublicacion: string;
   slug: string;
+  estado: StatusAnuncio;
 }
 
 export interface AnunciosResponse {
@@ -41,5 +42,7 @@ export const initialFilterValues: IAdvertsFilters = {
 	tipoAnuncio: '', 
 	precioMin: '', 
 	precioMax: '',
-	sort: 'asc',
+	sort: undefined,
 };
+
+export type StatusAnuncio = 'disponible' | 'reservado' | 'vendido';

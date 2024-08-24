@@ -2,6 +2,17 @@
 	max-width: 500px;
 }
 
+.product-card.detail .card-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.product-card.detail .card-header .username {
+	font-size: 1.1rem;
+	text-decoration: none;
+}
+
 .product-card.detail .product-img {
   height: 400px;
 	max-width: 500px;
