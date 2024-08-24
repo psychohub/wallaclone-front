@@ -9,9 +9,10 @@ type Props = {
 	title?: string
 	text?: string
 	variant?: ButtonVariant
+	buttonText?: string
 };
 
-const ConfirmationModal = ({ show, handleCancel, handleContinue, title, text, variant }: Props) => {
+const ConfirmationModal = ({ show, handleCancel, handleContinue, title, text, variant, buttonText }: Props) => {
 	return (
 		<Modal show={show} onHide={handleCancel} centered>
 			<Modal.Header closeButton>
@@ -27,7 +28,7 @@ const ConfirmationModal = ({ show, handleCancel, handleContinue, title, text, va
 					Cancelar
 				</Button>
 				<Button variant={variant ? variant : 'primary'} onClick={handleContinue}>
-					Eliminar
+					{buttonText ? buttonText : 'Continuar'}
 				</Button>
 			</Modal.Footer>
 		</Modal>
