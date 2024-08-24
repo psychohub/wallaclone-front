@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useAppSelector } from "../../hooks/useStore";
+import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
 import { RootState } from "../../store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faStar } from "@fortawesome/free-solid-svg-icons";
 import { faCircleCheck as faCircleCheckRegular, faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
 import { StatusAnuncio } from "../../types/adverts";
 import { changeAdvertStatus } from "../../api/adverts";
+import { addNotification } from "../../store/features/notifications/notificationsSlice";
 import './advertStatusActions.css';
 
 type Props = {
@@ -18,6 +19,7 @@ type Props = {
 
 const AdvertStatusActions = ({ advertId, owner, currentStatus, setCurrentStatus }: Props) => {
 	const user = useAppSelector((state: RootState) => state.auth.user);
+	const dispatch = useAppDispatch();
 	
 	const [reserved, setReserved] = useState<boolean>(false);
 	const [sold, setSold] = useState<boolean>(false);
@@ -38,13 +40,15 @@ const AdvertStatusActions = ({ advertId, owner, currentStatus, setCurrentStatus 
 	};
 
 	const changeStatus = async (newStatus: StatusAnuncio) => {
-		resetStatus();
 		try {
 			await changeAdvertStatus(advertId, newStatus);
+			resetStatus();
 			if (newStatus === 'reservado') setReserved(true);
 			if (newStatus === 'vendido') setSold(true);
-		} catch (error) {
-			console.log(error);
+		} catch (error: any) {
+			dispatch(
+				addNotification({ text: error.message, variant: 'danger' })
+			);
 		}
 	};
 	
@@ -55,7 +59,7 @@ const AdvertStatusActions = ({ advertId, owner, currentStatus, setCurrentStatus 
 	return (
 		<div className="actions">
 			<OverlayTrigger overlay={<Tooltip>Marcar como reservado</Tooltip>}>	
-				<Button variant="link" onClick={() => changeStatus('reservado')}>
+				<Button variant="link" onClick={() => changeStatus(reserved ? 'disponible' : 'reservado')}>
 					<FontAwesomeIcon icon={reserved ? faStar : faStarRegular} size="xl" />
 				</Button>
 			</OverlayTrigger>

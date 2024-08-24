@@ -74,12 +74,11 @@ export const getAdvertBySlug = async (slug: string) => {
 export const changeAdvertStatus = async (advertId: string, newStatus: StatusAnuncio) => {
 	try {
 		const response = await axios.put(`/anuncios/status/${advertId}`, { estado: newStatus });
-		console.log(response);
 		return {
 			status: response.status,
 			data: response.data.result
 		};
-	} catch (error) {
-		throw new Error((error as AxiosError).response?.data as string ?? (error as Error).message);
+	} catch (error: any) {
+		throw new Error(error.response.data.message as string ?? error.message);
 	}
 };
