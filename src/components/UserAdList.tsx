@@ -7,10 +7,13 @@ import { getAdvertsByUser } from '../api/adverts';
 import { Anuncio, IAdvertsFilters, IGetAdvertsParams } from '../types/adverts';
 import AdvertCard from './advertCard/AdvertCard';
 import AdvertsFilters from './advertsFilters/AdvertsFilters';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row, Button } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
 
 const UserAdList: React.FC = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
+  const token = useAppSelector((state: RootState) => state.auth.token);
+  const navigate = useNavigate();
 
   const [anuncios, setAnuncios] = useState<Anuncio[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,7 +22,7 @@ const UserAdList: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   
   const fetchAnuncios = async (filters?: IAdvertsFilters) => {
-    if (!user) return;
+    if (!user || !token) return;
 
     setIsLoading(true);
     setError(null);
@@ -45,10 +48,13 @@ const UserAdList: React.FC = () => {
   };
 
   useEffect(() => {
-    if (user) {
-      fetchAnuncios();
+    if (!user || !token) {
+      navigate('/login');
+      return;
     }
-  }, [currentPage, user]);
+
+    fetchAnuncios();
+  }, [currentPage, user, token, navigate]);
 
   const handlePageClick = (event: { selected: number }) => {
     setCurrentPage(event.selected + 1);
@@ -58,11 +64,19 @@ const UserAdList: React.FC = () => {
     fetchAnuncios(filters);
   };
 
+  if (!user || !token) {
+    return null; 
+  }
+
   return (
     <div className="list-container">
-      <AdvertsFilters onFilter={handleFilter} />
-
       <h2 className="page-title">Mis artículos</h2>
+      
+      <Link to="/mis-anuncios/nuevo">
+        <Button variant="primary" className="mb-3">Crear nuevo anuncio</Button>
+      </Link>
+
+      <AdvertsFilters onFilter={handleFilter} />
 
       {isLoading && <Loader />}
       
@@ -71,16 +85,19 @@ const UserAdList: React.FC = () => {
       {!isLoading && !error && anuncios.length > 0 ? (
         <Container>
           <Row>
-          {anuncios.map((anuncio, index) => (
-            <Col sm={12} md={6} lg={3} key={`card-${index}`}>
-              <AdvertCard anuncio={anuncio} />
-            </Col>
-          ))}
+            {anuncios.map((anuncio) => (
+              <Col sm={12} md={6} lg={3} key={anuncio._id}>
+                <Link to={`/mis-anuncios/${anuncio._id}/editar`}>
+                  <AdvertCard anuncio={anuncio} />
+                </Link>
+              </Col>
+            ))}
           </Row>
         </Container>
       ) : (
         !isLoading && !error && <p>No hay artículos disponibles.</p>
       )}
+
       {totalPages > 1 && (
         <ReactPaginate
           previousLabel={"Anterior"}

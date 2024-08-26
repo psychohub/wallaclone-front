@@ -22,27 +22,34 @@ interface LoginCredentials {
   rememberMe: boolean;
 }
 
+
 export const loginUser = createAsyncThunk(
   'auth/login',
   async (credentials: LoginCredentials, { rejectWithValue }) => {
     try {
       const response = await axios.post('/auth/login', {
         nombre: credentials.nombre,
-        contraseña: credentials.contraseña
+        contraseña: credentials.contraseña,
       });
+
+
       if (credentials.rememberMe) {
         localStorage.setItem(ACCESS_TOKEN, response.data.token);
         localStorage.setItem(USER_DATA, JSON.stringify(response.data.usuario));
       }
+
       return {
         status: response.status,
-        data: response.data
+        data: response.data,
       };
     } catch (error) {
-      return rejectWithValue((error as AxiosError).response?.data as string ?? (error as Error).message);
+      return rejectWithValue(
+        (error as AxiosError).response?.data as string ?? (error as Error).message
+      );
     }
   }
 );
+
 
 export const registerUser = createAsyncThunk(
   'auth/register',
@@ -51,19 +58,22 @@ export const registerUser = createAsyncThunk(
       const response = await axios.post('/auth/register', userData);
       return {
         status: response.status,
-        data: response.data
+        data: response.data,
       };
     } catch (error) {
-      return rejectWithValue((error as AxiosError).response?.data as string ?? (error as Error).message);
+      return rejectWithValue(
+        (error as AxiosError).response?.data as string ?? (error as Error).message
+      );
     }
   }
 );
 
+
 const initialState: AuthState = {
-  user: null,
+  user: localStorage.getItem(USER_DATA) ? JSON.parse(localStorage.getItem(USER_DATA) as string) : null,
   isLoading: false,
   error: null,
-  token: null,
+  token: localStorage.getItem(ACCESS_TOKEN),
 };
 
 const authSlice = createSlice({
@@ -72,9 +82,11 @@ const authSlice = createSlice({
   reducers: {
     setUser: (state, action: PayloadAction<User>) => {
       state.user = action.payload;
+      localStorage.setItem(USER_DATA, JSON.stringify(action.payload)); 
     },
     setToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
+      localStorage.setItem(ACCESS_TOKEN, action.payload); 
     },
     logout: (state) => {
       state.user = null;
@@ -93,6 +105,10 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = action.payload.data.usuario;
         state.token = action.payload.data.token;
+        
+
+        localStorage.setItem(ACCESS_TOKEN, action.payload.data.token);
+        localStorage.setItem(USER_DATA, JSON.stringify(action.payload.data.usuario));
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
