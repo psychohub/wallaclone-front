@@ -57,6 +57,7 @@ const DeleteAccountTab: React.FC = () => {
 				variant="danger"
 				title="Eliminar cuenta"
 				text={`¿Estás seguro de continuar con la eliminación de tu cuenta, ${user?.nombre}? Recuerda que una vez confirmada esta acción, ya no hay vuelta atrás.`}
+				buttonText="Eliminar"
 			/>
 		</>
 	);

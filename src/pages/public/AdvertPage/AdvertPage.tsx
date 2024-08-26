@@ -1,26 +1,29 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getAdvertBySlug } from "../../../api/adverts";
-import { Anuncio } from "../../../types/adverts";
+import { Anuncio, StatusAnuncio } from "../../../types/adverts";
 import Loader from "../../../components/loader/Loader";
 import { API_BASE_URL } from "../../../config/environment";
 import { sanitizeInput } from "../../../utils/sanitize";
 import { Card } from "react-bootstrap";
+import AdvertStatusAction from "../../../components/advertStatusActions/AdvertStatusActions";
 import './advertPage.css';
 
 type AdvertPageParams = { slug: string };
 
 const AdvertPage: React.FC = () => {
 	const { slug } = useParams<AdvertPageParams>();
-
+	
 	const [advert, setAdvert] = useState<Anuncio>();
-
+	const [selectedStatus, setSelectedStatus] = useState<StatusAnuncio>();
+	
 	useEffect(() => {
 		const fetchAdvert = async () => {
 			if (slug) {
 				const response = await getAdvertBySlug(slug);
 				if (response.status === 200) {
 					setAdvert(response.data);
+					setSelectedStatus(response.data.estado);
 				}
 			}
 		};
@@ -36,10 +39,13 @@ const AdvertPage: React.FC = () => {
 		<>
 			<Card className="product-card detail">
 				<Card.Header>
-					<Link to={`/anuncios/usuario/${advert.autor.nombre}`}>
+					<Link to={`/anuncios/usuario/${advert.autor.nombre}`} className="username">
 						@{advert.autor.nombre}
 					</Link>
-					<div className="actions"></div>
+					{
+					selectedStatus &&
+					<AdvertStatusAction advertId={advert._id} owner={advert.autor._id} currentStatus={selectedStatus} setCurrentStatus={setSelectedStatus} />
+					}
 				</Card.Header>
 				{advert.imagen ? (
 					<div className="product-img">
