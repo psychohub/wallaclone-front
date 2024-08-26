@@ -1,20 +1,23 @@
+// AdvertForm.tsx
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/useStore';
-import { createAdvert, getAdvertBySlug } from '../../api/adverts';
+import { getAdvertBySlug } from '../../api/adverts';
 import { Anuncio } from '../../types/adverts';
 import Loader from '../loader/Loader';
 
 interface AdvertFormProps {
   mode: 'create' | 'edit';
-  anuncioId?: string;
+  anuncioSlug?: string;
   onSubmit: (formData: FormData) => Promise<void>;
+  onCancel?: () => void; // Propiedad para manejar la cancelación
 }
 
-const AdvertForm: React.FC<AdvertFormProps> = ({ mode, anuncioId, onSubmit }) => {
-  const navigate = useNavigate();
+const AdvertForm: React.FC<AdvertFormProps> = ({ mode, anuncioSlug, onSubmit, onCancel }) => {
   const { user } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState<Partial<Anuncio>>({
     nombre: '',
@@ -28,25 +31,29 @@ const AdvertForm: React.FC<AdvertFormProps> = ({ mode, anuncioId, onSubmit }) =>
   const [error, setError] = useState<string | null>(null);
 
   const loadAdvert = useCallback(async () => {
-    if (mode === 'edit' && anuncioId) {
+    if (mode === 'edit' && anuncioSlug) {
       try {
         setLoading(true);
-        const response = await getAdvertBySlug(anuncioId);
+        const response = await getAdvertBySlug(anuncioSlug);
         const advert = response.data;
-        setFormData({
-          nombre: advert.nombre,
-          descripcion: advert.descripcion,
-          precio: advert.precio,
-          tipoAnuncio: advert.tipoAnuncio,
-          tags: advert.tags,
-        });
+        if (advert) {
+          setFormData({
+            nombre: advert.nombre,
+            descripcion: advert.descripcion,
+            precio: advert.precio,
+            tipoAnuncio: advert.tipoAnuncio,
+            tags: advert.tags,
+          });
+        } else {
+          setError('No advert data returned from API');
+        }
       } catch (error) {
         setError('Error al cargar el anuncio');
       } finally {
         setLoading(false);
       }
     }
-  }, [mode, anuncioId]);
+  }, [mode, anuncioSlug]);
 
   useEffect(() => {
     loadAdvert();
@@ -86,8 +93,6 @@ const AdvertForm: React.FC<AdvertFormProps> = ({ mode, anuncioId, onSubmit }) =>
       }
 
       await onSubmit(formDataToSend);
-
-      navigate('/mis-anuncios');
     } catch (error) {
       setError('Error al guardar el anuncio');
     } finally {
@@ -179,9 +184,14 @@ const AdvertForm: React.FC<AdvertFormProps> = ({ mode, anuncioId, onSubmit }) =>
           />
         </Form.Group>
         {error && <div className="text-danger mb-3">{error}</div>}
-        <Button variant="primary" type="submit" disabled={loading}>
-          {loading ? 'Guardando...' : 'Guardar anuncio'}
-        </Button>
+        <div className="d-flex justify-content-between">
+          <Button variant="danger" onClick={onCancel}>
+            Regresar al listado
+          </Button>
+          <Button variant="primary" type="submit" disabled={loading}>
+            {loading ? 'Guardando...' : 'Guardar anuncio'}
+          </Button>
+        </div>
       </Form>
     </Container>
   );

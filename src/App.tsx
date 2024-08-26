@@ -16,8 +16,8 @@ import PrivateRoute from './components/private/PrivateRoute';
 import ProfilePage from './pages/private/profile/ProfilePage';
 import MyAdvertsPage from './pages/private/MyAdvertsPage';
 import AdvertPage from './pages/public/AdvertPage/AdvertPage';
-import CreateAdvertPage from './components/private/CreateAdvertPage';
-import EditAdvertPage from './components/private/EditAdvertPage';
+import CreateAdvertPage from './pages/private/CreateAdvertPage';
+import EditAdvertPage from './pages/private/EditAdvertPage';
 
 import './App.css';
 
@@ -74,7 +74,7 @@ function App() {
             <Route path="/mi-perfil" element={ <ProfilePage /> } />
             <Route path="/mis-anuncios" element={ <MyAdvertsPage /> } />
             <Route path="/mis-anuncios/nuevo" element={ <CreateAdvertPage /> } />
-            <Route path="/mis-anuncios/:id/editar" element={<EditAdvertPage />} />
+            <Route path="/mis-anuncios/:slug/editar" element={<EditAdvertPage />} />
           </Route>
 
           <Route path="/404" element={<div>404 | Not found</div>} />

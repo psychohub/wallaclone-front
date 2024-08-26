@@ -68,6 +68,8 @@ const UserAdList: React.FC = () => {
     return null; 
   }
 
+  console.log('Rendering UserAdList component with ads:', anuncios);
+
   return (
     <div className="list-container">
       <h2 className="page-title">Mis artículos</h2>
@@ -85,13 +87,17 @@ const UserAdList: React.FC = () => {
       {!isLoading && !error && anuncios.length > 0 ? (
         <Container>
           <Row>
-            {anuncios.map((anuncio) => (
-              <Col sm={12} md={6} lg={3} key={anuncio._id}>
-                <Link to={`/mis-anuncios/${anuncio._id}/editar`}>
-                  <AdvertCard anuncio={anuncio} />
-                </Link>
-              </Col>
-            ))}
+            {anuncios.map((anuncio) => {
+              console.log('Rendering advert card with slug:', anuncio.slug);
+              return (
+                <Col sm={12} md={6} lg={3} key={anuncio._id}>
+                  {/* Usando el slug en el enlace */}
+                  <Link to={`/mis-anuncios/${anuncio.slug}/editar`}> 
+                    <AdvertCard anuncio={anuncio} />
+                  </Link>
+                </Col>
+              );
+            })}
           </Row>
         </Container>
       ) : (
