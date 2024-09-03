@@ -60,12 +60,13 @@ const UserAdList: React.FC = () => {
 
   return (
     <div className="list-container">
-      <h2 className="page-title">Mis anuncios</h2>
+      <Container className="page-title-container">
+        <h2 className="page-title">Mis anuncios</h2>
+        <Link to="/app/articulos/nuevo">
+          <Button variant="secondary">Crear anuncio</Button>
+        </Link>
+      </Container>
       
-      <Link to="/app/articulos/nuevo">
-        <Button variant="secondary" className="mb-3">Crear nuevo anuncio</Button>
-      </Link>
-
       <AdvertsFilters onFilter={handleFilter} />
 
       {isLoading && <Loader />}

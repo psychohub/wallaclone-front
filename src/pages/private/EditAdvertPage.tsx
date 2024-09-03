@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import AdvertForm from '../../components/adverts/AdvertForm';
 import { editAdvert, getAdvertBySlug } from '../../api/adverts';
+import { Card, Container } from 'react-bootstrap';
 
 const EditAdvertPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -39,13 +40,20 @@ const EditAdvertPage: React.FC = () => {
   };
 
   return (
-    <div>
-      <AdvertForm 
-        mode="edit" 
-        anuncioSlug={slug}
-        onSubmit={handleSubmit}
-        onCancel={() => navigate('/app/articulos')} 
-      />
+    <div className="page">
+      <Container className="page-title-container">
+        <h2 className="page-title">Editar anuncio</h2>
+      </Container>
+      <Card className="card-container">
+        <Card.Body>
+          <AdvertForm 
+            mode="edit" 
+            anuncioSlug={slug}
+            onSubmit={handleSubmit}
+            onCancel={() => navigate('/app/articulos')} 
+          />
+        </Card.Body>
+      </Card>
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdvertForm from '../../components/adverts/AdvertForm';
 import { createAdvert } from '../../api/adverts';
+import { Card, Container } from 'react-bootstrap';
 
 const CreateAdvertPage: React.FC = () => {
   const navigate = useNavigate();
@@ -16,12 +17,19 @@ const CreateAdvertPage: React.FC = () => {
   };
 
   return (
-    <div>
-      <AdvertForm 
-        mode="create" 
-        onSubmit={handleSubmit} 
-        onCancel={() => navigate('/app/articulos')} 
-      />
+    <div className="page">
+      <Container className="page-title-container">
+        <h2 className="page-title">Crear nuevo anuncio</h2>
+      </Container>
+      <Card className="card-container">
+        <Card.Body>
+          <AdvertForm 
+            mode="create" 
+            onSubmit={handleSubmit} 
+            onCancel={() => navigate('/app/articulos')} 
+          />
+        </Card.Body>
+      </Card>
     </div>
   );
 };

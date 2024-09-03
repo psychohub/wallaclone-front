@@ -99,7 +99,6 @@ const AdvertForm: React.FC<AdvertFormProps> = ({ mode, anuncioSlug, onSubmit, on
 
   return (
     <Container>
-      <h2>{mode === 'create' ? 'Crear nuevo anuncio' : 'Editar anuncio'}</h2>
       <Form onSubmit={handleSubmit}>
         <Row>
           <Col md={6}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Tab, Tabs } from 'react-bootstrap';
+import { Card, Container, Tab, Tabs } from 'react-bootstrap';
 
 import UpdateInfoTab from '../../../components/profile/UpdateInfoTab';
 import ChangePasswordTab from '../../../components/profile/ChangePasswordTab';
@@ -9,11 +9,11 @@ import './profilePage.css';
 
 const ProfilePage: React.FC = () => {
   return (
-    <div id="profile-page">
+    <div className="page">
+      <Container className="page-title-container">
+        <h2 className="page-title">Mi Perfil</h2>
+      </Container>
       <Card className="card-container">
-        <Card.Title>
-          <h2 className="page-title">Mi Perfil</h2>
-        </Card.Title>
         <Card.Body>
           <Tabs defaultActiveKey="updateInfo" className="profile-tabs">
             <Tab eventKey="updateInfo" title="Actualizar datos">
