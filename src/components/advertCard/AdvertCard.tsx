@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { Anuncio } from '../../types/adverts';
 import { API_BASE_URL } from '../../config/environment';
@@ -10,12 +9,6 @@ import './advertCard.css';
 
 const AdvertCard = ({ anuncio }: { anuncio: Anuncio }) => {
   const user = useAppSelector((state) => state.auth.user);
-
-  // Agregar console.log para depuración
-  console.log('AdvertCard - anuncio:', anuncio);
-  console.log('AdvertCard - user:', user);
-  console.log('AdvertCard - detalle URL:', `/anuncios/${anuncio.slug}`);
-  console.log('AdvertCard - editar URL:', `/mis-anuncios/${anuncio._id}/editar`);
 
   return (
     <Card className="product-card">
@@ -37,9 +30,24 @@ const AdvertCard = ({ anuncio }: { anuncio: Anuncio }) => {
         </div>
         <p className="price">{anuncio.precio} €</p>
         <p>{sanitizeInput(anuncio.descripcion)}</p>
-        <p className={`sale ${anuncio.tipoAnuncio === 'venta' ? '' : 'busca'}`}>
-          {anuncio.tipoAnuncio === 'venta' ? 'Se vende' : 'Se busca'}
-        </p>
+        {
+					anuncio.estado === 'disponible' &&
+					<p className={`sale ${anuncio.tipoAnuncio === 'venta' ? '' : 'busca'}`}>{anuncio.tipoAnuncio === 'venta' ? 'Se vende' : 'Se busca'}</p>
+				}
+				{
+					(anuncio.estado === 'reservado' && (user && user.id === anuncio.autor._id))
+					? (
+						<div className="sold reserved">
+							<p>Reservado</p>
+						</div>
+					) : <p className={`sale ${anuncio.tipoAnuncio === 'venta' ? '' : 'busca'}`}>{anuncio.tipoAnuncio === 'venta' ? 'Se vende' : 'Se busca'}</p>
+				}
+				{
+					anuncio.estado === 'vendido' &&
+					<div className="sold">
+						<p>Vendido</p>
+					</div>
+				}
       </Card.Body>
       <Card.Footer>
         <div className="actions">

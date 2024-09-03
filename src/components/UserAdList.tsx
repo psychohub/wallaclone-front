@@ -8,13 +8,11 @@ import { Anuncio, IAdvertsFilters, IGetAdvertsParams } from '../types/adverts';
 import AdvertCard from './advertCard/AdvertCard';
 import AdvertsFilters from './advertsFilters/AdvertsFilters';
 import { Col, Container, Row, Button } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const UserAdList: React.FC = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
-  const token = useAppSelector((state: RootState) => state.auth.token);
-  const navigate = useNavigate();
-
+  
   const [anuncios, setAnuncios] = useState<Anuncio[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -22,7 +20,7 @@ const UserAdList: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   
   const fetchAnuncios = async (filters?: IAdvertsFilters) => {
-    if (!user || !token) return;
+    if (!user) return;
 
     setIsLoading(true);
     setError(null);
@@ -48,13 +46,9 @@ const UserAdList: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!user || !token) {
-      navigate('/login');
-      return;
-    }
-
+    if (!user) return;
     fetchAnuncios();
-  }, [currentPage, user, token, navigate]);
+  }, [currentPage, user]);
 
   const handlePageClick = (event: { selected: number }) => {
     setCurrentPage(event.selected + 1);
@@ -63,12 +57,6 @@ const UserAdList: React.FC = () => {
   const handleFilter = (filters: IAdvertsFilters) => {
     fetchAnuncios(filters);
   };
-
-  if (!user || !token) {
-    return null; 
-  }
-
-  console.log('Rendering UserAdList component with ads:', anuncios);
 
   return (
     <div className="list-container">
@@ -87,17 +75,13 @@ const UserAdList: React.FC = () => {
       {!isLoading && !error && anuncios.length > 0 ? (
         <Container>
           <Row>
-            {anuncios.map((anuncio) => {
-              console.log('Rendering advert card with slug:', anuncio.slug);
-              return (
+            {anuncios.map((anuncio) => (
                 <Col sm={12} md={6} lg={3} key={anuncio._id}>
-                  {/* Usando el slug en el enlace */}
                   <Link to={`/mis-anuncios/${anuncio.slug}/editar`}> 
                     <AdvertCard anuncio={anuncio} />
                   </Link>
                 </Col>
-              );
-            })}
+            ))}
           </Row>
         </Container>
       ) : (
