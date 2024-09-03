@@ -22,24 +22,28 @@ describe('UserAdvertsPage', () => {
           {
             _id: '1',
             nombre: 'Anuncio 1',
+            slug: 'anuncio-1',
             imagen: 'imagen1.jpg',
             descripcion: 'Descripción del anuncio 1',
             precio: 100,
             tipoAnuncio: 'venta',
             tags: ['tech'],
             autor: { _id: 'user1', nombre: 'usuario1' },
-            fechaPublicacion: '2023-07-01'
+            fechaPublicacion: '2023-07-01',
+            estado: 'disponible'
           },
           {
             _id: '2',
             nombre: 'Anuncio 2',
+            slug: 'anuncio-2',
             imagen: 'imagen2.jpg',
             descripcion: 'Descripción del anuncio 2',
             precio: 200,
             tipoAnuncio: 'búsqueda',
             tags: ['home'],
             autor: { _id: 'user1', nombre: 'usuario1' },
-            fechaPublicacion: '2023-07-02'
+            fechaPublicacion: '2023-07-02',
+            estado: 'disponible'
           },
         ],
         total: 2,
