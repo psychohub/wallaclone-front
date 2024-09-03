@@ -32,7 +32,7 @@ const EditAdvertPage: React.FC = () => {
 
     try {
       await editAdvert(advertId, formData);
-      navigate('/mis-anuncios', { state: { message: 'Anuncio actualizado con éxito' } });
+      navigate('/app/articulos', { state: { message: 'Anuncio actualizado con éxito' } });
     } catch (error) {
       console.error('Error al actualizar el anuncio:', error);
     }
@@ -44,7 +44,7 @@ const EditAdvertPage: React.FC = () => {
         mode="edit" 
         anuncioSlug={slug}
         onSubmit={handleSubmit}
-        onCancel={() => navigate('/mis-anuncios')} 
+        onCancel={() => navigate('/app/articulos')} 
       />
     </div>
   );

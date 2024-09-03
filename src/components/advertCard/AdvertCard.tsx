@@ -1,15 +1,12 @@
-import { Card, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { Anuncio } from '../../types/adverts';
 import { API_BASE_URL } from '../../config/environment';
 import { sanitizeInput } from '../../utils/sanitize';
 import { Link } from 'react-router-dom';
 import Img from '../image/Img';
-import { useAppSelector } from '../../hooks/useStore';
 import './advertCard.css';
 
 const AdvertCard = ({ anuncio }: { anuncio: Anuncio }) => {
-  const user = useAppSelector((state) => state.auth.user);
-
   return (
     <Card className="product-card">
       <div className='product-img'>
@@ -21,7 +18,7 @@ const AdvertCard = ({ anuncio }: { anuncio: Anuncio }) => {
       </div>
       <Card.Body className="product-card-content">
         <h3>
-          <Link to={`/anuncios/${anuncio.slug}`}>
+          <Link to={`/articulos/${anuncio.slug}`}>
             {sanitizeInput(anuncio.nombre)}
           </Link>
         </h3>
@@ -35,14 +32,6 @@ const AdvertCard = ({ anuncio }: { anuncio: Anuncio }) => {
 					<p className={`sale ${anuncio.tipoAnuncio === 'venta' ? '' : 'busca'}`}>{anuncio.tipoAnuncio === 'venta' ? 'Se vende' : 'Se busca'}</p>
 				}
 				{
-					(anuncio.estado === 'reservado' && (user && user.id === anuncio.autor._id))
-					? (
-						<div className="sold reserved">
-							<p>Reservado</p>
-						</div>
-					) : <p className={`sale ${anuncio.tipoAnuncio === 'venta' ? '' : 'busca'}`}>{anuncio.tipoAnuncio === 'venta' ? 'Se vende' : 'Se busca'}</p>
-				}
-				{
 					anuncio.estado === 'vendido' &&
 					<div className="sold">
 						<p>Vendido</p>
@@ -51,19 +40,12 @@ const AdvertCard = ({ anuncio }: { anuncio: Anuncio }) => {
       </Card.Body>
       <Card.Footer>
         <div className="actions">
-          <Link to={`/anuncios/${anuncio.slug}`}>
+          <Link to={`/articulos/${anuncio.slug}`}>
             Ir al detalle
           </Link>
-          <Link to={`/anuncios/usuario/${anuncio.autor.nombre}`}>
+          <Link to={`/articulos/usuario/${anuncio.autor.nombre}`}>
             @{anuncio.autor.nombre}
           </Link>
-          {user && user.id === anuncio.autor._id && (
-            <Link to={`/mis-anuncios/${anuncio.slug}/editar`}>
-              <Button variant="secondary" size="sm" className="edit-button">
-                Editar
-              </Button>
-            </Link>
-          )}
         </div>
       </Card.Footer>
     </Card>

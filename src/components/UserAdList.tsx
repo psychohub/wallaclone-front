@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
-import Loader from './loader/Loader';
+import { Container, Button, ListGroup } from 'react-bootstrap';
 import { RootState } from '../store/index';
 import { useAppSelector } from '../hooks/useStore';
 import { getAdvertsByUser } from '../api/adverts';
 import { Anuncio, IAdvertsFilters, IGetAdvertsParams } from '../types/adverts';
-import AdvertCard from './advertCard/AdvertCard';
+import Loader from './loader/Loader';
 import AdvertsFilters from './advertsFilters/AdvertsFilters';
-import { Col, Container, Row, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import AdvertListItem from './advertListItem/AdvertListItem';
 
 const UserAdList: React.FC = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
@@ -38,8 +38,8 @@ const UserAdList: React.FC = () => {
         setError('Error en el formato de datos recibido.');
       }
     } catch (error) {
-      console.error('Error fetching anuncios:', error);
-      setError('Error al cargar los anuncios. Por favor, intenta de nuevo más tarde.');
+      console.error('Error fetching articulos:', error);
+      setError('Error al cargar los artículos. Por favor, intenta de nuevo más tarde.');
     } finally {
       setIsLoading(false);
     }
@@ -60,10 +60,10 @@ const UserAdList: React.FC = () => {
 
   return (
     <div className="list-container">
-      <h2 className="page-title">Mis artículos</h2>
+      <h2 className="page-title">Mis anuncios</h2>
       
-      <Link to="/mis-anuncios/nuevo">
-        <Button variant="primary" className="mb-3">Crear nuevo anuncio</Button>
+      <Link to="/app/articulos/nuevo">
+        <Button variant="secondary" className="mb-3">Crear nuevo anuncio</Button>
       </Link>
 
       <AdvertsFilters onFilter={handleFilter} />
@@ -74,15 +74,11 @@ const UserAdList: React.FC = () => {
       
       {!isLoading && !error && anuncios.length > 0 ? (
         <Container>
-          <Row>
+          <ListGroup>
             {anuncios.map((anuncio) => (
-                <Col sm={12} md={6} lg={3} key={anuncio._id}>
-                  <Link to={`/mis-anuncios/${anuncio.slug}/editar`}> 
-                    <AdvertCard anuncio={anuncio} />
-                  </Link>
-                </Col>
+              <AdvertListItem anuncio={anuncio} key={anuncio._id}/>
             ))}
-          </Row>
+          </ListGroup>
         </Container>
       ) : (
         !isLoading && !error && <p>No hay artículos disponibles.</p>

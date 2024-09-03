@@ -1,9 +1,5 @@
-// AdvertForm.tsx
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../hooks/useStore';
 import { getAdvertBySlug } from '../../api/adverts';
 import { Anuncio } from '../../types/adverts';
 import Loader from '../loader/Loader';
@@ -12,13 +8,10 @@ interface AdvertFormProps {
   mode: 'create' | 'edit';
   anuncioSlug?: string;
   onSubmit: (formData: FormData) => Promise<void>;
-  onCancel?: () => void; // Propiedad para manejar la cancelación
+  onCancel?: () => void;
 }
 
 const AdvertForm: React.FC<AdvertFormProps> = ({ mode, anuncioSlug, onSubmit, onCancel }) => {
-  const { user } = useAppSelector((state) => state.auth);
-  const navigate = useNavigate();
-
   const [formData, setFormData] = useState<Partial<Anuncio>>({
     nombre: '',
     descripcion: '',
@@ -57,7 +50,7 @@ const AdvertForm: React.FC<AdvertFormProps> = ({ mode, anuncioSlug, onSubmit, on
 
   useEffect(() => {
     loadAdvert();
-  }, [loadAdvert]);
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -99,10 +92,6 @@ const AdvertForm: React.FC<AdvertFormProps> = ({ mode, anuncioSlug, onSubmit, on
       setLoading(false);
     }
   };
-
-  if (!user) {
-    return <div>Debes iniciar sesión para acceder a esta página.</div>;
-  }
 
   if (loading) {
     return <Loader />;

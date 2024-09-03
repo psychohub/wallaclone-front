@@ -39,7 +39,7 @@ const AdvertPage: React.FC = () => {
 		<>
 			<Card className="product-card detail">
 				<Card.Header>
-					<Link to={`/anuncios/usuario/${advert.autor.nombre}`} className="username">
+					<Link to={`/articulos/usuario/${advert.autor.nombre}`} className="username">
 						@{advert.autor.nombre}
 					</Link>
 					{

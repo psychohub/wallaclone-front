@@ -48,9 +48,9 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<AdvertsPage />} />
-          <Route path="/anuncios" element={<AdvertsPage />} />
-          <Route path="/anuncios/usuario/:username" element={<UserAdvertsPage />} />
-          <Route path="/anuncios/:slug" element={<AdvertPage />} />
+          <Route path="/articulos" element={<AdvertsPage />} />
+          <Route path="/articulos/usuario/:username" element={<UserAdvertsPage />} />
+          <Route path="/articulos/:slug" element={<AdvertPage />} />
           <Route 
             path="/"
             element={
@@ -65,16 +65,16 @@ function App() {
           </Route>
 
           <Route 
-            path="/"
+            path="/app"
             element={
               <PrivateRoute>
                 <Outlet />
               </PrivateRoute>
             }>
-            <Route path="/mi-perfil" element={ <ProfilePage /> } />
-            <Route path="/mis-anuncios" element={ <MyAdvertsPage /> } />
-            <Route path="/mis-anuncios/nuevo" element={ <CreateAdvertPage /> } />
-            <Route path="/mis-anuncios/:slug/editar" element={<EditAdvertPage />} />
+            <Route path="/app/perfil" element={ <ProfilePage /> } />
+            <Route path="/app/articulos" element={ <MyAdvertsPage /> } />
+            <Route path="/app/articulos/nuevo" element={ <CreateAdvertPage /> } />
+            <Route path="/app/articulos/:slug/editar" element={<EditAdvertPage />} />
           </Route>
 
           <Route path="/404" element={<div>404 | Not found</div>} />

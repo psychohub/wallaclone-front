@@ -9,7 +9,7 @@ const CreateAdvertPage: React.FC = () => {
   const handleSubmit = async (formData: FormData) => {
     try {
       await createAdvert(formData);
-      navigate('/mis-anuncios'); 
+      navigate('/app/articulos'); 
     } catch (error) {
       console.error('Error al crear el anuncio:', error);
     }
@@ -20,7 +20,7 @@ const CreateAdvertPage: React.FC = () => {
       <AdvertForm 
         mode="create" 
         onSubmit={handleSubmit} 
-        onCancel={() => navigate('/mis-anuncios')} 
+        onCancel={() => navigate('/app/articulos')} 
       />
     </div>
   );
