@@ -39,7 +39,7 @@
   align-items: center;
   justify-content: flex-start;
   gap: 8px;
-  margin: 0.5rem 0;
+  margin: 0 0 5px;
 }
 
 .product-item .product-item-content .tag {
@@ -62,10 +62,13 @@
 	color: var(--accent-color);
 }
 
-.product-item .actions {
+.product-item .row .col-md-10 .actions {
 	display: flex;
+	flex-direction: row;
 	justify-content: flex-start;
 	align-items: center;
-	gap: 0.8rem;
+	gap: 10px;
+}
+.product-item .row .col-md-10 > .actions {
 	margin-top: 1rem;
 }

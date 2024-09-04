@@ -51,7 +51,7 @@ const ChangePasswordTab: React.FC = () => {
 	};
 
 	return (
-		<div>
+		<div className="small-container">
 			{ success && <Alert variant="success">{success}</Alert>}
 			{ error && <Alert variant="danger">{error}</Alert> }
 			<Form onSubmit={handleSubmit} className="form">
