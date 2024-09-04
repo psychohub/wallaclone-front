@@ -32,7 +32,7 @@ const AdvertsPage: React.FC = () => {
         setError('Error en el formato de datos recibido.');
       }
     } catch (error) {
-      setError('Error al cargar los anuncios. Por favor, intenta de nuevo más tarde.');
+      setError('Error al cargar los artículos. Por favor, intenta de nuevo más tarde.');
     } finally {
       setIsLoading(false);
     }

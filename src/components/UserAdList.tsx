@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
-import Loader from './loader/Loader';
+import { Container, Button, ListGroup } from 'react-bootstrap';
 import { RootState } from '../store/index';
 import { useAppSelector } from '../hooks/useStore';
 import { getAdvertsByUser } from '../api/adverts';
 import { Anuncio, IAdvertsFilters, IGetAdvertsParams } from '../types/adverts';
-import AdvertCard from './advertCard/AdvertCard';
+import Loader from './loader/Loader';
 import AdvertsFilters from './advertsFilters/AdvertsFilters';
-import { Col, Container, Row } from 'react-bootstrap';
+import AdvertListItem from './advertListItem/AdvertListItem';
 
 const UserAdList: React.FC = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
-
+  
   const [anuncios, setAnuncios] = useState<Anuncio[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -37,17 +38,16 @@ const UserAdList: React.FC = () => {
         setError('Error en el formato de datos recibido.');
       }
     } catch (error) {
-      console.error('Error fetching anuncios:', error);
-      setError('Error al cargar los anuncios. Por favor, intenta de nuevo más tarde.');
+      console.error('Error fetching articulos:', error);
+      setError('Error al cargar los artículos. Por favor, intenta de nuevo más tarde.');
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    if (user) {
-      fetchAnuncios();
-    }
+    if (!user) return;
+    fetchAnuncios();
   }, [currentPage, user]);
 
   const handlePageClick = (event: { selected: number }) => {
@@ -60,9 +60,14 @@ const UserAdList: React.FC = () => {
 
   return (
     <div className="list-container">
+      <Container className="page-title-container">
+        <h2 className="page-title">Mis anuncios</h2>
+        <Link to="/app/articulos/nuevo">
+          <Button variant="secondary">Crear anuncio</Button>
+        </Link>
+      </Container>
+      
       <AdvertsFilters onFilter={handleFilter} />
-
-      <h2 className="page-title">Mis artículos</h2>
 
       {isLoading && <Loader />}
       
@@ -70,17 +75,16 @@ const UserAdList: React.FC = () => {
       
       {!isLoading && !error && anuncios.length > 0 ? (
         <Container>
-          <Row>
-          {anuncios.map((anuncio, index) => (
-            <Col sm={12} md={6} lg={3} key={`card-${index}`}>
-              <AdvertCard anuncio={anuncio} />
-            </Col>
-          ))}
-          </Row>
+          <ListGroup>
+            {anuncios.map((anuncio) => (
+              <AdvertListItem anuncio={anuncio} key={anuncio._id}/>
+            ))}
+          </ListGroup>
         </Container>
       ) : (
         !isLoading && !error && <p>No hay artículos disponibles.</p>
       )}
+
       {totalPages > 1 && (
         <ReactPaginate
           previousLabel={"Anterior"}

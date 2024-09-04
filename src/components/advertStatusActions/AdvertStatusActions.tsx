@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
-import { RootState } from "../../store";
+import { SizeProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faStar } from "@fortawesome/free-solid-svg-icons";
 import { faCircleCheck as faCircleCheckRegular, faStar as faStarRegular } from "@fortawesome/free-regular-svg-icons";
+import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
+import { RootState } from "../../store";
 import { StatusAnuncio } from "../../types/adverts";
 import { changeAdvertStatus } from "../../api/adverts";
 import { addNotification } from "../../store/features/notifications/notificationsSlice";
@@ -16,9 +17,10 @@ type Props = {
 	owner: string;
 	currentStatus: StatusAnuncio;
 	setCurrentStatus: (status: StatusAnuncio) => void;
+	size?: SizeProp;
 };
 
-const AdvertStatusActions = ({ advertId, owner, currentStatus, setCurrentStatus }: Props) => {
+const AdvertStatusActions = ({ advertId, owner, currentStatus, setCurrentStatus, size }: Props) => {
 	const user = useAppSelector((state: RootState) => state.auth.user);
 	const dispatch = useAppDispatch();
 	
@@ -83,12 +85,12 @@ const AdvertStatusActions = ({ advertId, owner, currentStatus, setCurrentStatus 
 			<div className="actions">
 				<OverlayTrigger overlay={<Tooltip>Marcar como {reserved ? 'disponible' : 'reservado'}</Tooltip>}>	
 					<Button variant="link" onClick={handleMarkAsReserved} disabled={sold || wait}>
-						<FontAwesomeIcon icon={reserved ? faStar : faStarRegular} size="xl" />
+						<FontAwesomeIcon icon={reserved ? faStar : faStarRegular} size={size ? size : "xl"} />
 					</Button>
 				</OverlayTrigger>
 				<OverlayTrigger overlay={<Tooltip>Marcar como vendido</Tooltip>}>	
 					<Button variant="link" onClick={sold ? handleMarkAsSold : handleShowSoldConfirmationModal} disabled={wait}>
-						<FontAwesomeIcon icon={sold ? faCircleCheck : faCircleCheckRegular} size="xl" />
+						<FontAwesomeIcon icon={sold ? faCircleCheck : faCircleCheckRegular} size={size ? size : "xl"} />
 					</Button>
 				</OverlayTrigger>
 			</div>

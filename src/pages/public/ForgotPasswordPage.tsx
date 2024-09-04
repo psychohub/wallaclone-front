@@ -25,7 +25,6 @@ const ForgotPasswordPage: React.FC = () => {
     const sanitizedEmail = sanitizeInput(email);
 
     if (!isValidEmail(sanitizedEmail)) {
-      console.log('Invalid email:', sanitizedEmail);
       setError('Por favor, introduce una dirección de email válida.');
       setIsLoading(false);
       return;
