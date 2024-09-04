@@ -15,6 +15,7 @@ import PrivateRoute from './components/private/PrivateRoute';
 import ProfilePage from './pages/private/profile/ProfilePage';
 import MyAdvertsPage from './pages/private/MyAdvertsPage';
 import AdvertPage from './pages/public/AdvertPage/AdvertPage';
+import ChatPage from './components/chat/ChatPage';
 
 import './App.css';
 
@@ -62,6 +63,7 @@ function App() {
             }>
             <Route path="/mi-perfil" element={ <ProfilePage /> } />
             <Route path="/mis-anuncios" element={ <MyAdvertsPage /> } />
+            <Route path="/chat/:anuncioId" element={ <ChatPage /> } />
           </Route>
 
           <Route path="/404" element={<div>404 | Not found</div>} />

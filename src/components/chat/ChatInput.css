@@ -1,0 +1,15 @@
+.chat-input {
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-top: 1px solid #ddd;
+  }
+  
+  .chat-input .form-control {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  
+  .chat-input .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }

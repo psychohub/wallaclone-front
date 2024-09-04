@@ -40,3 +40,25 @@
 .product-card.detail .tags {
 	margin: 1.5rem 0 0;
 }
+
+.chat-button {
+	display: inline-flex;
+	align-items: center;
+	background-color: var(--accent-color);
+	color: white;
+	padding: 10px 15px;
+	border-radius: 5px;
+	text-decoration: none;
+	margin-top: 20px;
+	transition: background-color 0.2s ease;
+  }
+  
+  .chat-button img {
+	width: 24px;
+	height: 24px;
+	margin-right: 10px;
+  }
+  
+  .chat-button:hover {
+	background-color: var(--accent-color-secondary);
+  }

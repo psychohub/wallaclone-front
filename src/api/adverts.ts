@@ -82,3 +82,16 @@ export const changeAdvertStatus = async (advertId: string, newStatus: StatusAnun
 		throw new Error(error.response.data.message as string ?? error.message);
 	}
 };
+
+
+export const getAdvertById = async (id: string) => {
+	try {
+	  const response = await axios.get(`/anuncios/${id}`);
+	  return {
+		status: response.status,
+		data: response.data as Anuncio
+	  };
+	} catch (error) {
+	  throw new Error((error as AxiosError).response?.data as string ?? (error as Error).message);
+	}
+  };

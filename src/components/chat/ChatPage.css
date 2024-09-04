@@ -1,0 +1,18 @@
+.chat-page {
+    min-height: calc(100vh - 60px); 
+  }
+  
+  .chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  @media (max-width: 768px) {
+    .chat-container {
+      height: 60vh;
+    }
+  }

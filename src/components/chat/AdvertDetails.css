@@ -1,0 +1,9 @@
+.advert-details {
+    margin-bottom: 1rem;
+  }
+  
+  @media (max-width: 768px) {
+    .advert-details {
+      margin-bottom: 1.5rem;
+    }
+  }
