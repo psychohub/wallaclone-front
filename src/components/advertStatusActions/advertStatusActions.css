@@ -1,12 +1,7 @@
-.actions {
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-}
 .actions .btn-link {
-	color: var(--accent-color-secondary);
-	padding: 10px;
+	padding: 0px;
 }
-.actions .btn-check:checked+.btn, .actions .btn.active, .actions .btn.show, .actions .btn:first-child:active, .actions :not(.btn-check)+.btn:active {
+
+.actions .btn-link.secondary {
 	color: var(--accent-color-secondary);
 }

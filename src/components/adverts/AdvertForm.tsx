@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { Form, Button, Row, Col } from 'react-bootstrap';
 import { getAdvertBySlug } from '../../api/adverts';
 import { Anuncio } from '../../types/adverts';
 import Loader from '../loader/Loader';
@@ -98,10 +98,10 @@ const AdvertForm: React.FC<AdvertFormProps> = ({ mode, anuncioSlug, onSubmit, on
   }
 
   return (
-    <Container>
+    <div>
       <Form onSubmit={handleSubmit}>
         <Row>
-          <Col md={6}>
+          <Col md={12}>
             <Form.Group className="mb-3">
               <Form.Label>Nombre</Form.Label>
               <Form.Control
@@ -113,7 +113,9 @@ const AdvertForm: React.FC<AdvertFormProps> = ({ mode, anuncioSlug, onSubmit, on
               />
             </Form.Group>
           </Col>
-          <Col md={6}>
+        </Row>
+        <Row>
+          <Col md={2}>
             <Form.Group className="mb-3">
               <Form.Label>Precio</Form.Label>
               <Form.Control
@@ -125,19 +127,7 @@ const AdvertForm: React.FC<AdvertFormProps> = ({ mode, anuncioSlug, onSubmit, on
               />
             </Form.Group>
           </Col>
-        </Row>
-        <Form.Group className="mb-3">
-          <Form.Label>Descripción</Form.Label>
-          <Form.Control
-            as="textarea"
-            name="descripcion"
-            value={formData.descripcion}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-        <Row>
-          <Col md={6}>
+          <Col md={4}>
             <Form.Group className="mb-3">
               <Form.Label>Tipo de anuncio</Form.Label>
               <Form.Select
@@ -153,6 +143,33 @@ const AdvertForm: React.FC<AdvertFormProps> = ({ mode, anuncioSlug, onSubmit, on
           </Col>
           <Col md={6}>
             <Form.Group className="mb-3">
+              <Form.Label>Imagen</Form.Label>
+              <Form.Control
+                type="file"
+                onChange={handleImageChange}
+                accept="image/*"
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Form.Group className="mb-3">
+              <Form.Label>Descripción</Form.Label>
+              <Form.Control
+                as="textarea"
+                name="descripcion"
+                value={formData.descripcion}
+                onChange={handleChange}
+                rows={5}
+                required
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Form.Group className="mb-3">
               <Form.Label>Tags (separados por comas)</Form.Label>
               <Form.Control
                 type="text"
@@ -163,25 +180,17 @@ const AdvertForm: React.FC<AdvertFormProps> = ({ mode, anuncioSlug, onSubmit, on
             </Form.Group>
           </Col>
         </Row>
-        <Form.Group className="mb-3">
-          <Form.Label>Imagen</Form.Label>
-          <Form.Control
-            type="file"
-            onChange={handleImageChange}
-            accept="image/*"
-          />
-        </Form.Group>
         {error && <div className="text-danger mb-3">{error}</div>}
-        <div className="d-flex justify-content-between">
-          <Button variant="danger" onClick={onCancel}>
-            Regresar al listado
-          </Button>
+        <div className="d-flex justify-content-start gap-3">
           <Button variant="primary" type="submit" disabled={loading}>
             {loading ? 'Guardando...' : 'Guardar anuncio'}
           </Button>
+          <Button variant="outline-secondary" onClick={onCancel}>
+            Cancelar
+          </Button>
         </div>
       </Form>
-    </Container>
+    </div>
   );
 };
 

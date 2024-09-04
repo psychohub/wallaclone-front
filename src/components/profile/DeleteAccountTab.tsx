@@ -46,7 +46,7 @@ const DeleteAccountTab: React.FC = () => {
 				{ error && <Alert variant="danger">Ocurrió un error al intentar eliminar la cuenta del usuario</Alert> }
 				<div style={{ textAlign: 'justify', margin: '1.5rem 0' }}>
 					<p>¡Cuidado! Al eliminar tu cuenta se perderán todos los anuncios que hayas guardado, junto con los demás datos relacionados a tu cuenta.</p>
-					<p>Continua bajo tu propio riesgo.</p>
+					<p>Continúa bajo tu propio riesgo.</p>
 				</div>
 				<Button variant="danger" onClick={handleShowModal}>Eliminar cuenta</Button>
 			</div>

@@ -267,33 +267,7 @@ main {
   width: 100%;
 }
 
-
-/* Estilos para el botón Editar */
-.edit-button {
-  background-color: var(--accent-color);
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
-  border-radius: 5px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.edit-button:hover {
-  background-color: #0056b3; 
-  transform: translateY(-2px);
-}
-
-.edit-button:focus {
-  outline: 2px solid #fff;
-  outline-offset: 2px;
-}
-
-.edit-button:active {
-  background-color: #004494; 
-  transform: translateY(0);
+.small-container {
+  max-width: 420px;
+  width: 100%;
 }
