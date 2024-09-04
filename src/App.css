@@ -117,6 +117,10 @@ main {
   font-size: 1rem;
 }
 
+.form .form-control:disabled {
+  background-color: var(--bs-secondary-bg);
+}
+
 .form .eye {
   border: 1px solid var(--input-border-color);
   border-top-right-radius: 4px !important;
