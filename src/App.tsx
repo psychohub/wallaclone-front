@@ -72,7 +72,7 @@ function App() {
             <Route path="/app/articulos" element={ <MyAdvertsPage /> } />
             <Route path="/app/articulos/nuevo" element={ <CreateAdvertPage /> } />
             <Route path="/app/articulos/:slug/editar" element={<EditAdvertPage />} />
-            <Route path="/chat/:anuncioId" element={ <ChatPage /> } />
+            <Route path="/app/chat/:anuncioId" element={<ChatPage />} />
           </Route>
           <Route path="/404" element={<div>404 | Not found</div>} />
           <Route path="*" element={<Navigate to="/404" />} />

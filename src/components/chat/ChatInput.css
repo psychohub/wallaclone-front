@@ -1,15 +1,59 @@
 .chat-input {
-    padding: 1rem;
-    background-color: #f8f9fa;
-    border-top: 1px solid #ddd;
+  padding: 0.5rem;
+  background-color: #f8f9fa;
+  border-top: 1px solid #ddd;
+  width: 100%;
+}
+
+.chat-input .input-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%; 
+}
+
+.chat-input .form-control {
+  width: 100%; 
+  flex-grow: 1;
+  border-radius: 4px;
+  padding: 0.75rem;
+  font-size: 1rem;
+  min-height: 60px; 
+  border: 1px solid #ced4da;
+  margin-bottom: 0.5rem;
+  box-sizing: border-box; 
+}
+
+.chat-input .btn {
+  width: 100%; 
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  height: 50px; 
+}
+
+.chat-input .btn:hover {
+  background-color: #0056b3;
+}
+
+@media (min-width: 768px) {
+  .chat-input .input-group {
+    flex-direction: row;
   }
   
   .chat-input .form-control {
+    flex: 1; 
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    margin-bottom: 0;
+    margin-right: 0.5rem; 
   }
   
   .chat-input .btn {
+    width: auto; 
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
+}
