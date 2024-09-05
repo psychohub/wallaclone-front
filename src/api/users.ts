@@ -27,3 +27,18 @@ export const deleteUserById = async (id: string) => {
 		throw new Error((error as AxiosError).response?.data as string ?? (error as Error).message);
 	}
 };
+
+export const updateUserInfo = async ({ name, email }: { name: string, email: string }) => {
+	try {
+		const response = await axios.put('/users/actualizar-datos', {
+			name,
+			email
+		});
+		return {
+			status: response.status,
+			data: response.data.result
+		};
+	} catch (error) {
+		throw new Error(((error as AxiosError).response?.data as any).message as string ?? (error as Error).message);
+	}
+};
