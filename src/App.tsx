@@ -16,6 +16,7 @@ import ProfilePage from './pages/private/profile/ProfilePage';
 import MyAdvertsPage from './pages/private/MyAdvertsPage';
 import AdvertPage from './pages/public/AdvertPage/AdvertPage';
 import ChatPage from './components/chat/ChatPage';
+import ChatList from './components/chat/ChatList';
 import CreateAdvertPage from './pages/private/CreateAdvertPage';
 import EditAdvertPage from './pages/private/EditAdvertPage';
 import './App.css';
@@ -72,7 +73,8 @@ function App() {
             <Route path="/app/articulos" element={ <MyAdvertsPage /> } />
             <Route path="/app/articulos/nuevo" element={ <CreateAdvertPage /> } />
             <Route path="/app/articulos/:slug/editar" element={<EditAdvertPage />} />
-            <Route path="/app/chat/:anuncioId" element={<ChatPage />} />
+            <Route path="/app/chat/:chatId" element={<ChatPage />} />
+            <Route path="/app/mis-chats" element={<ChatList />} />
           </Route>
           <Route path="/404" element={<div>404 | Not found</div>} />
           <Route path="*" element={<Navigate to="/404" />} />

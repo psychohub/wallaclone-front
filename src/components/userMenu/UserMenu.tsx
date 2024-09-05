@@ -29,6 +29,7 @@ const UserMenu = ({ user }: Props) => {
         <Dropdown.Item href="/app/perfil">Perfil</Dropdown.Item>
         <Dropdown.Item href="/app/articulos">Mis anuncios</Dropdown.Item>
         <Dropdown.Item href="/app/articulos/nuevo">Nuevo anuncio</Dropdown.Item>
+        <Dropdown.Item href="/app/mis-chats">Mis Conversaciones</Dropdown.Item> 
 				<Dropdown.Divider />
         <Dropdown.Item href="#" onClick={handleLogout}>Cerrar sesión</Dropdown.Item>
       </Dropdown.Menu>

@@ -103,6 +103,8 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = action.payload.data.usuario;
         state.token = action.payload.data.token;
+        localStorage.setItem(ACCESS_TOKEN, action.payload.data.token);
+        localStorage.setItem(USER_DATA, JSON.stringify(action.payload.data.usuario));
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -121,6 +123,7 @@ const authSlice = createSlice({
         state.error = action.payload as string;
       });
   },
+  
 });
 
 export const { setUser, setToken, logout } = authSlice.actions;
