@@ -121,6 +121,7 @@ const authSlice = createSlice({
         state.error = action.payload as string;
       });
   },
+  
 });
 
 export const { setUser, setToken, logout } = authSlice.actions;

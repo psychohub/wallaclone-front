@@ -83,7 +83,19 @@ export const changeAdvertStatus = async (advertId: string, newStatus: StatusAnun
 	}
 };
 
-export const createAdvert = async (formData: FormData) => {
+export const getAdvertById = async (id: string) => {
+	try {
+	  const response = await axiosInstance.get(`/anuncios/${id}`);
+	  return {
+		status: response.status,
+		data: response.data as Anuncio
+	  };
+	} catch (error) {
+	  throw new Error((error as AxiosError).response?.data as string ?? (error as Error).message);
+	}
+  };
+  
+  export const createAdvert = async (formData: FormData) => {
 	try {
 	  const response = await axiosInstance.post('/anuncios/item', formData, {
 		headers: {
@@ -108,4 +120,3 @@ export const createAdvert = async (formData: FormData) => {
 	  throw new Error((error as AxiosError).response?.data as string ?? (error as Error).message);
 	}
   };
-  

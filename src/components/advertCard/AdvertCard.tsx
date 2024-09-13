@@ -1,12 +1,15 @@
-import { Card } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { Anuncio } from '../../types/adverts';
 import { API_BASE_URL } from '../../config/environment';
 import { sanitizeInput } from '../../utils/sanitize';
-import { Link } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/useStore';
 import Img from '../image/Img';
 import './advertCard.css';
 
 const AdvertCard = ({ anuncio }: { anuncio: Anuncio }) => {
+  const user = useAppSelector((state) => state.auth.user);
+  
   return (
     <Card className="product-card">
       <div className='product-img'>
@@ -27,6 +30,12 @@ const AdvertCard = ({ anuncio }: { anuncio: Anuncio }) => {
         </div>
         <p className="price">{anuncio.precio} €</p>
         <p>{sanitizeInput(anuncio.descripcion)}</p>
+        <Link className='user-action'
+          to={
+            (user && user.id !== anuncio.autor._id) ? `/articulos/usuario/${anuncio.autor.nombre}` : '/app/articulos'
+          }>
+          @{anuncio.autor.nombre}
+        </Link>
         {
 					anuncio.estado === 'disponible' &&
 					<p className={`sale ${anuncio.tipoAnuncio === 'venta' ? '' : 'busca'}`}>{anuncio.tipoAnuncio === 'venta' ? 'Se vende' : 'Se busca'}</p>
@@ -39,14 +48,9 @@ const AdvertCard = ({ anuncio }: { anuncio: Anuncio }) => {
 				}
       </Card.Body>
       <Card.Footer>
-        <div className="actions">
-          <Link to={`/articulos/${anuncio.slug}`}>
-            Ir al detalle
-          </Link>
-          <Link to={`/articulos/usuario/${anuncio.autor.nombre}`}>
-            @{anuncio.autor.nombre}
-          </Link>
-        </div>
+        <Link to={`/articulos/${anuncio.slug}`} className='detail-action'>
+          <Button type='button' variant='outline-primary'>Ver más</Button>
+        </Link>
       </Card.Footer>
     </Card>
   );
