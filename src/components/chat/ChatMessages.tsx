@@ -1,4 +1,3 @@
-// ChatMessages.tsx
 import React, { useEffect, useRef } from 'react';
 import { useAppSelector } from '../../hooks/useStore';
 import './ChatMessages.css';
@@ -28,14 +27,14 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ messages }) => {
     <div className="chat-messages" aria-live="polite">
       {messages.map((message) => (
         <div
-          key={message.id} 
+          key={`message-${message.id}`} 
           className={`message ${message.emisor === currentUser?.id ? 'sent' : 'received'}`}
         >
           <div className="message-content">
             {message.contenido}
           </div>
           <div className="message-timestamp">
-            {new Date(message.fechaEnvio).toLocaleTimeString()}
+            {new Date(message.fechaEnvio).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
           </div>
         </div>
       ))}

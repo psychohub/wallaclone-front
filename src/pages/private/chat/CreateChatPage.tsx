@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getChatIdByAdvertId, createChat } from '../../api/chat';  
-import { useAppSelector } from '../../hooks/useStore';
-import Loader from '../../components/loader/Loader';  
+import { getChatIdByAdvertId, createChat } from '../../../api/chat';
+import { useAppSelector } from '../../../hooks/useStore';
+import Loader from '../../../components/loader/Loader';
 
 const CreateChatPage: React.FC = () => {
   const { advertId } = useParams<{ advertId: string }>();
@@ -22,11 +22,11 @@ const CreateChatPage: React.FC = () => {
       try {
         const { status, data: chatId } = await getChatIdByAdvertId(advertId);
         if (status === 200 && chatId) {
-          navigate(`/app/chat/${chatId}`);
+          navigate(`/app/chats/${chatId}`);
         } else if (status === 404) {
           const { status: createStatus, data: newChatId } = await createChat(advertId);
           if (createStatus === 201 && newChatId) {
-            navigate(`/app/chat/${newChatId}`);
+            navigate(`/app/chats/${newChatId}`);
           } else {
             setError('Error al crear el chat. Por favor, inténtelo de nuevo.');
           }

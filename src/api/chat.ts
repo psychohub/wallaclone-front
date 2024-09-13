@@ -5,7 +5,7 @@ export const getChatMessages = async (chatId: string) => {
       const response = await axios.get(`/chat/${chatId}`);
       return {
           status: response.status,
-          data: response.data.mensajes
+          data: response.data
       };
   } catch (error) {
       throw new Error((error as any).response?.data as string ?? (error as Error).message);

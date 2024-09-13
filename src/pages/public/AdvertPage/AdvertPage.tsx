@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { Card, Container } from "react-bootstrap";
 import { getAdvertBySlug } from "../../../api/adverts";
+import { getChatIdByAdvertId } from '../../../api/chat'; 
 import { Anuncio, StatusAnuncio } from "../../../types/adverts";
-import Loader from "../../../components/loader/Loader";
 import { API_BASE_URL } from "../../../config/environment";
 import { sanitizeInput } from "../../../utils/sanitize";
-import { Card } from "react-bootstrap";
-import AdvertStatusAction from "../../../components/advertStatusActions/AdvertStatusActions";
 import { useAppSelector } from "../../../hooks/useStore";
-import { getChatIdByAdvertId } from '../../../api/chat'; 
+import Loader from "../../../components/loader/Loader";
+import AdvertStatusAction from "../../../components/advertStatusActions/AdvertStatusActions";
 import ChatButton from '../../../components/shared/ChatButton/ChatButton'; 
 import './advertPage.css';
 
@@ -19,8 +19,9 @@ const AdvertPage: React.FC = () => {
   const [advert, setAdvert] = useState<Anuncio>();
   const [selectedStatus, setSelectedStatus] = useState<StatusAnuncio>();
   const [chatId, setChatId] = useState<string | null>(null); 
+  
   const user = useAppSelector((state) => state.auth.user);
-
+  
   useEffect(() => {
     const fetchAdvert = async () => {
       if (slug) {
@@ -47,25 +48,28 @@ const AdvertPage: React.FC = () => {
   }
 
   return (
-    <>
+    <Container className="medium-container">
       <Card className="product-card detail">
         <Card.Header>
           <div className="header-content">
-            <Link to={`/anuncios/usuario/${advert.autor.nombre}`} className="username">
+            <Link className="username"
+              to={
+                (user && user.id !== advert.autor._id) ? `/articulos/usuario/${advert.autor.nombre}` : '/app/articulos'
+              }>
               @{advert.autor.nombre}
             </Link>
-            {user && user.id !== advert.autor._id && (
+            { (user && user.id !== advert.autor._id) && (
               <ChatButton advertId={advert._id} chatId={chatId} /> 
             )}
+            {selectedStatus && (
+              <AdvertStatusAction
+                advertId={advert._id}
+                owner={advert.autor._id}
+                currentStatus={selectedStatus}
+                setCurrentStatus={setSelectedStatus}
+              />
+            )}
           </div>
-          {selectedStatus && (
-            <AdvertStatusAction
-              advertId={advert._id}
-              owner={advert.autor._id}
-              currentStatus={selectedStatus}
-              setCurrentStatus={setSelectedStatus}
-            />
-          )}
         </Card.Header>
         {advert.imagen ? (
           <div className="product-img">
@@ -94,7 +98,7 @@ const AdvertPage: React.FC = () => {
           </div>
         </Card.Body>
       </Card>
-    </>
+    </Container>
   );
 };
 

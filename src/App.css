@@ -275,3 +275,8 @@ main {
   max-width: 420px;
   width: 100%;
 }
+
+.medium-container {
+  max-width: 640px;
+  width: 100%;
+}

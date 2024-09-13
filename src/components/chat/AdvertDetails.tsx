@@ -1,6 +1,9 @@
 import React from 'react';
-import './AdvertDetails.css';
+import { Link } from 'react-router-dom';
+import { Card } from 'react-bootstrap';
 import { Anuncio } from '../../types/adverts'; 
+import { API_BASE_URL } from '../../config/environment';
+import { sanitizeInput } from '../../utils/sanitize';
 
 interface AdvertDetailsProps {
   advert: Anuncio; 
@@ -8,21 +11,39 @@ interface AdvertDetailsProps {
 
 const AdvertDetails: React.FC<AdvertDetailsProps> = ({ advert }) => {
   return (
-    <div className="advert-details card">
-      <img src={advert.imagen} className="card-img-top" alt={advert.nombre} />
-      <div className="card-body">
-        <h2 className="card-title h5">{advert.nombre}</h2>
-        <p className="card-text">{advert.descripcion}</p>
-        <p className="card-text"><strong>Precio:</strong> ${advert.precio}</p>
-        <p className="card-text"><strong>Tipo de Anuncio:</strong> {advert.tipoAnuncio === 'venta' ? 'Venta' : 'Búsqueda'}</p>
-        <p className="card-text"><strong>Publicado por:</strong> {advert.autor.nombre}</p>
-        <p className="card-text"><strong>Fecha de Publicación:</strong> {new Date(advert.fechaPublicacion).toLocaleDateString()}</p>
-        <p className="card-text"><strong>Estado:</strong> {advert.estado}</p>
-        <div className="card-text">
-          <strong>Tags:</strong> {advert.tags.length > 0 ? advert.tags.join(', ') : 'Ninguno'}
+    <Card className="product-card detail">
+      {advert.imagen ? (
+        <div className="product-img">
+          <img
+            src={`${API_BASE_URL}/images/${advert.imagen}`}
+            alt={sanitizeInput(advert.nombre)}
+            crossOrigin="anonymous"
+          />
         </div>
-      </div>
-    </div>
+      ) : (
+        <div className="placeholder-image">Imagen no disponible</div>
+      )}
+      <Card.Body className="content">
+        <h2>
+          <Link to={`/articulos/${advert.slug}`}>
+            {sanitizeInput(advert.nombre)}
+          </Link>
+        </h2>
+        <p>Publicado el {new Date(advert.fechaPublicacion).toLocaleDateString()}</p>
+        <p className="price">{advert.precio} €</p>
+        <p className={`sale-detail ${advert.tipoAnuncio === 'venta' ? '' : 'busca'}`}>
+          {advert.tipoAnuncio === 'venta' ? 'Se vende' : 'Se busca'}
+        </p>
+        <p>{sanitizeInput(advert.descripcion)}</p>
+        <div className="tags">
+          {advert.tags.map(tag => (
+            <span className="tag" key={tag}>
+              {sanitizeInput(tag)}
+            </span>
+          ))}
+        </div>
+      </Card.Body>
+    </Card>
   );
 };
 

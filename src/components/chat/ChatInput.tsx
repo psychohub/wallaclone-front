@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Button, Form, FormControl, InputGroup } from 'react-bootstrap';
 import './ChatInput.css';
 
 interface ChatInputProps {
@@ -17,21 +18,17 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="chat-input">
-      <div className="input-group">
-        <input
-          type="text"
-          className="form-control"
+    <Form onSubmit={handleSubmit} className="chat-input">
+      <InputGroup>
+        <FormControl
+          type='text'
           placeholder="Escribe un mensaje..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          aria-label="Mensaje de chat"
         />
-        <button className="btn btn-primary" type="submit" aria-label="Enviar mensaje">
-          Enviar
-        </button>
-      </div>
-    </form>
+        <Button type='submit'>Enviar</Button>
+      </InputGroup>
+    </Form>
   );
 };
 
