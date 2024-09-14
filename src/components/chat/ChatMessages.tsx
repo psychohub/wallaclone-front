@@ -25,9 +25,9 @@ const ChatMessages: React.FC<ChatMessagesProps> = ({ messages }) => {
 
   return (
     <div className="chat-messages" aria-live="polite">
-      {messages.map((message) => (
+      {messages.map((message, index) => (
         <div
-          key={`message-${message.id}`} 
+          key={`message-${index}`} 
           className={`message ${message.emisor === currentUser?.id ? 'sent' : 'received'}`}
         >
           <div className="message-content">
