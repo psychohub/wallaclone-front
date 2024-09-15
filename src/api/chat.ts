@@ -1,35 +1,35 @@
 import axios from '../lib/axiosInstance';
 
-export const getChatMessages = async (chatId: string) => {
+export const getOrCreateChat = async (advertId: string, ownerId: string, userId: string) => {
   try {
-      const response = await axios.get(`/chat/${chatId}`);
+      const response = await axios.get(`/chats/messages/?advertId=${advertId}&ownerId=${ownerId}&userId=${userId}`);
       return {
           status: response.status,
-          data: response.data
+          data: response.data.result
       };
   } catch (error) {
       throw new Error((error as any).response?.data as string ?? (error as Error).message);
   }
 };
 
-export const sendChatMessage = async (chatId: string, content: string) => {
+export const saveChatMessage = async (chatId: string, content: string) => {
   try {
-    const response = await axios.post('/chat', { chatId, contenido: content }); 
+    const response = await axios.post('/chats', { chatId, contenido: content }); 
     return {
       status: response.status,
-      data: response.data.chat.mensajes[response.data.chat.mensajes.length - 1]
+      data: response.data.newMessage
     };
   } catch (error) {
     throw new Error((error as any).response?.data as string ?? (error as Error).message);
   }
 };
 
-export const getChatIdByAdvertId = async (advertId: string) => {
+export const getAllMyChats = async () => {
   try {
-    const response = await axios.get(`/chat/adverts/${advertId}`);
+    const response = await axios.get('/chats/');
     return {
       status: response.status,
-      data: response.data.chatId, 
+      data: response.data,
     };
   } catch (error: any) {
     if (error.response && error.response.status === 404) {
@@ -41,18 +41,3 @@ export const getChatIdByAdvertId = async (advertId: string) => {
     throw new Error(error.response?.data?.message || 'Error desconocido al obtener el chat');
   }
 };
-
-
-export const createChat = async (advertId: string) => {
-  try {
-    const response = await axios.post('/chat/create', { advertId });
-    return {
-      status: response.status,
-      data: response.data.chatId,  
-    };
-  } catch (error: any) {
-    throw new Error(error.response?.data?.message || 'Error al crear el chat');
-  }
-};
-
-

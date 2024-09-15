@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Card, Container } from "react-bootstrap";
 import { getAdvertBySlug } from "../../../api/adverts";
-import { getChatIdByAdvertId } from '../../../api/chat'; 
 import { Anuncio, StatusAnuncio } from "../../../types/adverts";
 import { API_BASE_URL } from "../../../config/environment";
 import { sanitizeInput } from "../../../utils/sanitize";
-import { useAppSelector } from "../../../hooks/useStore";
+import { useAppDispatch, useAppSelector } from "../../../hooks/useStore";
+import { setSelectedChat } from "../../../store/features/chats/chatsSlice";
+import { setSelectedAdvertSlug } from "../../../store/features/adverts/advertsSlice";
 import Loader from "../../../components/loader/Loader";
 import AdvertStatusAction from "../../../components/advertStatusActions/AdvertStatusActions";
 import ChatButton from '../../../components/shared/ChatButton/ChatButton'; 
@@ -23,27 +24,34 @@ const AdvertPage: React.FC = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   
   const user = useAppSelector((state) => state.auth.user);
+  const dispatch = useAppDispatch();
+  
+
   
   useEffect(() => {
     const fetchAdvert = async () => {
       if (slug) {
         const response = await getAdvertBySlug(slug);
         if (response.status === 200) {
-          setAdvert(response.data);
           setSelectedStatus(response.data.estado);
-          
-          // Intentar obtener el chatId si el usuario no es el autor del anuncio
-          if (user && user.id !== response.data.autor._id) {
-            const chatResponse = await getChatIdByAdvertId(response.data._id);
-            if (chatResponse.status === 200) {
-              setChatId(chatResponse.data);  
-            }
-          }
+          setAdvert(response.data);
+          dispatch(setSelectedAdvertSlug(response.data.slug));
         }
       }
     };
     fetchAdvert();
   }, [slug, user]);
+
+  const handleChatButton = () => {
+    if (!advert || !user) return;
+
+    const chat = {
+      advertId: advert._id,
+      ownerId: advert.autor._id,
+      userId: user.id,
+    };
+    dispatch(setSelectedChat(chat));
+  };
 
   if (!advert) {
     return <Loader />;
@@ -60,16 +68,19 @@ const AdvertPage: React.FC = () => {
               }>
               @{advert.autor.nombre}
             </Link>
-            { (user && user.id !== advert.autor._id) && (
-              <>
-                <ChatButton advertId={advert._id} chatId={chatId} />
-                <FavoriteButton 
-                  anuncioId={advert._id} 
-                  isFavorite={isFavorite}
-                  onFavoriteChange={setIsFavorite}
-                />
-              </>
-            )}
+            {(user && user.id !== advert.autor._id) && (
+  <>
+
+    <ChatButton onClick={handleChatButton} />
+
+
+    <FavoriteButton 
+      anuncioId={advert._id} 
+      isFavorite={isFavorite}
+      onFavoriteChange={setIsFavorite}
+    />
+  </>
+)}
             {selectedStatus && (
               <AdvertStatusAction
                 advertId={advert._id}

@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import axios from '../../../lib/axiosInstance';
+import { useNavigate } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
+import { useAppDispatch } from '../../../hooks/useStore';
+import { setSelectedChat } from '../../../store/features/chats/chatsSlice';
+import { setSelectedAdvertSlug } from '../../../store/features/adverts/advertsSlice';
+import { Chat } from '../../../types/chat';
+import { getAllMyChats } from '../../../api/chat';
 
-interface Conversation {
-    _id: string;
-    anuncio: { nombre: string };
-    participantes: Array<{ nombre: string; email: string }>;
-}
 
 const ChatList: React.FC = () => {
-    const [conversations, setConversations] = useState<Conversation[]>([]);
+    const [chats, setChats] = useState<Chat[]>([]);
+
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchConversations = async () => {
             try {
-                const response = await axios.get('/chat');
-                setConversations(response.data);
+                const response = await getAllMyChats();
+                setChats(response.data.results);
             } catch (error) {
                 console.error('Error fetching conversations:', error);
             }
@@ -24,15 +27,30 @@ const ChatList: React.FC = () => {
         fetchConversations();
     }, []);
 
+    const handleClick = (chat: Chat) => {
+        dispatch(setSelectedChat({
+            id: chat._id,
+            advertId: chat.anuncio._id,
+            ownerId: chat.owner._id,
+            userId: chat.user._id,
+        }));
+        dispatch(setSelectedAdvertSlug(chat.anuncio.slug));
+        navigate('/app/chat');
+    };
+
     return (
         <div className="chat-list container mt-4">
             <h1 className="chat-title">Mis Conversaciones</h1>
             <ul className="list-group">
-                {conversations.map((conv) => (
-                    <li key={conv._id} className="list-group-item">
-                        <Link to={`/app/chats/${conv._id}`}>
-                            {conv.anuncio.nombre} - {conv.participantes.map(p => p.nombre).join(', ')}
-                        </Link>
+                {
+                    (chats && chats.length === 0) &&
+                    <p>Aún no tienes conversaciones activas.</p>
+                }
+                {chats.map((chat) => (
+                    <li key={chat._id} className="list-group-item">
+                        <Button variant='link' onClick={() => handleClick(chat)}>
+                            {`${chat.anuncio.nombre} - ${chat.owner.nombre} - ${chat.user.nombre}`}
+                        </Button>
                     </li>
                 ))}
             </ul>

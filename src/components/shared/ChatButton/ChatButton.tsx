@@ -1,22 +1,25 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button } from 'react-bootstrap';
 
 interface ChatButtonProps {
-  advertId: string;
-  chatId: string | null;
+  onClick: () => void;
 }
 
-const ChatButton: React.FC<ChatButtonProps> = ({ advertId, chatId }) => {
+const ChatButton: React.FC<ChatButtonProps> = ({ onClick }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    onClick();
+    navigate('/app/chat');
+  };
+
   return (
-    <Link 
-      to={chatId ? `/app/chats/${chatId}` : `/app/chats/new/${advertId}`}  
-      className="chat-icon-button"
-    >
-      <FontAwesomeIcon icon={faComment} size="lg" />
-      {chatId ? 'Continuar chat' : 'Contactar'}
-    </Link>
+    <Button variant='link' onClick={handleClick} className="chat-icon-button">
+      <FontAwesomeIcon icon={faComment} size="lg" />Contactar
+    </Button>
   );
 };
 
