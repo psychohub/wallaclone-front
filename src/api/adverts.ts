@@ -94,9 +94,9 @@ export const createAdvert = async (formData: FormData) => {
 	} catch (error) {
 	  throw new Error((error as AxiosError).response?.data as string ?? (error as Error).message);
 	}
-  };
+};
   
-  export const editAdvert = async (id: string, formData: FormData) => {
+export const editAdvert = async (id: string, formData: FormData) => {
 	try {
 	  const response = await axiosInstance.put(`/anuncios/item/${id}`, formData, {
 		headers: {
@@ -107,5 +107,4 @@ export const createAdvert = async (formData: FormData) => {
 	} catch (error) {
 	  throw new Error((error as AxiosError).response?.data as string ?? (error as Error).message);
 	}
-  };
-  
+};

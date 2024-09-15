@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ACCESS_TOKEN, API_BASE_URL, USER_DATA } from '../config/environment';
+import { store } from '../store';
 
 const axiosInstance = axios.create({
 	baseURL: `${API_BASE_URL}/api`,
@@ -12,7 +13,7 @@ const axiosInstance = axios.create({
 // Request interceptor
 axiosInstance.interceptors.request.use(
 	async config => {
-		const accessToken = window.localStorage.getItem(ACCESS_TOKEN);
+		const accessToken = store.getState().auth.token ?? window.localStorage.getItem(ACCESS_TOKEN);
 
 		if (accessToken) {
 			if (config.headers) {
