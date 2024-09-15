@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate, Outlet } from 'react-router-dom';
 import { ACCESS_TOKEN, USER_DATA } from './config/environment';
-import { setToken, setUser, User } from './store/features/auth/authSlice';
+import { setToken, setUser } from './store/features/auth/authSlice';
 import { useAppDispatch } from './hooks/useStore';
+import { User } from './types/user';
 import Layout from './layouts/Layout';
 import AdvertsPage from './pages/public/AdvertsPage';
 import PublicRoute from './components/private/PublicRoute';
@@ -17,7 +18,6 @@ import MyAdvertsPage from './pages/private/MyAdvertsPage';
 import AdvertPage from './pages/public/AdvertPage/AdvertPage';
 import ChatPage from './pages/private/chat/ChatPage';
 import ChatListPage from './pages/private/chat/ChatListPage';
-import CreateChatPage from './pages/private/chat/CreateChatPage';
 import CreateAdvertPage from './pages/private/CreateAdvertPage';
 import EditAdvertPage from './pages/private/EditAdvertPage';
 import './App.css';
@@ -74,9 +74,8 @@ function App() {
             <Route path="/app/articulos" element={ <MyAdvertsPage /> } />
             <Route path="/app/articulos/nuevo" element={ <CreateAdvertPage /> } />
             <Route path="/app/articulos/:slug/editar" element={<EditAdvertPage />} />
-            <Route path="/app/chats/new/:advertId" element={<CreateChatPage />} />
-            <Route path="/app/chats/:chatId" element={<ChatPage />} />
-            <Route path="/app/chats" element={<ChatListPage />} />
+            <Route path="/app/chat" element={<ChatPage />} />
+            <Route path="/app/chats/" element={<ChatListPage />} />
           </Route>
           <Route path="/404" element={<div>404 | Not found</div>} />
           <Route path="*" element={<Navigate to="/404" />} />

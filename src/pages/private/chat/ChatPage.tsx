@@ -1,59 +1,75 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { Col, Container, Row } from 'react-bootstrap';
+import { Navigate } from 'react-router-dom';
 import { Anuncio } from '../../../types/adverts';
-import { getChatMessages, sendChatMessage } from '../../../api/chat';
+import { Chat, ChatMessage } from '../../../types/chat';
+import { getOrCreateChat, saveChatMessage } from '../../../api/chat';
+import { getAdvertBySlug } from '../../../api/adverts';
 import { useAppSelector } from '../../../hooks/useStore'; 
+import { disconnectSocket, initiateSocket, receiveMessage, sendMessage } from '../../../hooks/useSocket';
 import ChatMessages from '../../../components/chat/ChatMessages';
 import ChatInput from '../../../components/chat/ChatInput';
 import AdvertDetails from '../../../components/chat/AdvertDetails';
 import './ChatPage.css';
 
-interface ChatMessage {
-  id: string;
-  emisor: string;
-  contenido: string;
-  fechaEnvio: string;
-}
-
-interface IOwner { _id: string, nombre: string }
 
 const ChatPage: React.FC = () => {
-  const { chatId } = useParams<{ chatId: string }>(); 
+  const user = useAppSelector(state => state.auth.user);
+  const advertSlug = useAppSelector((state) => state.adverts.selectedAdvertSlug);
+  const selectedChat = useAppSelector((state) => state.chats.selectedChat);
+
+  const [chat, setChat] = useState<Chat>();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [advert, setAdvert] = useState<Anuncio>();
-  const [advertOwner, setAdvertOwner] = useState<string>();
-  
-  const user = useAppSelector(state => state.auth.user);
+  const [room, setRoom] = useState<string>();
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (chatId && user?.id) {  
-        try {
-         
-          const { status: chatStatus, data } = await getChatMessages(chatId);
-          if (chatStatus === 200) {
-            setMessages(data.mensajes);
-            setAdvert(data.anuncio);
-            setAdvertOwner((data.participantes as IOwner[]).find(p => p._id !== user.id)?.nombre);
-          }
-
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
+    const getChat = async () => {
+      if (!selectedChat) return;
+      
+      const response = await getOrCreateChat(selectedChat.advertId, selectedChat.ownerId, selectedChat.userId);
+      if ([200, 201].includes(response.status)) {
+        const chat = response.data as Chat;
+        setChat(chat);
+        setMessages(response.data.mensajes);
+        setRoom(`${chat._id}-${chat.owner}-${chat.user}`);
       }
     };
-    fetchData();
-  }, [chatId, user]); 
+
+    getChat();
+  }, []);
+
+  useEffect(() => {
+    const getAdvert = async () => {
+      if (!advertSlug) return;
+      
+      const response = await getAdvertBySlug(advertSlug);
+      if ([200].includes(response.status)) {
+        setAdvert(response.data);
+      }
+    };
+
+    getAdvert();
+  }, []);
+
+  useEffect(() => {
+    if (room) initiateSocket(room);
+    receiveMessage((err: any, data: ChatMessage) => {
+      if(err) return;
+      setMessages((prevMessages) => [...prevMessages, data]);
+    });
+    return () => {
+      disconnectSocket();
+    }
+  }, [room]);
 
   const handleSendMessage = async (content: string) => {
-    if (chatId && user?.id) {  
+    if (chat && user?.id) {  
       try {
-       
-        const { status, data: newMessage } = await sendChatMessage(chatId, content);
+        const { status, data: newMessage } = await saveChatMessage(chat._id, content);
         if (status === 201) {
-         
           setMessages((prevMessages) => [...prevMessages, newMessage]);
+          if(room) sendMessage(room, newMessage);
         } else {
           console.error('Error: No se pudo enviar el mensaje correctamente');
         }
@@ -65,11 +81,14 @@ const ChatPage: React.FC = () => {
     }
   };
   
+  if (!advertSlug || !selectedChat) {
+    return <Navigate to='/' />;
+  }
 
   return (
     <div className="list-container">
       <Container className="page-title-container">
-        <h2 className="page-title">Chat con {advertOwner}</h2>
+        <h2 className="page-title">Chat con {advert?.autor.nombre}</h2>
       </Container>
 
       <Container>
