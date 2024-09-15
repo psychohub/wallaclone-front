@@ -117,3 +117,7 @@
 .product-card .actions :not(.btn-check)+.btn:active {
 	color: var(--accent-color-secondary);
 }
+
+.advert-page .social-share {
+	margin-top: 20px;
+  }

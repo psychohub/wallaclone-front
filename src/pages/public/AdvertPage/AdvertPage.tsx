@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Card, Container } from "react-bootstrap";
+import { Helmet } from 'react-helmet-async';
 import { getAdvertBySlug } from "../../../api/adverts";
 import { getChatIdByAdvertId } from '../../../api/chat'; 
 import { Anuncio, StatusAnuncio } from "../../../types/adverts";
@@ -10,6 +11,7 @@ import { useAppSelector } from "../../../hooks/useStore";
 import Loader from "../../../components/loader/Loader";
 import AdvertStatusAction from "../../../components/advertStatusActions/AdvertStatusActions";
 import ChatButton from '../../../components/shared/ChatButton/ChatButton'; 
+import SocialShare from '../../../components/socialShare/SocialShare';
 import './advertPage.css';
 
 type AdvertPageParams = { slug: string };
@@ -47,8 +49,18 @@ const AdvertPage: React.FC = () => {
     return <Loader />;
   }
 
+  const shareUrl = `${window.location.origin}/articulos/${advert.slug}`;
+  const shareTitle = `Mira este artículo en Wallaclone: ${advert.nombre}`;
+
   return (
     <Container className="medium-container">
+       <Helmet>
+        <title>{`${advert.nombre} - Wallaclone`}</title>
+        <meta property="og:title" content={`${advert.nombre} - Wallaclone`} />
+        <meta property="og:description" content={advert.descripcion} />
+        <meta property="og:image" content={`${API_BASE_URL}/images/${advert.imagen}`} />
+        <meta property="og:url" content={shareUrl} />
+      </Helmet>
       <Card className="product-card detail">
         <Card.Header>
           <div className="header-content">
@@ -96,6 +108,7 @@ const AdvertPage: React.FC = () => {
               </span>
             ))}
           </div>
+          <SocialShare url={shareUrl} title={shareTitle} />
         </Card.Body>
       </Card>
     </Container>
