@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
 import Loader from '../../components/loader/Loader';
 import { Anuncio, IAdvertsFilters, IGetAdvertsParams  } from '../../types/adverts';
-import { getAdverts } from '../../api/adverts';
+import { getAdverts, getFavorites  } from '../../api/adverts';
 import AdvertCard from '../../components/advertCard/AdvertCard';
 import AdvertsFilters from '../../components/advertsFilters/AdvertsFilters';
 import { Col, Container, Row } from 'react-bootstrap';
@@ -13,6 +13,7 @@ const AdvertsPage: React.FC = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [favorites, setFavorites] = useState<string[]>([]);
 
   const fetchAnuncios = async (filters?: IAdvertsFilters) => {
     setIsLoading(true);
@@ -24,10 +25,18 @@ const AdvertsPage: React.FC = () => {
       }
       
       const adverts = await getAdverts(params);
+      const favoritesResponse = await getFavorites();
       
       if (adverts.data && adverts.data.anuncios && Array.isArray(adverts.data.anuncios)) {
         setAnuncios(adverts.data.anuncios);
         setTotalPages(adverts.data.totalPages);
+        try {
+          const favoritesResponse = await getFavorites();
+          setFavorites(favoritesResponse.data.favoritos.map((fav: any) => fav.anuncio._id));
+        } catch (favError) {
+          console.error('Error al cargar favoritos:', favError);
+          setFavorites([]);
+        }
       } else {
         setError('Error en el formato de datos recibido.');
       }
@@ -50,9 +59,16 @@ const AdvertsPage: React.FC = () => {
     fetchAnuncios(filters);
   };
 
+  const handleFavoriteChange = (anuncioId: string, isFavorite: boolean) => {
+    if (isFavorite) {
+      setFavorites([...favorites, anuncioId]);
+    } else {
+      setFavorites(favorites.filter(id => id !== anuncioId));
+    }
+  };
+
   return (
     <div className="list-container">
-      
       <AdvertsFilters onFilter={handleFilter} />
 
       {isLoading && <Loader />}
@@ -64,7 +80,11 @@ const AdvertsPage: React.FC = () => {
           <Row>
           {anuncios.map((anuncio, index) => (
             <Col sm={12} md={6} lg={3} key={`card-${index}`}>
-              <AdvertCard anuncio={anuncio} />
+              <AdvertCard 
+                anuncio={anuncio} 
+                isFavorite={favorites.includes(anuncio._id)}
+                onFavoriteChange={(isFavorite) => handleFavoriteChange(anuncio._id, isFavorite)}
+              />
             </Col>
           ))}
           </Row>

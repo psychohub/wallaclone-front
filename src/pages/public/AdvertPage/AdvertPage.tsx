@@ -10,6 +10,7 @@ import { useAppSelector } from "../../../hooks/useStore";
 import Loader from "../../../components/loader/Loader";
 import AdvertStatusAction from "../../../components/advertStatusActions/AdvertStatusActions";
 import ChatButton from '../../../components/shared/ChatButton/ChatButton'; 
+import FavoriteButton from '../../../components/favoriteButton/FavoriteButton';
 import './advertPage.css';
 
 type AdvertPageParams = { slug: string };
@@ -19,6 +20,7 @@ const AdvertPage: React.FC = () => {
   const [advert, setAdvert] = useState<Anuncio>();
   const [selectedStatus, setSelectedStatus] = useState<StatusAnuncio>();
   const [chatId, setChatId] = useState<string | null>(null); 
+  const [isFavorite, setIsFavorite] = useState(false);
   
   const user = useAppSelector((state) => state.auth.user);
   
@@ -59,7 +61,14 @@ const AdvertPage: React.FC = () => {
               @{advert.autor.nombre}
             </Link>
             { (user && user.id !== advert.autor._id) && (
-              <ChatButton advertId={advert._id} chatId={chatId} /> 
+              <>
+                <ChatButton advertId={advert._id} chatId={chatId} />
+                <FavoriteButton 
+                  anuncioId={advert._id} 
+                  isFavorite={isFavorite}
+                  onFavoriteChange={setIsFavorite}
+                />
+              </>
             )}
             {selectedStatus && (
               <AdvertStatusAction
