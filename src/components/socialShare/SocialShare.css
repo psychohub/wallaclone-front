@@ -1,0 +1,21 @@
+.social-share {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+  }
+  
+  .social-share button {
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+  
+  .social-share button:hover {
+    transform: scale(1.1);
+  }
+  
+  .social-share .fa-x-twitter {
+    color: #000; 
+  }

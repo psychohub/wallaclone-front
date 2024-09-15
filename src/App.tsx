@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate, Outlet } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { ACCESS_TOKEN, USER_DATA } from './config/environment';
 import { setToken, setUser, User } from './store/features/auth/authSlice';
 import { useAppDispatch } from './hooks/useStore';
@@ -44,45 +45,47 @@ function App() {
   }, [dispatch]);
 
   return (
-    <Router>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<AdvertsPage />} />
-          <Route path="/articulos" element={<AdvertsPage />} />
-          <Route path="/articulos/usuario/:username" element={<UserAdvertsPage />} />
-          <Route path="/articulos/:slug" element={<AdvertPage />} />
-          <Route 
-            path="/"
-            element={
-              <PublicRoute>
-                <Outlet />
-              </PublicRoute>
-            }>  
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/recuperar-contrasena" element={<ForgotPasswordPage />} />
-            <Route path="/restablecer-contrasena" element={<ResetPasswordPage />} />
-          </Route>
-          <Route 
-            path="/app"
-            element={
-              <PrivateRoute>
-                <Outlet />
-              </PrivateRoute>
-            }>
-            <Route path="/app/perfil" element={ <ProfilePage /> } />
-            <Route path="/app/articulos" element={ <MyAdvertsPage /> } />
-            <Route path="/app/articulos/nuevo" element={ <CreateAdvertPage /> } />
-            <Route path="/app/articulos/:slug/editar" element={<EditAdvertPage />} />
-            <Route path="/app/chats/new/:advertId" element={<CreateChatPage />} />
-            <Route path="/app/chats/:chatId" element={<ChatPage />} />
-            <Route path="/app/chats" element={<ChatListPage />} />
-          </Route>
-          <Route path="/404" element={<div>404 | Not found</div>} />
-          <Route path="*" element={<Navigate to="/404" />} />
-        </Routes>
-      </Layout>
-    </Router>
+    <HelmetProvider>
+      <Router>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<AdvertsPage />} />
+            <Route path="/articulos" element={<AdvertsPage />} />
+            <Route path="/articulos/usuario/:username" element={<UserAdvertsPage />} />
+            <Route path="/articulos/:slug" element={<AdvertPage />} />
+            <Route 
+              path="/"
+              element={
+                <PublicRoute>
+                  <Outlet />
+                </PublicRoute>
+              }>  
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/recuperar-contrasena" element={<ForgotPasswordPage />} />
+              <Route path="/restablecer-contrasena" element={<ResetPasswordPage />} />
+            </Route>
+            <Route 
+              path="/app"
+              element={
+                <PrivateRoute>
+                  <Outlet />
+                </PrivateRoute>
+              }>
+              <Route path="/app/perfil" element={ <ProfilePage /> } />
+              <Route path="/app/articulos" element={ <MyAdvertsPage /> } />
+              <Route path="/app/articulos/nuevo" element={ <CreateAdvertPage /> } />
+              <Route path="/app/articulos/:slug/editar" element={<EditAdvertPage />} />
+              <Route path="/app/chats/new/:advertId" element={<CreateChatPage />} />
+              <Route path="/app/chats/:chatId" element={<ChatPage />} />
+              <Route path="/app/chats" element={<ChatListPage />} />
+            </Route>
+            <Route path="/404" element={<div>404 | Not found</div>} />
+            <Route path="*" element={<Navigate to="/404" />} />
+          </Routes>
+        </Layout>
+      </Router>
+    </HelmetProvider>
   );
 }
 
