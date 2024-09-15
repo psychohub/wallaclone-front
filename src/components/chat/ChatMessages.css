@@ -24,6 +24,13 @@
   border-bottom-right-radius: 4px;
 }
 
+.message-timestamp {
+  font-size: 0.7rem;
+  color: #fff;
+  text-align: right;
+  margin-top: 0.25rem;
+}
+
 .message.received {
   align-self: flex-start;
   background-color: #f0f0f0;
@@ -31,11 +38,8 @@
   border-bottom-left-radius: 4px;
 }
 
-.message-timestamp {
-  font-size: 0.7rem;
-  color: #fff;
-  text-align: right;
-  margin-top: 0.25rem;
+.message.received .message-timestamp {
+  color: #333;
 }
 
 @media (max-width: 768px) {
