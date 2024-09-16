@@ -1,12 +1,14 @@
 import { io, Socket } from 'socket.io-client';
 import { ClientToServerEvents, ServerToClientEvents } from '../types/socket';
-import { API_BASE_URL } from '../config/environment';
+import { ACCESS_TOKEN, API_BASE_URL } from '../config/environment';
 import { ChatMessage } from '../types/chat';
+import { store } from '../store';
 
 let socket: Socket<ServerToClientEvents, ClientToServerEvents>;
 
 export const initiateSocket = (room: string) => {
-  socket = io(API_BASE_URL);
+  const accessToken = store.getState().auth.token ?? window.localStorage.getItem(ACCESS_TOKEN);
+  socket = io(API_BASE_URL, { auth: { token: accessToken } });
   if (socket && room) socket.emit('join', room);
 }
 
