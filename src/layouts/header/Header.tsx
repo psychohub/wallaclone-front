@@ -31,7 +31,7 @@ const Header = () => {
 					<Button type="button" variant="outline-primary" className="app-navbar-button" onClick={toggleMenu}>
 						<FontAwesomeIcon icon={faBars} size="lg" />
 					</Button>
-					<MobileMenu openMenu={openMenu} />
+					<MobileMenu openMenu={openMenu} setOpenMenu={setOpenMenu} />
 				</>
 				: <Menu />
 			}

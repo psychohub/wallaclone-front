@@ -57,6 +57,9 @@ a:hover {
 }
 
 main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
   padding: 2rem;
   width: 100%;
   position: relative;
@@ -140,16 +143,6 @@ main {
   color: #6c757d;
   margin-top: 1rem;
   text-align: center;
-}
-
-@media (max-width: 576px) {
-  .auth-container {
-    padding: 1rem;
-  }
-
-  .auth-container .form-container {
-    padding: 1rem;
-  }
 }
 
 /* Estilos para el Paginación */
@@ -276,4 +269,18 @@ main {
 .medium-container {
   max-width: 640px;
   width: 100%;
+}
+
+@media (max-width: 576px) {
+  .auth-container {
+    padding: 1rem;
+  }
+
+  .auth-container .form-container {
+    padding: 1rem;
+  }
+
+  .small-container .btn:not(.eye), .card-container .btn:not(.eye) {
+    width: 100%;
+  }
 }
