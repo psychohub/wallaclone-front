@@ -145,16 +145,6 @@ main {
   text-align: center;
 }
 
-@media (max-width: 576px) {
-  .auth-container {
-    padding: 1rem;
-  }
-
-  .auth-container .form-container {
-    padding: 1rem;
-  }
-}
-
 /* Estilos para el Paginación */
 .pagination {
   display: flex;
@@ -279,4 +269,18 @@ main {
 .medium-container {
   max-width: 640px;
   width: 100%;
+}
+
+@media (max-width: 576px) {
+  .auth-container {
+    padding: 1rem;
+  }
+
+  .auth-container .form-container {
+    padding: 1rem;
+  }
+
+  .small-container .btn:not(.eye), .card-container .btn:not(.eye) {
+    width: 100%;
+  }
 }

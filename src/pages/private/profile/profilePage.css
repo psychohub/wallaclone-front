@@ -5,3 +5,11 @@
 .nav-tabs {
 	margin-bottom: 1rem;
 }
+
+.profile-container {
+	margin-top: 2rem;
+}
+
+.profile-options-button, .profile-options {
+	width: 100%;
+}
