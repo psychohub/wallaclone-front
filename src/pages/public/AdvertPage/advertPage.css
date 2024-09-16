@@ -117,3 +117,9 @@
 .product-card .actions :not(.btn-check)+.btn:active {
 	color: var(--accent-color-secondary);
 }
+
+@media (max-width: 576px) {
+  .product-card.detail .product-img {
+		height: 200px;
+	}
+}
