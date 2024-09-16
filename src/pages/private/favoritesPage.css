@@ -1,0 +1,13 @@
+.favorites-page {
+    padding: 2rem 0;
+  }
+  
+  .favorites-page .page-title {
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: var(--text-color);
+  }
+  
+  .favorites-page .row {
+    margin-bottom: 2rem;
+  }

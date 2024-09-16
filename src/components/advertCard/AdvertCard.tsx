@@ -7,48 +7,58 @@ import { useAppSelector } from '../../hooks/useStore';
 import Img from '../image/Img';
 import './advertCard.css';
 
-const AdvertCard = ({ anuncio }: { anuncio: Anuncio }) => {
+interface AdvertCardProps {
+  anuncio: Anuncio;
+}
+
+const AdvertCard: React.FC<AdvertCardProps> = ({ anuncio }) => {
   const user = useAppSelector((state) => state.auth.user);
-  
+
   return (
     <Card className="product-card">
       <div className='product-img'>
         <Img 
-          src={`${API_BASE_URL}/images/${anuncio.imagen}`}
-          alt={sanitizeInput(anuncio.nombre)}
+          src={`${API_BASE_URL}/images/${anuncio?.imagen || ''}`}
+          alt={sanitizeInput(anuncio?.nombre || '')}
           crossOrigin="anonymous"
         />
       </div>
       <Card.Body className="product-card-content">
         <h3>
-          <Link to={`/articulos/${anuncio.slug}`}>
-            {sanitizeInput(anuncio.nombre)}
+          <Link to={`/articulos/${anuncio?.slug || ''}`}>
+            {sanitizeInput(anuncio?.nombre || '')}
           </Link>
         </h3>
         <div className="tags">
-          {anuncio.tags.map(tag => <span className="tag" key={tag}>{sanitizeInput(tag)}</span>)}
+        {anuncio?.tags && anuncio.tags.length > 0 ? (
+  anuncio.tags.map(tag => <span className="tag" key={tag}>{sanitizeInput(tag || '')}</span>)
+) : (
+  <span>No tags available</span>
+)}
         </div>
-        <p className="price">{anuncio.precio} €</p>
-        <p>{sanitizeInput(anuncio.descripcion)}</p>
+        <p className="price">{anuncio?.precio} €</p>
+        <p>{sanitizeInput(anuncio?.descripcion || '')}</p>
         <Link className='user-action'
           to={
-            (user && user.id !== anuncio.autor._id) ? `/articulos/usuario/${anuncio.autor.nombre}` : '/app/articulos'
+            (user && user.id !== anuncio?.autor?._id) ? `/articulos/usuario/${anuncio?.autor?.nombre}` : '/app/articulos'
           }>
-          @{anuncio.autor.nombre}
+          @{anuncio?.autor?.nombre || 'Usuario desconocido'}
         </Link>
         {
-					anuncio.estado === 'disponible' &&
-					<p className={`sale ${anuncio.tipoAnuncio === 'venta' ? '' : 'busca'}`}>{anuncio.tipoAnuncio === 'venta' ? 'Se vende' : 'Se busca'}</p>
-				}
-				{
-					anuncio.estado === 'vendido' &&
-					<div className="sold">
-						<p>Vendido</p>
-					</div>
-				}
+          anuncio?.estado === 'disponible' &&
+          <p className={`sale ${anuncio?.tipoAnuncio === 'venta' ? '' : 'busca'}`}>
+            {anuncio?.tipoAnuncio === 'venta' ? 'Se vende' : 'Se busca'}
+          </p>
+        }
+        {
+          anuncio?.estado === 'vendido' &&
+          <div className="sold">
+            <p>Vendido</p>
+          </div>
+        }
       </Card.Body>
       <Card.Footer>
-        <Link to={`/articulos/${anuncio.slug}`} className='detail-action'>
+        <Link to={`/articulos/${anuncio?.slug}`} className='detail-action'>
           <Button type='button' variant='outline-primary'>Ver más</Button>
         </Link>
       </Card.Footer>
