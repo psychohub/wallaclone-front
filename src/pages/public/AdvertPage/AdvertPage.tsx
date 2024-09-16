@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { Card, Container } from "react-bootstrap";
 import { getAdvertBySlug } from "../../../api/adverts";
 import { Anuncio, StatusAnuncio } from "../../../types/adverts";
-import { API_BASE_URL } from "../../../config/environment";
+import { AWS_S3_BUCKET_URL } from "../../../config/environment";
 import { sanitizeInput } from "../../../utils/sanitize";
 import { useAppDispatch, useAppSelector } from "../../../hooks/useStore";
 import { setSelectedChat } from "../../../store/features/chats/chatsSlice";
@@ -79,7 +79,7 @@ const AdvertPage: React.FC = () => {
         {advert.imagen ? (
           <div className="product-img">
             <img
-              src={`${API_BASE_URL}/images/${advert.imagen}`}
+              src={`${AWS_S3_BUCKET_URL}${advert.imagen}`}
               alt={sanitizeInput(advert.nombre)}
               crossOrigin="anonymous"
             />

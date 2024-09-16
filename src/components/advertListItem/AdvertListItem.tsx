@@ -4,7 +4,7 @@ import { Button, ListGroup, Container, Row, Col, Tooltip, OverlayTrigger } from 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faEye } from "@fortawesome/free-regular-svg-icons";
 import { Anuncio, StatusAnuncio } from '../../types/adverts';
-import { API_BASE_URL } from '../../config/environment';
+import { AWS_S3_BUCKET_URL } from '../../config/environment';
 import { sanitizeInput } from '../../utils/sanitize';
 import Img from '../image/Img';
 import AdvertStatusActions from '../advertStatusActions/AdvertStatusActions';
@@ -41,7 +41,7 @@ const AdvertListItem = ({ anuncio }: { anuncio: Anuncio }) => {
 				<Row>
 					<Col sm={12} md={2}>
 						<Img 
-							src={`${API_BASE_URL}/images/${anuncio.imagen}`}
+							src={`${AWS_S3_BUCKET_URL}${anuncio.imagen}`}
 							alt={sanitizeInput(anuncio.nombre)}
 							crossOrigin="anonymous"
 						/>
