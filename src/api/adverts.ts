@@ -108,3 +108,25 @@ export const editAdvert = async (id: string, formData: FormData) => {
 	  throw new Error((error as AxiosError).response?.data as string ?? (error as Error).message);
 	}
 };
+
+export const getFavorites = async () => {
+	try {
+	  const response = await axiosInstance.get('/favoritos');
+	  return {
+		status: response.status,
+		data: { favoritos: response.data.favoritos || [] }
+	  };
+	} catch (error) {
+	  if ((error as AxiosError).response?.status === 401) {
+		return {
+		  status: 200,
+		  data: { favoritos: [] }
+		};
+	  }
+	  console.error('Error fetching favorites:', error);
+	  return {
+		status: 500,
+		data: { favoritos: [] }
+	  };
+	}
+  };

@@ -20,6 +20,7 @@ import ChatPage from './pages/private/chat/ChatPage';
 import ChatListPage from './pages/private/chat/ChatListPage';
 import CreateAdvertPage from './pages/private/CreateAdvertPage';
 import EditAdvertPage from './pages/private/EditAdvertPage';
+import FavoritesPage from './pages/private/FavoritesPage';
 import './App.css';
 
 function App() {
@@ -76,6 +77,7 @@ function App() {
             <Route path="/app/articulos/:slug/editar" element={<EditAdvertPage />} />
             <Route path="/app/chat" element={<ChatPage />} />
             <Route path="/app/chats/" element={<ChatListPage />} />
+            <Route path="/app/favoritos" element={<FavoritesPage />} />
           </Route>
           <Route path="/404" element={<div>404 | Not found</div>} />
           <Route path="*" element={<Navigate to="/404" />} />
