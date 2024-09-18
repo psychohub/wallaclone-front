@@ -3,10 +3,11 @@ import './multipleSelect.css';
 
 interface Props {
 	options: string[];
-  selectedOptions: string[];
-  onChange: (selectedOptions: string[]) => void;
+	selectedOptions: string[];
+	onChange: (selectedOptions: string[]) => void;
 	placeholder?: string;
-}
+	id?: string; 
+  }
 
 const MultipleSelect = ({ options, selectedOptions, onChange, placeholder }: Props) => {
 	const [isOpen, setIsOpen] = useState(false);

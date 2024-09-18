@@ -1,26 +1,79 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css");
+
+.adverts-filters-container {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.filters-form {
+  width: 100%;
+}
+
+.advanced-filters {
+  display: none;
+  transition: all 0.3s ease-in-out;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.advanced-filters.show {
+  display: block;
+}
+
+.advanced-filters .form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 .filters {
-	margin-bottom: 50px;
-}
-
-.filters #searchTerm {
-	width: 100%;
-}
-
-.filters .other-filters {
-	width: 100%;
+  width: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	gap: 1rem;
 }
-
-.filters .other-filters div {
-	width: 100%;
+.advanced-filters .form-group, .advanced-filters .form-group .form-select, .advanced-filters .form-group .form-control {
+  width: 100%;
 }
 
-.filters .action-filters {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 1rem;
+.bi-sliders {
+  transition: transform 0.3s ease-in-out;
+}
+
+.bi-sliders.expanded {
+  transform: rotate(90deg);
+}
+
+@media (max-width: 768px) {
+  .search-term-col {
+    margin-bottom: 1rem;
+  }
+
+  .filters {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sort-by-col {
+    grid-column-start: 1;
+    grid-column-end: 3;
+  }
+
+  .multiselect-container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .filters {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .sort-by-col {
+    grid-column-start: 1;
+    grid-column-end: 2;
+  }
 }

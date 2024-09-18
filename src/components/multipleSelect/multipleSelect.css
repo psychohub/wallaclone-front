@@ -35,6 +35,7 @@
 
 .multiselect-container .multiselect-dropdown.open {
 	display: block;
+	width: 100%;
 }
 
 .multiselect-container .multiselect-dropdown input {
