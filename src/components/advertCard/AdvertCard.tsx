@@ -32,7 +32,7 @@ const AdvertCard = ({ anuncio }: { anuncio: Anuncio }) => {
         <p>{sanitizeInput(anuncio.descripcion)}</p>
         <Link className='user-action'
           to={
-            (user && user.id !== anuncio.autor._id) ? `/articulos/usuario/${anuncio.autor.nombre}` : '/app/articulos'
+            (user && user.id === anuncio.autor._id) ? '/app/articulos' : `/articulos/usuario/${anuncio.autor.nombre}`
           }>
           @{anuncio.autor.nombre}
         </Link>
