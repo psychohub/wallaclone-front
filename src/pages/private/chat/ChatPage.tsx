@@ -93,10 +93,10 @@ const ChatPage: React.FC = () => {
 
       <Container>
         <Row>
-          <Col>
+          <Col sm={12} md={6} className='mb-4'>
             { advert && <AdvertDetails advert={advert} /> }
           </Col>
-          <Col>
+          <Col sm={12} md={6} className='mb-4'>
             <div className="chat-container">
               <ChatMessages messages={messages} />
               <ChatInput onSendMessage={handleSendMessage} />

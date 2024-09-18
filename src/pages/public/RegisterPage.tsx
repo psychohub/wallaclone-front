@@ -6,7 +6,7 @@ import { sanitizeInput } from '../../utils/sanitize';
 import { AppDispatch } from '../../store/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const RegisterPage: React.FC = () => {
   const [nombre, setNombre] = useState('');
@@ -19,6 +19,7 @@ const RegisterPage: React.FC = () => {
   const [termsAccepted, setTermsAccepted] = useState(false);
   
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   
   const validateForm = () => {
     if (!/^[a-zA-Z0-9_-]+$/.test(nombre)) {
@@ -57,6 +58,8 @@ const RegisterPage: React.FC = () => {
         setEmail('');
         setContraseña('');
         setTermsAccepted(false);
+
+        setTimeout(() => navigate('/login'), 3000);
       } else {
         setError('Error al registrar.');
       }

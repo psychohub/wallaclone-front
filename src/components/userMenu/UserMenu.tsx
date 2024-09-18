@@ -18,6 +18,10 @@ const UserMenu = ({ user }: Props) => {
     navigate('/');
   };
 
+  if (!user) {
+    return <></>;
+  }
+
 	return (
 		<Dropdown className="user-menu-dropdown">
       <Dropdown.Toggle>
