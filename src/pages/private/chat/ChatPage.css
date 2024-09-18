@@ -13,4 +13,8 @@
   .chat-container {
     height: auto;
   }
+
+  .product-card.detail .product-img {
+    height: 300px;
+  }
 }
