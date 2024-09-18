@@ -1,7 +1,7 @@
 import { Button, Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Anuncio } from '../../types/adverts';
-import { API_BASE_URL } from '../../config/environment';
+import { AWS_S3_BUCKET_URL } from '../../config/environment';
 import { sanitizeInput } from '../../utils/sanitize';
 import { useAppSelector } from '../../hooks/useStore';
 import Img from '../image/Img';
@@ -14,7 +14,7 @@ const AdvertCard = ({ anuncio }: { anuncio: Anuncio }) => {
     <Card className="product-card">
       <div className='product-img'>
         <Img 
-          src={`${API_BASE_URL}/images/${anuncio.imagen}`}
+          src={`${AWS_S3_BUCKET_URL}${anuncio.imagen}`}
           alt={sanitizeInput(anuncio.nombre)}
           crossOrigin="anonymous"
         />

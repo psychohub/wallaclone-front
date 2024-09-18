@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import { Anuncio } from '../../types/adverts'; 
-import { API_BASE_URL } from '../../config/environment';
+import { AWS_S3_BUCKET_URL } from '../../config/environment';
 import { sanitizeInput } from '../../utils/sanitize';
 
 interface AdvertDetailsProps {
@@ -15,7 +15,7 @@ const AdvertDetails: React.FC<AdvertDetailsProps> = ({ advert }) => {
       {advert.imagen ? (
         <div className="product-img">
           <img
-            src={`${API_BASE_URL}/images/${advert.imagen}`}
+            src={`${AWS_S3_BUCKET_URL}${advert.imagen}`}
             alt={sanitizeInput(advert.nombre)}
             crossOrigin="anonymous"
           />
