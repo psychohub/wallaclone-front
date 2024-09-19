@@ -1,0 +1,17 @@
+.favorite-button {
+    background: none;
+    border: none;
+    color: #ffc107;
+    font-size: 1.5rem;
+    padding: 0;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .favorite-button:hover {
+    transform: scale(1.1);
+  }
+  
+  .favorite-button:focus {
+    outline: none;
+    box-shadow: none;
+  }

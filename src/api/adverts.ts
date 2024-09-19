@@ -107,4 +107,46 @@ export const editAdvert = async (id: string, formData: FormData) => {
 	} catch (error) {
 	  throw new Error((error as AxiosError).response?.data as string ?? (error as Error).message);
 	}
-};
+  };
+
+  export const addFavorite = async (anuncioId: string) => {
+	try {
+	  const response = await axiosInstance.post('/favoritos', { anuncioId });
+	  return {
+		status: response.status,
+		data: response.data
+	  };
+	} catch (error) {
+	  throw new Error((error as AxiosError).response?.data as string ?? (error as Error).message);
+	}
+  };
+  
+  export const removeFavorite = async (anuncioId: string) => {
+	try {
+	  const response = await axiosInstance.delete(`/favoritos/${anuncioId}`);
+	  return {
+		status: response.status,
+		data: response.data
+	  };
+	} catch (error) {
+	  throw new Error((error as AxiosError).response?.data as string ?? (error as Error).message);
+	}
+  };
+  
+  export const getFavorites = async () => {
+	try {
+	  const response = await axiosInstance.get('/favoritos');
+	  return {
+		status: response.status,
+		data: response.data
+	  };
+	} catch (error) {
+	  if ((error as AxiosError).response?.status === 401) {
+		return {
+		  status: 200,
+		  data: { favoritos: [] }
+		};
+	  }
+	  throw new Error((error as AxiosError).response?.data as string ?? (error as Error).message);
+	}
+  };

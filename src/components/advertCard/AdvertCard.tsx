@@ -5,9 +5,16 @@ import { AWS_S3_BUCKET_URL } from '../../config/environment';
 import { sanitizeInput } from '../../utils/sanitize';
 import { useAppSelector } from '../../hooks/useStore';
 import Img from '../image/Img';
+import FavoriteButton from '../favoriteButton/FavoriteButton';
 import './advertCard.css';
 
-const AdvertCard = ({ anuncio }: { anuncio: Anuncio }) => {
+interface AdvertCardProps {
+  anuncio: Anuncio;
+  isFavorite: boolean;
+  onFavoriteChange: (isFavorite: boolean) => void;
+}
+
+const AdvertCard: React.FC<AdvertCardProps> = ({ anuncio, isFavorite, onFavoriteChange }) => {
   const user = useAppSelector((state) => state.auth.user);
   
   return (
@@ -20,11 +27,20 @@ const AdvertCard = ({ anuncio }: { anuncio: Anuncio }) => {
         />
       </div>
       <Card.Body className="product-card-content">
-        <h3>
-          <Link to={`/articulos/${anuncio.slug}`}>
-            {sanitizeInput(anuncio.nombre)}
-          </Link>
-        </h3>
+        <div className="d-flex justify-content-between align-items-start">
+          <h3>
+            <Link to={`/articulos/${anuncio.slug}`}>
+              {sanitizeInput(anuncio.nombre)}
+            </Link>
+          </h3>
+          {user && (
+            <FavoriteButton 
+              anuncioId={anuncio._id} 
+              isFavorite={isFavorite}
+              onFavoriteChange={onFavoriteChange}
+            />
+          )}
+        </div>
         <div className="tags">
           {anuncio.tags.map(tag => <span className="tag" key={tag}>{sanitizeInput(tag)}</span>)}
         </div>
@@ -37,15 +53,15 @@ const AdvertCard = ({ anuncio }: { anuncio: Anuncio }) => {
           @{anuncio.autor.nombre}
         </Link>
         {
-					anuncio.estado === 'disponible' &&
-					<p className={`sale ${anuncio.tipoAnuncio === 'venta' ? '' : 'busca'}`}>{anuncio.tipoAnuncio === 'venta' ? 'Se vende' : 'Se busca'}</p>
-				}
-				{
-					anuncio.estado === 'vendido' &&
-					<div className="sold">
-						<p>Vendido</p>
-					</div>
-				}
+          anuncio.estado === 'disponible' &&
+          <p className={`sale ${anuncio.tipoAnuncio === 'venta' ? '' : 'busca'}`}>{anuncio.tipoAnuncio === 'venta' ? 'Se vende' : 'Se busca'}</p>
+        }
+        {
+          anuncio.estado === 'vendido' &&
+          <div className="sold">
+            <p>Vendido</p>
+          </div>
+        }
       </Card.Body>
       <Card.Footer>
         <Link to={`/articulos/${anuncio.slug}`} className='detail-action'>
