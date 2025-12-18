@@ -16,7 +16,7 @@ const UserAdvertsPage: React.FC = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   const fetchAnuncios = async (filters?: IAdvertsFilters) => {
     setIsLoading(true);
     setError(null);
@@ -26,9 +26,9 @@ const UserAdvertsPage: React.FC = () => {
         params = { ...params, filter: filters };
       }
       const adverts = await getAdvertsByUser(params);
-      
-      if (adverts.data && adverts.data.anuncios && Array.isArray(adverts.data.anuncios)) {
-        setAnuncios(adverts.data.anuncios);
+
+      if (adverts.data && adverts.data.adverts && Array.isArray(adverts.data.adverts)) {
+        setAnuncios(adverts.data.adverts);
         setTotalPages(adverts.data.totalPages);
       } else {
         setError('Error en el formato de datos recibido.');
@@ -55,21 +55,21 @@ const UserAdvertsPage: React.FC = () => {
   return (
     <div className="list-container">
       <h2>Artículos de {username}</h2>
-      
+
       <AdvertsFilters onFilter={handleFilter} />
 
       {isLoading && <Loader />}
-      
+
       {error && <div>{error}</div>}
-      
+
       {!isLoading && !error && anuncios.length > 0 ? (
         <Container>
           <Row>
-          {anuncios.map((anuncio, index) => (
-            <Col sm={12} md={6} lg={3} key={`card-${index}`}>
-              <AdvertCard anuncio={anuncio} />
-            </Col>
-          ))}
+            {anuncios.map((anuncio, index) => (
+              <Col sm={12} md={6} lg={3} key={`card-${index}`}>
+                <AdvertCard anuncio={anuncio} />
+              </Col>
+            ))}
           </Row>
         </Container>
       ) : (
@@ -78,20 +78,20 @@ const UserAdvertsPage: React.FC = () => {
 
       {totalPages > 1 && (
         <ReactPaginate
-          previousLabel={"Anterior"}
-          nextLabel={"Siguiente"}
-          breakLabel={"..."}
-          breakClassName={"break-me"}
+          previousLabel={'Anterior'}
+          nextLabel={'Siguiente'}
+          breakLabel={'...'}
+          breakClassName={'break-me'}
           pageCount={totalPages}
           marginPagesDisplayed={2}
           pageRangeDisplayed={5}
           onPageChange={handlePageClick}
-          containerClassName={"pagination"}
-          activeClassName={"active"}
-          pageLinkClassName={"page-link"}
-          previousLinkClassName={"previous-link"}
-          nextLinkClassName={"next-link"}
-          disabledClassName={"disabled"}
+          containerClassName={'pagination'}
+          activeClassName={'active'}
+          pageLinkClassName={'page-link'}
+          previousLinkClassName={'previous-link'}
+          nextLinkClassName={'next-link'}
+          disabledClassName={'disabled'}
           forcePage={currentPage - 1}
         />
       )}

@@ -28,7 +28,7 @@ function App() {
   useEffect(() => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     const user = localStorage.getItem(USER_DATA);
-    
+
     if (accessToken) {
       dispatch(setToken(accessToken));
     }
@@ -51,28 +51,30 @@ function App() {
           <Route path="/articulos" element={<AdvertsPage />} />
           <Route path="/articulos/usuario/:username" element={<UserAdvertsPage />} />
           <Route path="/articulos/:slug" element={<AdvertPage />} />
-          <Route 
+          <Route
             path="/"
             element={
               <PublicRoute>
                 <Outlet />
               </PublicRoute>
-            }>  
+            }
+          >
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/recuperar-contrasena" element={<ForgotPasswordPage />} />
             <Route path="/restablecer-contrasena" element={<ResetPasswordPage />} />
           </Route>
-          <Route 
+          <Route
             path="/app"
             element={
               <PrivateRoute>
                 <Outlet />
               </PrivateRoute>
-            }>
-            <Route path="/app/perfil" element={ <ProfilePage /> } />
-            <Route path="/app/articulos" element={ <MyAdvertsPage /> } />
-            <Route path="/app/articulos/nuevo" element={ <CreateAdvertPage /> } />
+            }
+          >
+            <Route path="/app/perfil" element={<ProfilePage />} />
+            <Route path="/app/articulos" element={<MyAdvertsPage />} />
+            <Route path="/app/articulos/nuevo" element={<CreateAdvertPage />} />
             <Route path="/app/articulos/:slug/editar" element={<EditAdvertPage />} />
             <Route path="/app/chat" element={<ChatPage />} />
             <Route path="/app/chats/" element={<ChatListPage />} />

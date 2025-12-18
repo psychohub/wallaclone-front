@@ -12,13 +12,13 @@ import AdvertListItem from './advertListItem/AdvertListItem';
 
 const UserAdList: React.FC = () => {
   const user = useAppSelector((state: RootState) => state.auth.user);
-  
+
   const [anuncios, setAnuncios] = useState<Anuncio[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   const fetchAnuncios = async (filters?: IAdvertsFilters) => {
     if (!user) return;
 
@@ -31,8 +31,8 @@ const UserAdList: React.FC = () => {
       }
       const adverts = await getAdvertsByUser(params);
 
-      if (adverts.data && adverts.data.anuncios && Array.isArray(adverts.data.anuncios)) {
-        setAnuncios(adverts.data.anuncios);
+      if (adverts.data && adverts.data.adverts && Array.isArray(adverts.data.adverts)) {
+        setAnuncios(adverts.data.adverts);
         setTotalPages(adverts.data.totalPages);
       } else {
         setError('Error en el formato de datos recibido.');
@@ -66,18 +66,18 @@ const UserAdList: React.FC = () => {
           <Button variant="secondary">Crear anuncio</Button>
         </Link>
       </Container>
-      
+
       <AdvertsFilters onFilter={handleFilter} />
 
       {isLoading && <Loader />}
-      
+
       {error && <div>{error}</div>}
-      
+
       {!isLoading && !error && anuncios.length > 0 ? (
         <Container>
           <ListGroup>
             {anuncios.map((anuncio) => (
-              <AdvertListItem anuncio={anuncio} key={anuncio._id}/>
+              <AdvertListItem anuncio={anuncio} key={anuncio._id} />
             ))}
           </ListGroup>
         </Container>
@@ -87,20 +87,20 @@ const UserAdList: React.FC = () => {
 
       {totalPages > 1 && (
         <ReactPaginate
-          previousLabel={"Anterior"}
-          nextLabel={"Siguiente"}
-          breakLabel={"..."}
-          breakClassName={"break-me"}
+          previousLabel={'Anterior'}
+          nextLabel={'Siguiente'}
+          breakLabel={'...'}
+          breakClassName={'break-me'}
           pageCount={totalPages}
           marginPagesDisplayed={2}
           pageRangeDisplayed={5}
           onPageChange={handlePageClick}
-          containerClassName={"pagination"}
-          activeClassName={"active"}
-          pageLinkClassName={"page-link"}
-          previousLinkClassName={"previous-link"}
-          nextLinkClassName={"next-link"}
-          disabledClassName={"disabled"}
+          containerClassName={'pagination'}
+          activeClassName={'active'}
+          pageLinkClassName={'page-link'}
+          previousLinkClassName={'previous-link'}
+          nextLinkClassName={'next-link'}
+          disabledClassName={'disabled'}
           forcePage={currentPage - 1}
         />
       )}
